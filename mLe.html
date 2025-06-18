@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mLe 마인크래프트 서버</title>
+    <style>
+        body {
+            font-family: 'Minecraft', Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #2c2c2c;
+            padding: 2rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .server-info {
+            background-color: #2c2c2c;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .join-button {
+            display: inline-block;
+            background-color: #39d12a;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.3rem;
+            padding: 0.8rem 2.2rem 0.8rem 1.2rem;
+            border-radius: 0;
+            box-shadow: 2px 2px 0 #1a6600;
+            border: 2px solid #23a000;
+            text-align: left;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .join-button:hover {
+            background-color: #23a000;
+            box-shadow: 3px 3px 0 #145200;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>mLe 마인크래프트 서버</h1>
+        <p>배드락 에디션 렐름 서버</p>
+    </div>
+    
+    <div class="container">
+        <div class="server-info">
+            <h2>서버 정보</h2>
+            <ul>
+                <li>서버 버전: 1.21.90</li>
+                <li>서버 종류: 렐름 서버</li>
+                <li>플랫폼: Minecraft Bedrock Edition</li>
+            </ul>
+            <a href="minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc" class="join-button">MINECRAFT 열기</a>
+        </div>
+        
+        <div class="server-info">
+            <h2>서버 규칙</h2>
+            <ul>
+                <li>다른 플레이어를 존중해주세요</li>
+                <li>비속어 사용을 자제해주세요</li>
+                <li>서버 리소스를 남용하지 마세요</li>
+                <li>버그를 악용하지 마세요</li>
+            </ul>
+        </div>
+        <div class="server-info">
+            <h2>커뮤니티</h2>
+            <form id="postForm">
+                <input type="text" id="username" placeholder="닉네임" required style="margin-bottom:8px; width:40%;">
+                <br>
+                <textarea id="content" placeholder="내용을 입력하세요" required style="width:80%; height:60px;"></textarea>
+                <br>
+                <button type="submit" style="margin-top:8px;">글 작성</button>
+            </form>
+            <div id="posts" style="margin-top:20px;"></div>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBE4uWboxXuAEBMUGAL9LdTWETKhUmB1B8",
+            authDomain: "mle-0-c9fdc.firebaseapp.com",
+            projectId: "mle-0-c9fdc",
+            storageBucket: "mle-0-c9fdc.firebasestorage.app",
+            messagingSenderId: "329191039255",
+            appId: "1:329191039255:web:f76fea57abfff2d37e5752",
+            measurementId: "G-5QXDP0ZY1J"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        async function loadPosts() {
+            const postsDiv = document.getElementById('posts');
+            postsDiv.innerHTML = '';
+            const q = query(collection(db, "posts"), orderBy("created", "desc"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const post = document.createElement('div');
+                post.style = 'background:#222;padding:10px;margin-bottom:10px;border-radius:6px;';
+                post.innerHTML = `<b>${data.username}</b> <span style='color:#aaa;font-size:0.9em;'>${data.created?.toDate?.().toLocaleString?.() || ''}</span><br>${data.content}`;
+                postsDiv.appendChild(post);
+            });
+        }
+
+        document.getElementById('postForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const content = document.getElementById('content').value.trim();
+            if (!username || !content) return;
+            await addDoc(collection(db, "posts"), {
+                username,
+                content,
+                created: serverTimestamp()
+            });
+            document.getElementById('postForm').reset();
+            loadPosts();
+        });
+
+        const loginBtn = document.createElement('button');
+        loginBtn.textContent = "Google로 로그인";
+        loginBtn.style = "margin-bottom:10px; font-weight:bold;";
+        document.querySelector('.server-info').prepend(loginBtn);
+
+        const logoutBtn = document.createElement('button');
+        logoutBtn.textContent = "로그아웃";
+        logoutBtn.style = "margin-bottom:10px; font-weight:bold; display:none;";
+        document.querySelector('.server-info').prepend(logoutBtn);
+
+        loginBtn.onclick = async () => {
+            await signInWithPopup(auth, provider);
+        };
+        logoutBtn.onclick = async () => {
+            await signOut(auth);
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = '';
+                document.getElementById('username').value = user.displayName;
+                document.getElementById('username').disabled = true;
+            } else {
+                loginBtn.style.display = '';
+                logoutBtn.style.display = 'none';
+                document.getElementById('username').value = '';
+                document.getElementById('username').disabled = false;
+            }
+        });
+
+        loadPosts();
+    </script>
+</body>
+</html>
