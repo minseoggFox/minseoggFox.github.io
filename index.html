@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mLe 마인크래프트 서버</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686733290484221" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Minecraft', Arial, sans-serif;
@@ -395,17 +396,50 @@
             });
         }
 
+        // 하루 게시글 제한 함수
+        async function canPostToday(uid) {
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const q = query(
+                collection(db, "posts"),
+                orderBy("created", "desc")
+            );
+            const querySnapshot = await getDocs(q);
+            let count = 0;
+            querySnapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                if (data.uid === uid && data.created && data.created.toDate) {
+                    const createdDate = data.created.toDate();
+                    if (createdDate >= today && createdDate < tomorrow) {
+                        count++;
+                    }
+                }
+            });
+            return count < 10;
+        }
+
         document.getElementById('postForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = minecraftNickname || document.getElementById('username').value.trim();
             const content = document.getElementById('content').value.trim();
             let photoURL = '';
-            if (auth.currentUser) photoURL = auth.currentUser.photoURL;
+            let uid = '';
+            if (auth.currentUser) {
+                photoURL = auth.currentUser.photoURL;
+                uid = auth.currentUser.uid;
+            }
             if (!username || !content) return;
+            if (!(await canPostToday(uid))) {
+                alert('하루에 최대 10개의 게시글만 작성할 수 있습니다.');
+                return;
+            }
             await addDoc(collection(db, "posts"), {
                 username,
                 content,
                 photoURL,
+                uid,
                 likes: [],
                 dislikes: [],
                 created: serverTimestamp()
