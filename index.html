@@ -137,7 +137,7 @@
         <div class="server-info">
             <h2>서버 정보</h2>
             <ul>
-                <li>서버 버전: 1.21.90</li>
+                <li>서버 버전: <div id="server-version-div"></div></li>
                 <li>서버 종류: 렐름 서버</li>
                 <li>플랫폼: Minecraft Bedrock Edition</li>
             </ul>
@@ -169,7 +169,7 @@
     </div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy, doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy, doc, getDoc, updateDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -188,6 +188,70 @@
 
         // 관리자 UID 목록 (여러 명이면 쉼표로 추가)
         const ADMIN_UIDS = ['Fu71mgSTmkay8DbZeAdbADS6mot1', 'UASjTVkxw2ZbEDrtPdLq2oNHtK92'];
+
+        // 서버 버전 Firestore에서 불러오기/수정 (관리자만)
+        let currentServerVersion = '';
+        async function loadServerVersion() {
+            const docRef = doc(db, 'config', 'server');
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                currentServerVersion = docSnap.data().version || '';
+            } else {
+                currentServerVersion = '';
+            }
+            renderServerVersion();
+        }
+        async function saveServerVersion(newVersion) {
+            const docRef = doc(db, 'config', 'server');
+            await setDoc(docRef, { version: newVersion });
+            currentServerVersion = newVersion;
+            renderServerVersion();
+        }
+        function renderServerVersion() {
+            const versionDiv = document.getElementById('server-version-div');
+            versionDiv.innerHTML = '';
+            if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
+                versionDiv.innerHTML = `
+                    <input id="server-version-input" value="${currentServerVersion}" style="width:120px;"> 
+                    <button id="server-version-save">저장</button>
+                `;
+                document.getElementById('server-version-save').onclick = () => {
+                    const newVersion = document.getElementById('server-version-input').value.trim();
+                    if (newVersion) saveServerVersion(newVersion);
+                };
+            } else {
+                versionDiv.textContent = currentServerVersion ? `서버 버전: ${currentServerVersion}` : '서버 버전 정보 없음';
+            }
+        }
+
+        // 로그인 시 마인크래프트 닉네임 입력 및 저장
+        let minecraftNickname = '';
+        function showNicknamePrompt(user) {
+            if (localStorage.getItem('mc_nick')) {
+                minecraftNickname = localStorage.getItem('mc_nick');
+                renderUserProfile(user);
+                return;
+            }
+            let nick = prompt('마인크래프트 닉네임을 입력하세요.');
+            if (nick) {
+                minecraftNickname = nick.trim();
+                localStorage.setItem('mc_nick', minecraftNickname);
+            } else {
+                minecraftNickname = user.displayName;
+            }
+            renderUserProfile(user);
+        }
+        function renderUserProfile(user) {
+            const userProfile = document.getElementById('user-profile');
+            if (!user) {
+                userProfile.innerHTML = '';
+                return;
+            }
+            userProfile.innerHTML = `<img src="${user.photoURL}" alt="프로필" style="width:40px;height:40px;border-radius:50%;margin-right:10px;vertical-align:middle;"> <span style="font-weight:bold;">${minecraftNickname}</span>`;
+            if (ADMIN_UIDS.includes(user.uid)) {
+                userProfile.innerHTML += ' <span style="color:#ffd600;font-weight:bold;margin-left:8px;">[관리자]</span>';
+            }
+        }
 
         async function loadPosts() {
             const postsDiv = document.getElementById('posts');
@@ -271,7 +335,7 @@
                     const comment = input.value.trim();
                     if (!comment) return;
                     await addDoc(collection(db, `posts/${postId}/comments`), {
-                        username: auth.currentUser.displayName,
+                        username: minecraftNickname || auth.currentUser.displayName,
                         photoURL: auth.currentUser.photoURL,
                         content: comment,
                         created: serverTimestamp()
@@ -327,7 +391,7 @@
 
         document.getElementById('postForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const username = document.getElementById('username').value.trim();
+            const username = minecraftNickname || document.getElementById('username').value.trim();
             const content = document.getElementById('content').value.trim();
             let photoURL = '';
             if (auth.currentUser) photoURL = auth.currentUser.photoURL;
@@ -374,11 +438,7 @@
                 contentInput.disabled = false;
                 submitBtn.disabled = false;
                 notice.textContent = '';
-                userProfile.innerHTML = `<img src="${user.photoURL}" alt="프로필" style="width:40px;height:40px;border-radius:50%;margin-right:10px;vertical-align:middle;"> <span style="font-weight:bold;">${user.displayName}</span>`;
-                // 관리자 표시
-                if (ADMIN_UIDS.includes(user.uid)) {
-                    userProfile.innerHTML += ' <span class="mc-admin-badge">[관리자]</span>';
-                }
+                showNicknamePrompt(user);
             } else {
                 loginBtn.style.display = '';
                 logoutBtn.style.display = 'none';
@@ -400,6 +460,13 @@
 
         onAuthStateChanged(auth, (user) => {
             setCommunityFormState(!!user, user || {});
+            if (user) {
+                showNicknamePrompt(user);
+            } else {
+                minecraftNickname = '';
+                renderUserProfile(null);
+            }
+            loadServerVersion();
         });
 
         setCommunityFormState(false, {});
