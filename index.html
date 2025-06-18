@@ -247,7 +247,13 @@
                 userProfile.innerHTML = '';
                 return;
             }
-            userProfile.innerHTML = `<img src="${user.photoURL}" alt="프로필" style="width:40px;height:40px;border-radius:50%;margin-right:10px;vertical-align:middle;"> <span style="font-weight:bold;">${minecraftNickname}</span>`;
+            userProfile.innerHTML = `
+                <img src="${user.photoURL}" alt="프로필" style="width:40px;height:40px;border-radius:50%;margin-right:10px;vertical-align:middle;">
+                <div style="display:inline-block;vertical-align:middle;">
+                    <div style="font-size:0.9em;color:#aaa;">${user.displayName}</div>
+                    <div style="font-size:1.1em;font-weight:bold;">${minecraftNickname}</div>
+                </div>
+            `;
             if (ADMIN_UIDS.includes(user.uid)) {
                 userProfile.innerHTML += ' <span style="color:#ffd600;font-weight:bold;margin-left:8px;">[관리자]</span>';
             }
