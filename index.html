@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mLe 마인크래프트 서버</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         body {
-            font-family: 'Minecraft', Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            background: url('https://static.planetminecraft.com/files/resource_media/screenshot/1237/minecraft-background-1_3606271.jpg') center/cover no-repeat fixed;
+            color: #e0e0e0;
             margin: 0;
             padding: 0;
         }
         .header {
-            background-color: #2c2c2c;
+            background: rgba(34, 34, 34, 0.95);
+            border-bottom: 6px solid #39d12a;
+            box-shadow: 0 4px 0 #145200;
             padding: 2rem;
             text-align: center;
         }
@@ -23,50 +26,107 @@
             padding: 2rem;
         }
         .server-info {
-            background-color: #2c2c2c;
+            background: rgba(44, 44, 44, 0.97);
+            border: 3px solid #39d12a;
+            box-shadow: 0 4px 0 #145200;
             border-radius: 10px;
             padding: 2rem;
             margin: 2rem 0;
         }
         .join-button {
             display: inline-block;
-            background-color: #39d12a;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            background: linear-gradient(90deg, #39d12a 80%, #23a000 100%);
+            border: 3px solid #145200;
+            box-shadow: 0 4px 0 #145200;
+            text-shadow: 1px 1px 0 #145200;
             color: #fff;
             font-weight: bold;
             font-size: 1.3rem;
             padding: 0.8rem 2.2rem 0.8rem 1.2rem;
             border-radius: 0;
-            box-shadow: 2px 2px 0 #1a6600;
-            border: 2px solid #23a000;
             text-align: left;
             letter-spacing: 1px;
             text-decoration: none;
             transition: background 0.2s, box-shadow 0.2s;
         }
         .join-button:hover {
-            background-color: #23a000;
-            box-shadow: 3px 3px 0 #145200;
+            background: linear-gradient(90deg, #23a000 80%, #39d12a 100%);
         }
         .google-login-btn {
             display: inline-block;
-            background: #fff;
-            color: #444;
-            border: none;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            border: 3px solid #4285f4;
+            background: #fff url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg') 12px center/24px 24px no-repeat;
+            color: #222;
+            text-shadow: none;
+            box-shadow: 0 4px 0 #4285f4;
             font-size: 1.1rem;
             font-weight: bold;
             padding: 0.7rem 2rem 0.7rem 2.8rem;
-            background-image: url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg');
-            background-repeat: no-repeat;
-            background-position: 12px center;
-            background-size: 24px 24px;
             cursor: pointer;
             margin-bottom: 10px;
             transition: box-shadow 0.2s;
         }
         .google-login-btn:hover {
-            box-shadow: 0 4px 8px rgba(66,133,244,0.2);
+            background-color: #e3f0ff;
+        }
+        .comment-box {
+            margin-top: 10px;
+            background: #191919;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .comment-list {
+            margin-top: 6px;
+            margin-left: 10px;
+        }
+        .like-btn, .dislike-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 3px 10px;
+            margin-right: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background 0.2s;
+        }
+        .like-btn:hover {
+            background: #4caf50;
+        }
+        .dislike-btn:hover {
+            background: #e53935;
+        }
+        .mc-btn-green {
+            background: #39d12a;
+            border: 2px solid #145200;
+            color: #fff;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            text-shadow: 1px 1px 0 #145200;
+        }
+        .mc-btn-red {
+            background: #e53935;
+            border: 2px solid #7f1d1d;
+            color: #fff;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            text-shadow: 1px 1px 0 #7f1d1d;
+        }
+        .mc-btn-brown {
+            background: #8d5524;
+            border: 2px solid #4e2e0e;
+            color: #fff;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            text-shadow: 1px 1px 0 #4e2e0e;
+        }
+        .mc-admin-badge {
+            background: #ffd600;
+            color: #222;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.9em;
+            margin-left: 6px;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
         }
     </style>
 </head>
@@ -112,7 +172,7 @@
     </div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy, doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -129,13 +189,18 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
+        // 관리자 UID 목록 (예시 UID, 실제 관리자 UID로 교체 필요)
+        const ADMIN_UIDS = ['Fu71mgSTmkay8DbZeAdbADS6mot1'];
+        const ADMIN_UIDS = ['UASjTVkxw2ZbEDrtPdLq2oNHtK92'];
+
         async function loadPosts() {
             const postsDiv = document.getElementById('posts');
             postsDiv.innerHTML = '';
             const q = query(collection(db, "posts"), orderBy("created", "desc"));
             const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
+            for (const docSnap of querySnapshot.docs) {
+                const data = docSnap.data();
+                const postId = docSnap.id;
                 const post = document.createElement('div');
                 post.style = 'background:#222;padding:10px;margin-bottom:10px;border-radius:6px;display:flex;align-items:flex-start;gap:10px;';
                 let profileHTML = '';
@@ -144,8 +209,123 @@
                 } else {
                     profileHTML = `<div style='width:32px;height:32px;border-radius:50%;background:#444;display:inline-block;'></div>`;
                 }
-                post.innerHTML = `${profileHTML}<div><b>${data.username}</b> <span style='color:#aaa;font-size:0.9em;'>${data.created?.toDate?.().toLocaleString?.() || ''}</span><br>${data.content}</div>`;
+                const likeCount = data.likes ? data.likes.length : 0;
+                const dislikeCount = data.dislikes ? data.dislikes.length : 0;
+                let adminDeleteBtn = '';
+                if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
+                    adminDeleteBtn = `<button class="admin-delete-btn mc-btn-red" data-id="${postId}">삭제</button>`;
+                }
+                post.innerHTML = `
+                    ${profileHTML}
+                    <div style="flex:1;">
+                        <b>${data.username}</b> <span style='color:#aaa;font-size:0.9em;'>${data.created?.toDate?.().toLocaleString?.() || ''}</span> ${adminDeleteBtn}<br>
+                        ${data.content}
+                        <div style="margin-top:8px;">
+                            <button class="like-btn mc-btn-green" data-id="${postId}">👍 ${likeCount}</button>
+                            <button class="dislike-btn mc-btn-red" data-id="${postId}">👎 ${dislikeCount}</button>
+                        </div>
+                        <div class="comment-list" id="comments-${postId}"></div>
+                        <form class="comment-box" data-id="${postId}">
+                            <input type="text" placeholder="댓글 입력" style="width:60%;padding:3px;" required />
+                            <button type="submit" class="mc-btn-brown" style="padding:3px 10px;">댓글 작성</button>
+                        </form>
+                    </div>
+                `;
                 postsDiv.appendChild(post);
+                loadComments(postId);
+            }
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const userId = auth.currentUser.uid;
+                    const postRef = collection(db, "posts");
+                    const docRef = doc(postRef, id);
+                    const postSnap = await getDoc(docRef);
+                    let likes = postSnap.data().likes || [];
+                    let dislikes = postSnap.data().dislikes || [];
+                    if (!likes.includes(userId)) likes.push(userId);
+                    dislikes = dislikes.filter(uid => uid !== userId);
+                    await updateDoc(docRef, { likes, dislikes });
+                    loadPosts();
+                };
+            });
+            document.querySelectorAll('.dislike-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const userId = auth.currentUser.uid;
+                    const postRef = collection(db, "posts");
+                    const docRef = doc(postRef, id);
+                    const postSnap = await getDoc(docRef);
+                    let dislikes = postSnap.data().dislikes || [];
+                    let likes = postSnap.data().likes || [];
+                    if (!dislikes.includes(userId)) dislikes.push(userId);
+                    likes = likes.filter(uid => uid !== userId);
+                    await updateDoc(docRef, { likes, dislikes });
+                    loadPosts();
+                };
+            });
+            document.querySelectorAll('.comment-box').forEach(form => {
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const postId = form.getAttribute('data-id');
+                    const input = form.querySelector('input');
+                    const comment = input.value.trim();
+                    if (!comment) return;
+                    await addDoc(collection(db, `posts/${postId}/comments`), {
+                        username: auth.currentUser.displayName,
+                        photoURL: auth.currentUser.photoURL,
+                        content: comment,
+                        created: serverTimestamp()
+                    });
+                    input.value = '';
+                    loadComments(postId);
+                };
+            });
+            // 게시글 삭제 이벤트
+            document.querySelectorAll('.admin-delete-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!confirm('정말 삭제하시겠습니까?')) return;
+                    await deleteDoc(doc(collection(db, 'posts'), id));
+                    loadPosts();
+                };
+            });
+        }
+        async function loadComments(postId) {
+            const commentsDiv = document.getElementById(`comments-${postId}`);
+            if (!commentsDiv) return;
+            commentsDiv.innerHTML = '';
+            const q = query(collection(db, `posts/${postId}/comments`), orderBy("created", "asc"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                let profileHTML = '';
+                if (data.photoURL) {
+                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:22px;height:22px;border-radius:50%;vertical-align:middle;margin-right:5px;">`;
+                } else {
+                    profileHTML = `<div style='width:22px;height:22px;border-radius:50%;background:#444;display:inline-block;margin-right:5px;'></div>`;
+                }
+                let adminDeleteBtn = '';
+                if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
+                    adminDeleteBtn = `<button class="admin-comment-delete-btn mc-btn-red" data-post="${postId}" data-id="${docSnap.id}">삭제</button>`;
+                }
+                const comment = document.createElement('div');
+                comment.style = 'margin-bottom:4px;';
+                comment.innerHTML = `${profileHTML}<b style='font-size:0.98em;'>${data.username}</b> <span style='color:#aaa;font-size:0.85em;'>${data.created?.toDate?.().toLocaleString?.() || ''}</span> ${adminDeleteBtn}<br>${data.content}`;
+                commentsDiv.appendChild(comment);
+            });
+            // 댓글 삭제 이벤트
+            document.querySelectorAll('.admin-comment-delete-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const postId = btn.getAttribute('data-post');
+                    const commentId = btn.getAttribute('data-id');
+                    if (!confirm('댓글을 삭제하시겠습니까?')) return;
+                    await deleteDoc(doc(collection(db, `posts/${postId}/comments`), commentId));
+                    loadComments(postId);
+                };
             });
         }
 
@@ -160,6 +340,8 @@
                 username,
                 content,
                 photoURL,
+                likes: [],
+                dislikes: [],
                 created: serverTimestamp()
             });
             document.getElementById('postForm').reset();
@@ -197,6 +379,10 @@
                 submitBtn.disabled = false;
                 notice.textContent = '';
                 userProfile.innerHTML = `<img src="${user.photoURL}" alt="프로필" style="width:40px;height:40px;border-radius:50%;margin-right:10px;vertical-align:middle;"> <span style="font-weight:bold;">${user.displayName}</span>`;
+                // 관리자 표시
+                if (ADMIN_UIDS.includes(user.uid)) {
+                    userProfile.innerHTML += ' <span class="mc-admin-badge">[관리자]</span>';
+                }
             } else {
                 loginBtn.style.display = '';
                 logoutBtn.style.display = 'none';
