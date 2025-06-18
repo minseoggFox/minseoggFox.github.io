@@ -47,6 +47,27 @@
             background-color: #23a000;
             box-shadow: 3px 3px 0 #145200;
         }
+        .google-login-btn {
+            display: inline-block;
+            background: #fff;
+            color: #444;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 0.7rem 2rem 0.7rem 2.8rem;
+            background-image: url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg');
+            background-repeat: no-repeat;
+            background-position: 12px center;
+            background-size: 24px 24px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: box-shadow 0.2s;
+        }
+        .google-login-btn:hover {
+            box-shadow: 0 4px 8px rgba(66,133,244,0.2);
+        }
     </style>
 </head>
 <body>
@@ -136,13 +157,43 @@
 
         const loginBtn = document.createElement('button');
         loginBtn.textContent = "Google로 로그인";
-        loginBtn.style = "margin-bottom:10px; font-weight:bold;";
+        loginBtn.className = 'google-login-btn';
         document.querySelector('.server-info').prepend(loginBtn);
 
         const logoutBtn = document.createElement('button');
         logoutBtn.textContent = "로그아웃";
         logoutBtn.style = "margin-bottom:10px; font-weight:bold; display:none;";
         document.querySelector('.server-info').prepend(logoutBtn);
+
+        function setCommunityFormState(isLoggedIn, user) {
+            const usernameInput = document.getElementById('username');
+            const contentInput = document.getElementById('content');
+            const submitBtn = document.querySelector('#postForm button[type="submit"]');
+            let notice = document.getElementById('login-notice');
+            if (!notice) {
+                notice = document.createElement('div');
+                notice.id = 'login-notice';
+                notice.style = 'color:#ff5252; margin-bottom:10px; font-weight:bold;';
+                document.getElementById('postForm').prepend(notice);
+            }
+            if (isLoggedIn) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = '';
+                usernameInput.value = user.displayName;
+                usernameInput.disabled = true;
+                contentInput.disabled = false;
+                submitBtn.disabled = false;
+                notice.textContent = '';
+            } else {
+                loginBtn.style.display = '';
+                logoutBtn.style.display = 'none';
+                usernameInput.value = '';
+                usernameInput.disabled = true;
+                contentInput.disabled = true;
+                submitBtn.disabled = true;
+                notice.textContent = 'Google 로그인을 해야 글을 작성할 수 있습니다.';
+            }
+        }
 
         loginBtn.onclick = async () => {
             await signInWithPopup(auth, provider);
@@ -152,18 +203,10 @@
         };
 
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                loginBtn.style.display = 'none';
-                logoutBtn.style.display = '';
-                document.getElementById('username').value = user.displayName;
-                document.getElementById('username').disabled = true;
-            } else {
-                loginBtn.style.display = '';
-                logoutBtn.style.display = 'none';
-                document.getElementById('username').value = '';
-                document.getElementById('username').disabled = false;
-            }
+            setCommunityFormState(!!user, user || {});
         });
+
+        setCommunityFormState(false, {});
 
         loadPosts();
     </script>
