@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mLe 마인크래프트 서버</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         body {
-            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
-            background: url('https://static.planetminecraft.com/files/resource_media/screenshot/1237/minecraft-background-1_3606271.jpg') center/cover no-repeat fixed;
-            color: #e0e0e0;
+            font-family: 'Minecraft', Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
             margin: 0;
             padding: 0;
         }
         .header {
-            background: rgba(34, 34, 34, 0.95);
-            border-bottom: 6px solid #39d12a;
-            box-shadow: 0 4px 0 #145200;
+            background-color: #2c2c2c;
             padding: 2rem;
             text-align: center;
         }
@@ -26,50 +23,50 @@
             padding: 2rem;
         }
         .server-info {
-            background: rgba(44, 44, 44, 0.97);
-            border: 3px solid #39d12a;
-            box-shadow: 0 4px 0 #145200;
+            background-color: #2c2c2c;
             border-radius: 10px;
             padding: 2rem;
             margin: 2rem 0;
         }
         .join-button {
             display: inline-block;
-            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
-            background: linear-gradient(90deg, #39d12a 80%, #23a000 100%);
-            border: 3px solid #145200;
-            box-shadow: 0 4px 0 #145200;
-            text-shadow: 1px 1px 0 #145200;
+            background-color: #39d12a;
             color: #fff;
             font-weight: bold;
             font-size: 1.3rem;
             padding: 0.8rem 2.2rem 0.8rem 1.2rem;
             border-radius: 0;
+            box-shadow: 2px 2px 0 #1a6600;
+            border: 2px solid #23a000;
             text-align: left;
             letter-spacing: 1px;
             text-decoration: none;
             transition: background 0.2s, box-shadow 0.2s;
         }
         .join-button:hover {
-            background: linear-gradient(90deg, #23a000 80%, #39d12a 100%);
+            background-color: #23a000;
+            box-shadow: 3px 3px 0 #145200;
         }
         .google-login-btn {
             display: inline-block;
-            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
-            border: 3px solid #4285f4;
-            background: #fff url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg') 12px center/24px 24px no-repeat;
-            color: #222;
-            text-shadow: none;
-            box-shadow: 0 4px 0 #4285f4;
+            background: #fff;
+            color: #444;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             font-size: 1.1rem;
             font-weight: bold;
             padding: 0.7rem 2rem 0.7rem 2.8rem;
+            background-image: url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg');
+            background-repeat: no-repeat;
+            background-position: 12px center;
+            background-size: 24px 24px;
             cursor: pointer;
             margin-bottom: 10px;
             transition: box-shadow 0.2s;
         }
         .google-login-btn:hover {
-            background-color: #e3f0ff;
+            box-shadow: 0 4px 8px rgba(66,133,244,0.2);
         }
         .comment-box {
             margin-top: 10px;
@@ -189,9 +186,8 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // 관리자 UID 목록 (예시 UID, 실제 관리자 UID로 교체 필요)
-        const ADMIN_UIDS = ['Fu71mgSTmkay8DbZeAdbADS6mot1'];
-        const ADMIN_UIDS = ['UASjTVkxw2ZbEDrtPdLq2oNHtK92'];
+        // 관리자 UID 목록 (여러 명이면 쉼표로 추가)
+        const ADMIN_UIDS = ['Fu71mgSTmkay8DbZeAdbADS6mot1', 'UASjTVkxw2ZbEDrtPdLq2oNHtK92'];
 
         async function loadPosts() {
             const postsDiv = document.getElementById('posts');
