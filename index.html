@@ -8,7 +8,8 @@
     <style>
         body {
             font-family: 'Minecraft', Arial, sans-serif;
-            background-color: #1a1a1a;
+            background: url('ddam.png') no-repeat center center fixed;
+            background-size: cover;
             color: #ffffff;
             margin: 0;
             padding: 0;
@@ -132,9 +133,16 @@
     <div class="header">
         <h1>mLe 마인크래프트 서버</h1>
         <p>배드락 에디션 렐름 서버</p>
+        <div class="tab-menu" style="margin-top:20px;">
+            <button class="tab-btn" data-tab="server" style="margin-right:10px;">서버 정보</button>
+            <button class="tab-btn" data-tab="community" style="margin-right:10px;">커뮤니티</button>
+            <button class="tab-btn" data-tab="music" style="margin-right:10px;">노래</button>
+            <button class="tab-btn" data-tab="useful">유용한 기능</button>
+            <button class="tab-btn" data-tab="event">이벤트</button>
+        </div>
     </div>
     
-    <div class="container">
+    <div class="container tab-content" id="tab-server">
         <div class="server-info">
             <h2>서버 정보</h2>
             <ul>
@@ -154,7 +162,7 @@
             </ul>
         </div>
     </div>
-    <div class="community-container" style="max-width: 800px; margin: 0 auto 40px auto;">
+    <div class="community-container tab-content" id="tab-community" style="max-width: 800px; margin: 0 auto 40px auto; display:none;">
         <div class="server-info">
             <h2>커뮤니티</h2>
             <div id="user-profile" style="display:flex;align-items:center;margin-bottom:10px;"></div>
@@ -166,6 +174,63 @@
                 <button type="submit" style="margin-top:8px;">글 작성</button>
             </form>
             <div id="posts" style="margin-top:20px;"></div>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-music" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2>노래 감상</h2>
+            <div style="margin-bottom:10px;">
+                <select id="music-select" style="font-size:1.1em;padding:4px 10px;">
+                    <option value="Music/READY OR NOT.mp4">READY OR NOT</option>
+                    <option value="Music/DAMNATION.mp4">DAMNATION</option>
+                    <option value="Music/PLEAD.mp4">PLEAD</option>
+                    <option value="Music/FORSNEV 1.mp4">FORSNEV 1</option>
+                    <option value="Music/MONTAGEM MEGALOVANIA (SLOWED).mp4">MONTAGEM MEGALOVANIA (SLOWED)</option>
+                    <option value="Music/RUNNING IN THE 90'S.mp4">RUNNING IN THE 90'S</option>
+                    <option value="Music/Legends Segment.mp4">Legends Segment</option>
+                    <option value="Music/Steve's Lava Chicken.mp4">Steve's Lava Chicken</option>
+                </select>
+            </div>
+            <video id="music-player" width="100%" height="360" controls>
+                <source id="music-source" src="Music/READY OR NOT.mp4" type="video/mp4">
+                브라우저가 video 태그를 지원하지 않습니다.
+            </video>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-useful" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2>유용한 기능</h2>
+            <div style="margin-bottom:18px;">
+                <b>마인크래프트 닉네임:</b>
+                <span id="copy-nick" style="background:#222;padding:4px 10px;border-radius:6px;margin-right:8px;">닉네임 불러오는 중...</span>
+                <button id="copy-nick-btn" class="mc-btn-green">복사</button>
+            </div>
+            <div style="margin-bottom:18px;">
+                <b>서버 초대링크:</b>
+                <span id="copy-invite" style="background:#222;padding:4px 10px;border-radius:6px;margin-right:8px;">minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc</span>
+                <button id="copy-invite-btn" class="mc-btn-green">복사</button>
+            </div>
+            <div style="margin-bottom:18px;">
+                <b>공지사항</b>
+                <ul id="notice-list" style="margin-top:8px;margin-bottom:0;padding-left:18px;">
+                    <li>서버는 24시간 운영됩니다.</li>
+                    <li>최신 서버 버전은 상단에서 확인하세요.</li>
+                    <li>문의는 댓글 또는 관리자에게 DM!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-event" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info" id="event-bg" style="background:rgba(0,0,0,0.45); min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div id="event-admin-panel" style="display:none;width:100%;max-width:500px;margin-bottom:20px;background:rgba(0,0,0,0.3);padding:16px 20px;border-radius:10px;">
+                <label>제목: <input id="event-title-input" style="width:80%"></label><br>
+                <label>설명: <textarea id="event-desc-input" style="width:80%;height:60px;"></textarea></label><br>
+                <label>열기: <input type="checkbox" id="event-open-input"></label>
+                <button id="event-save-btn" class="mc-btn-green" style="margin-left:10px;">저장</button>
+            </div>
+            <h2 id="event-title" style="background:rgba(0,0,0,0.5);padding:10px 30px;border-radius:10px;">이벤트 월드</h2>
+            <div id="event-desc" style="background:rgba(0,0,0,0.3);padding:10px 20px;border-radius:8px;margin:10px 0 20px 0;max-width:500px;text-align:center;">이벤트에 참여해보세요!</div>
+            <a id="event-play-btn" href="minecraft://acceptRealmInvite?inviteID=ACCtdNPqYnGSoK8" class="mc-btn-green" style="font-size:1.3em;padding:0.8rem 2.2rem 0.8rem 1.2rem;margin-top:10px;">이벤트 플레이</a>
         </div>
     </div>
     <script type="module">
@@ -512,6 +577,125 @@
         setCommunityFormState(false, {});
 
         loadPosts();
+
+        // 탭 메뉴 스크립트
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(div => div.style.display = 'none');
+            document.getElementById('tab-' + tab).style.display = '';
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.style.background = '');
+            document.querySelector('.tab-btn[data-tab="' + tab + '"]').style.background = '#444';
+            // 이벤트 탭 배경 처리
+            if(tab === 'event') {
+                document.body.style.background = "url('이벤트 베경.png') no-repeat center center fixed";
+                document.body.style.backgroundSize = 'cover';
+            } else {
+                document.body.style.background = "url('ddam.png') no-repeat center center fixed";
+                document.body.style.backgroundSize = 'cover';
+            }
+        }
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => showTab(btn.getAttribute('data-tab'));
+        });
+        // 기본 탭
+        showTab('server');
+        // 노래 선택 기능
+        const musicSelect = document.getElementById('music-select');
+        const musicPlayer = document.getElementById('music-player');
+        const musicSource = document.getElementById('music-source');
+        if(musicSelect && musicPlayer && musicSource) {
+            musicSelect.onchange = function() {
+                musicSource.src = this.value;
+                musicPlayer.load();
+                musicPlayer.play();
+            };
+        }
+        // 유용한 기능: 닉네임 복사, 초대링크 복사
+        function setCopyNickname() {
+            const nickSpan = document.getElementById('copy-nick');
+            const btn = document.getElementById('copy-nick-btn');
+            let nick = localStorage.getItem('mc_nick') || '';
+            if(!nick && window.auth && window.auth.currentUser) {
+                nick = window.auth.currentUser.displayName;
+            }
+            if(nickSpan) nickSpan.textContent = nick ? nick : '닉네임 없음';
+            if(btn) {
+                btn.onclick = function() {
+                    if(nick) {
+                        navigator.clipboard.writeText(nick);
+                        btn.textContent = '복사됨!';
+                        setTimeout(()=>{btn.textContent='복사';}, 1200);
+                    }
+                };
+            }
+        }
+        setCopyNickname();
+        // 초대링크 복사
+        const inviteBtn = document.getElementById('copy-invite-btn');
+        if(inviteBtn) {
+            inviteBtn.onclick = function() {
+                const invite = document.getElementById('copy-invite').textContent;
+                navigator.clipboard.writeText(invite);
+                inviteBtn.textContent = '복사됨!';
+                setTimeout(()=>{inviteBtn.textContent='복사';}, 1200);
+            };
+        }
+        // 탭 이동 시 닉네임 갱신
+        document.querySelector('.tab-btn[data-tab="useful"]').addEventListener('click', setCopyNickname);
+
+        // Firestore에서 이벤트 정보 불러오기/저장
+        let eventData = { title: '', desc: '', open: false };
+        async function loadEventData() {
+            const docRef = doc(db, 'config', 'event');
+            const docSnap = await getDoc(docRef);
+            if(docSnap.exists()) {
+                eventData = docSnap.data();
+            }
+            renderEventData();
+        }
+        async function saveEventData() {
+            const docRef = doc(db, 'config', 'event');
+            await setDoc(docRef, eventData);
+            renderEventData();
+        }
+        function renderEventData() {
+            document.getElementById('event-title').textContent = eventData.title || '이벤트 월드';
+            document.getElementById('event-desc').textContent = eventData.desc || '이벤트에 참여해보세요!';
+            document.getElementById('event-play-btn').style.display = eventData.open ? '' : 'none';
+            // 관리자 패널 값 동기화
+            const titleInput = document.getElementById('event-title-input');
+            const descInput = document.getElementById('event-desc-input');
+            const openInput = document.getElementById('event-open-input');
+            if(titleInput) titleInput.value = eventData.title || '';
+            if(descInput) descInput.value = eventData.desc || '';
+            if(openInput) openInput.checked = !!eventData.open;
+        }
+        // 관리자만 패널 보이기
+        function setEventAdminPanel(user) {
+            const panel = document.getElementById('event-admin-panel');
+            if(panel) panel.style.display = (user && ADMIN_UIDS.includes(user.uid)) ? '' : 'none';
+        }
+        // 저장 버튼 이벤트
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const saveBtn = document.getElementById('event-save-btn');
+            if(saveBtn) {
+                saveBtn.onclick = async ()=>{
+                    eventData.title = document.getElementById('event-title-input').value;
+                    eventData.desc = document.getElementById('event-desc-input').value;
+                    eventData.open = document.getElementById('event-open-input').checked;
+                    await saveEventData();
+                    alert('저장되었습니다!');
+                };
+            }
+        });
+        // 탭 이동 시 이벤트 데이터/권한 갱신
+        document.querySelector('.tab-btn[data-tab="event"]').addEventListener('click', ()=>{
+            loadEventData();
+            setEventAdminPanel(auth.currentUser);
+        });
+        // 로그인 상태 바뀔 때마다 관리자 패널 갱신
+        onAuthStateChanged(auth, (user) => {
+            setEventAdminPanel(user);
+        });
     </script>
 </body>
 </html>
