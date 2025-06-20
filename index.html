@@ -5,59 +5,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mLe 마인크래프트 서버</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686733290484221" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Minecraft', Arial, sans-serif;
-            background: url('ddam.png') no-repeat center center fixed;
-            background-size: cover;
-            color: #ffffff;
+            font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
+            background: linear-gradient(135deg, #1e1e1e 0%, #3c3c3c 100%);
+            color: #222;
             margin: 0;
             padding: 0;
         }
         .header {
-            background-color: #2c2c2c;
-            padding: 2rem;
+            background: #111 url('https://www.minecraft.net/content/dam/games/minecraft/key-art/Key-Art-Background_1920x1080.jpg') center/cover no-repeat;
+            padding: 2.5rem 0 1.5rem 0;
             text-align: center;
+            border-bottom: 8px solid #62b347;
+            box-shadow: 0 8px 0 #145200;
+            position: relative;
         }
-        .container {
+        .header h1 {
+            font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif;
+            font-size: 2.8rem;
+            color: #fff;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 #145200, 0 4px 12px #000a;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            color: #e0ffe0;
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            text-shadow: 1px 1px 0 #145200;
+        }
+        .tab-menu {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            background: rgba(30,30,30,0.85);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0005;
+            padding: 0.5rem 0.5rem;
+            margin: 0 auto;
+            max-width: 700px;
+        }
+        .tab-btn {
+            font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
+            background: #222;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 0 #62b347, 0 0 0 2px #fff2 inset;
+            padding: 0.7rem 1.7rem;
+            margin-right: 0;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+            font-weight: bold;
+        }
+        .tab-btn:hover, .tab-btn.active {
+            background: #62b347;
+            color: #222;
+            box-shadow: 0 4px 0 #145200;
+        }
+        .container, .community-container, .tab-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
         .server-info {
-            background-color: #2c2c2c;
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
+            background: rgba(255,255,255,0.97);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px #0002, 0 2px 0 #62b34722;
+            padding: 2.2rem 2.5rem;
+            margin: 2.5rem 0;
+            color: #222;
         }
-        .join-button {
+        .join-button, .mc-btn-green, .mc-btn-red, .mc-btn-brown, .MC_Button {
             display: inline-block;
-            background-color: #39d12a;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.3rem;
-            padding: 0.8rem 2.2rem 0.8rem 1.2rem;
-            border-radius: 0;
-            box-shadow: 2px 2px 0 #1a6600;
-            border: 2px solid #23a000;
-            text-align: left;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 16px #0002, 0 2px 0 #62b347;
+            border: none !important;
+            font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
             letter-spacing: 1px;
-            text-decoration: none;
-            transition: background 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+            padding: 0.8rem 2.2rem;
+            font-size: 1.08em;
         }
-        .join-button:hover {
-            background-color: #23a000;
-            box-shadow: 3px 3px 0 #145200;
+        .join-button, .mc-btn-green {
+            background: linear-gradient(180deg, #62b347 0%, #4e8c2b 100%);
+            color: #fff;
+            text-shadow: 1px 1px 0 #145200;
+        }
+        .join-button:hover, .mc-btn-green:hover {
+            background: linear-gradient(180deg, #7be85a 0%, #62b347 100%);
+            box-shadow: 0 8px 24px #62b34755, 0 4px 0 #145200;
+            color: #222;
+        }
+        .mc-btn-red {
+            background: linear-gradient(180deg, #e53935 0%, #b71c1c 100%);
+            color: #fff;
+            text-shadow: 1px 1px 0 #7f1d1d;
+        }
+        .mc-btn-red:hover {
+            background: linear-gradient(180deg, #ff6b6b 0%, #e53935 100%);
+            box-shadow: 0 8px 24px #e5393555, 0 4px 0 #7f1d1d;
+        }
+        .mc-btn-brown {
+            background: linear-gradient(180deg, #8d5524 0%, #5a3e1b 100%);
+            color: #fff;
+            text-shadow: 1px 1px 0 #4e2e0e;
+        }
+        .mc-btn-brown:hover {
+            background: linear-gradient(180deg, #b07d4a 0%, #8d5524 100%);
+            box-shadow: 0 8px 24px #8d552455, 0 4px 0 #4e2e0e;
+        }
+        .MC_Button {
+            background: linear-gradient(180deg, #62b347 0%, #4e8c2b 100%);
+            color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px #0002, 0 2px 0 #62b347;
+            font-size: 1.15rem;
+            font-weight: bold;
+            padding: 1rem 2.5rem;
+            min-width: 180px;
+            min-height: 44px;
+        }
+        .MC_Button:hover {
+            background: linear-gradient(180deg, #7be85a 0%, #62b347 100%);
+            color: #222;
+            box-shadow: 0 8px 24px #62b34755, 0 4px 0 #145200;
+        }
+        .MC_Button .arrow {
+            margin-left: 16px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        .MC_Button_Hero {
+            font-size: 1.3rem;
+            padding: 1.1rem 2.8rem;
+        }
+        .comment-box, .comment-list, #notice-list, .community-container, .tab-content {
+            background: rgba(255,255,255,0.93);
+            border-radius: 14px !important;
+            box-shadow: 0 2px 12px #0001;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+        input, textarea, select {
+            border-radius: 10px !important;
+            border: none !important;
+            background: #f3f3f3;
+            color: #222;
+            font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
+            box-shadow: 0 2px 8px #0001;
+            padding: 0.7rem 1rem;
+            font-size: 1em;
+            margin-bottom: 0.5rem;
+            transition: box-shadow 0.2s, border 0.2s;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #62b347, 0 2px 8px #62b34733;
+            border: 1.5px solid #62b347 !important;
+        }
+        .admin-delete-btn, .admin-comment-delete-btn {
+            border-radius: 8px !important;
+            font-size: 0.95em;
+            padding: 0.4em 1.1em;
+        }
+        .comment-list > div {
+            background: #f7f7f7;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            padding: 0.5em 1em;
+            box-shadow: 0 1px 4px #0001;
+        }
+        #notice-list li {
+            background: #e8f5e9;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            padding: 0.5em 1em;
+            color: #222;
+            box-shadow: 0 1px 4px #62b34711;
         }
         .google-login-btn {
-            display: inline-block;
-            background: #fff;
-            color: #444;
-            border: none;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Roboto', Arial, sans-serif !important;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 500;
+            color: #444;
+            background: #fff;
+            border: 1px solid #dadce0 !important;
+            border-radius: 4px !important;
+            box-shadow: 0 2px 4px rgba(60,64,67,.15);
             padding: 0.7rem 2rem 0.7rem 2.8rem;
             background-image: url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg');
             background-repeat: no-repeat;
@@ -66,66 +205,28 @@
             cursor: pointer;
             margin-bottom: 10px;
             transition: box-shadow 0.2s;
+            letter-spacing: 0;
         }
         .google-login-btn:hover {
             box-shadow: 0 4px 8px rgba(66,133,244,0.2);
         }
-        .comment-box {
-            margin-top: 10px;
-            background: #191919;
-            padding: 8px;
-            border-radius: 6px;
-        }
-        .comment-list {
-            margin-top: 6px;
-            margin-left: 10px;
-        }
-        .like-btn, .dislike-btn {
-            background: #333;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 3px 10px;
-            margin-right: 6px;
-            cursor: pointer;
-            font-size: 0.95em;
-            transition: background 0.2s;
-        }
-        .like-btn:hover {
-            background: #4caf50;
-        }
-        .dislike-btn:hover {
-            background: #e53935;
-        }
-        .mc-btn-green {
-            background: #39d12a;
-            border: 2px solid #145200;
-            color: #fff;
-            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
-            text-shadow: 1px 1px 0 #145200;
-        }
-        .mc-btn-red {
-            background: #e53935;
-            border: 2px solid #7f1d1d;
-            color: #fff;
-            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
-            text-shadow: 1px 1px 0 #7f1d1d;
-        }
-        .mc-btn-brown {
-            background: #8d5524;
-            border: 2px solid #4e2e0e;
-            color: #fff;
-            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
-            text-shadow: 1px 1px 0 #4e2e0e;
-        }
         .mc-admin-badge {
+            border-radius: 0 !important;
+            border: 2px solid #ffd600;
             background: #ffd600;
             color: #222;
-            border-radius: 4px;
-            padding: 2px 8px;
-            font-size: 0.9em;
-            margin-left: 6px;
-            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif !important;
+            box-shadow: 2px 2px 0 #bfa600;
+        }
+        /* 기존 버튼 숨김 */
+        .join-button, #event-play-btn {
+            display: none !important;
+        }
+        @media (max-width: 700px) {
+            .header h1 { font-size: 1.5rem; }
+            .container, .community-container, .tab-content { padding: 1rem; }
+            .server-info { padding: 1rem; }
+            .tab-menu { flex-direction: column; gap: 0.2rem; max-width: 98vw; }
         }
     </style>
 </head>
@@ -150,7 +251,10 @@
                 <li>서버 종류: 렐름 서버</li>
                 <li>플랫폼: Minecraft Bedrock Edition</li>
             </ul>
-            <a href="minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc" class="join-button">MINECRAFT 열기</a>
+            <a href="minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc" class="MC_Button" aria-label="야생 서버 참가" target="_self" tabindex="0">
+                <span>야생 서버 참가</span>
+                <span class="arrow">&gt;</span>
+            </a>
         </div>
         <div class="server-info">
             <h2>서버 규칙</h2>
@@ -221,16 +325,19 @@
         </div>
     </div>
     <div class="tab-content" id="tab-event" style="max-width:800px;margin:40px auto;display:none;">
-        <div class="server-info" id="event-bg" style="background:rgba(0,0,0,0.45); min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div id="event-admin-panel" style="display:none;width:100%;max-width:500px;margin-bottom:20px;background:rgba(0,0,0,0.3);padding:16px 20px;border-radius:10px;">
+        <div class="server-info" id="event-bg" style="background:rgba(255,255,255,0.85); min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div id="event-admin-panel" style="display:none;width:100%;max-width:500px;margin-bottom:20px;background:rgba(0,0,0,0.08);padding:16px 20px;border-radius:10px;">
                 <label>제목: <input id="event-title-input" style="width:80%"></label><br>
                 <label>설명: <textarea id="event-desc-input" style="width:80%;height:60px;"></textarea></label><br>
                 <label>열기: <input type="checkbox" id="event-open-input"></label>
                 <button id="event-save-btn" class="mc-btn-green" style="margin-left:10px;">저장</button>
             </div>
-            <h2 id="event-title" style="background:rgba(0,0,0,0.5);padding:10px 30px;border-radius:10px;">이벤트 월드</h2>
-            <div id="event-desc" style="background:rgba(0,0,0,0.3);padding:10px 20px;border-radius:8px;margin:10px 0 20px 0;max-width:500px;text-align:center;">이벤트에 참여해보세요!</div>
-            <a id="event-play-btn" href="minecraft://acceptRealmInvite?inviteID=ACCtdNPqYnGSoK8" class="mc-btn-green" style="font-size:1.3em;padding:0.8rem 2.2rem 0.8rem 1.2rem;margin-top:10px;">이벤트 플레이</a>
+            <h2 id="event-title" style="background:rgba(0,0,0,0.05);padding:10px 30px;border-radius:10px;">이벤트 월드</h2>
+            <div id="event-desc" style="background:rgba(0,0,0,0.03);padding:10px 20px;border-radius:8px;margin:10px 0 20px 0;max-width:500px;text-align:center;">이벤트에 참여해보세요!</div>
+            <a id="event-play-btn" href="minecraft://acceptRealmInvite?inviteID=ACCtdNPqYnGSoK8" class="MC_Button" aria-label="이벤트 참가" target="_self" tabindex="0">
+                <span>이벤트 참가</span>
+                <span class="arrow">&gt;</span>
+            </a>
         </div>
     </div>
     <script type="module">
@@ -699,3 +806,4 @@
     </script>
 </body>
 </html>
+
