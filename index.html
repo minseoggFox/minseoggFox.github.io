@@ -15,7 +15,7 @@
             padding: 0;
         }
         .header {
-            background: #111 url('https://www.minecraft.net/content/dam/games/minecraft/key-art/Key-Art-Background_1920x1080.jpg') center/cover no-repeat;
+            background: linear-gradient(135deg, #181818 0%, #232b1a 100%);
             padding: 2.5rem 0 1.5rem 0;
             text-align: center;
             border-bottom: 8px solid #62b347;
@@ -60,6 +60,8 @@
             cursor: pointer;
             transition: background 0.2s, box-shadow 0.2s, color 0.2s;
             font-weight: bold;
+            white-space: nowrap;
+            min-width: 110px;
         }
         .tab-btn:hover, .tab-btn.active {
             background: #62b347;
@@ -228,6 +230,170 @@
             .server-info { padding: 1rem; }
             .tab-menu { flex-direction: column; gap: 0.2rem; max-width: 98vw; }
         }
+        button.tab-btn:nth-child(4) {
+            line-height: 1.3;
+            letter-spacing: -0.05em;
+            font-size: 0.7em;
+        }
+        .MC_Button.play-bg-btn {
+            background: url('플레이.png') center/cover no-repeat !important;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            transition: transform 0.35s cubic-bezier(.4,2,.3,1), box-shadow 0.2s;
+        }
+        .MC_Button.play-bg-btn:hover {
+            transform: scale(1.15) rotate(-7deg);
+            box-shadow: 0 8px 32px #0005, 0 2px 0 #62b34722;
+        }
+        .MC_Button.play-bg-btn span, .MC_Button.play-bg-btn .arrow {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            text-shadow: 0 2px 8px #000, 0 0 2px #222;
+        }
+        .MC_Button.play-bg-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.25);
+            z-index: 1;
+        }
+        /* 커뮤니티 업그레이드: 카드형, 프로필 강조, 버튼 아이콘화, 애니메이션 */
+        #posts > div {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px #0002, 0 2px 0 #62b34722;
+            margin-bottom: 18px;
+            padding: 18px 22px 12px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: box-shadow 0.2s, transform 0.18s;
+        }
+        #posts > div:hover {
+            box-shadow: 0 8px 32px #62b34733, 0 4px 0 #14520022;
+            transform: translateY(-2px) scale(1.012);
+        }
+        #posts img[alt="프로필"] {
+            width: 48px !important;
+            height: 48px !important;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px #0001;
+            margin-right: 0;
+        }
+        #posts b {
+            font-size: 1.08em;
+            color: #222;
+        }
+        #posts .admin-delete-btn {
+            margin-left: 8px;
+        }
+        #posts .like-btn, #posts .dislike-btn {
+            border-radius: 8px !important;
+            font-size: 1.1em;
+            padding: 0.4em 1.1em;
+            margin-right: 6px;
+            background: #f3f3f3;
+            color: #222;
+            border: none !important;
+            box-shadow: 0 1px 4px #0001;
+            transition: background 0.15s, color 0.15s, transform 0.12s;
+        }
+        #posts .like-btn:hover {
+            background: #d0f5d0;
+            color: #2e7d32;
+            transform: scale(1.08);
+        }
+        #posts .dislike-btn:hover {
+            background: #ffeaea;
+            color: #c62828;
+            transform: scale(1.08);
+        }
+        #posts .comment-list {
+            margin-top: 10px;
+            margin-left: 0;
+            padding-left: 0;
+        }
+        #posts .comment-list > div {
+            background: #f7f7f7;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            padding: 0.5em 1em;
+            box-shadow: 0 1px 4px #0001;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        #posts .comment-list img[alt="프로필"] {
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 50%;
+            margin-right: 0;
+        }
+        #posts .comment-box {
+            background: #f3f3f3;
+            border-radius: 10px !important;
+            border: none;
+            box-shadow: 0 1px 4px #0001;
+            margin-top: 8px;
+            padding: 8px 12px;
+            display: flex;
+            gap: 8px;
+        }
+        #posts .comment-box input {
+            flex: 1;
+            border-radius: 8px !important;
+            border: none !important;
+            background: #fff;
+            color: #222;
+            font-size: 1em;
+            box-shadow: 0 1px 4px #0001;
+            padding: 0.5em 1em;
+        }
+        #posts .comment-box button {
+            border-radius: 8px !important;
+            font-size: 0.98em;
+            padding: 0.4em 1.1em;
+        }
+        #user-profile {
+            background: #f7f7f7;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0001;
+            padding: 10px 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        #user-profile img {
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px #0001;
+        }
+        #postForm input, #postForm textarea {
+            border-radius: 8px !important;
+            border: none !important;
+            background: #fff;
+            color: #222;
+            font-size: 1em;
+            box-shadow: 0 1px 4px #0001;
+            padding: 0.5em 1em;
+            margin-bottom: 8px;
+        }
+        #postForm button[type="submit"] {
+            border-radius: 8px !important;
+            font-size: 1.05em;
+            padding: 0.5em 1.3em;
+            margin-top: 8px;
+        }
+        #login-notice {
+            color: #ff5252;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -240,6 +406,7 @@
             <button class="tab-btn" data-tab="music" style="margin-right:10px;">노래</button>
             <button class="tab-btn" data-tab="useful">유용한 기능</button>
             <button class="tab-btn" data-tab="event">이벤트</button>
+            <button class="tab-btn" data-tab="game">게임</button>
         </div>
     </div>
     
@@ -251,7 +418,7 @@
                 <li>서버 종류: 렐름 서버</li>
                 <li>플랫폼: Minecraft Bedrock Edition</li>
             </ul>
-            <a href="minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc" class="MC_Button" aria-label="야생 서버 참가" target="_self" tabindex="0">
+            <a href="minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc" class="MC_Button play-bg-btn" aria-label="야생 서버 참가" target="_self" tabindex="0">
                 <span>야생 서버 참가</span>
                 <span class="arrow">&gt;</span>
             </a>
@@ -338,6 +505,17 @@
                 <span>이벤트 참가</span>
                 <span class="arrow">&gt;</span>
             </a>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-game" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2>미니게임</h2>
+            <div id="game-select" style="margin-bottom:20px;">
+                <button class="mc-btn-green" onclick="showGame('click')">클릭 챌린지</button>
+                <button class="mc-btn-green" onclick="showGame('mole')">두더지 잡기</button>
+                <button class="mc-btn-green" onclick="showGame('guess')">숫자 맞추기</button>
+            </div>
+            <div id="game-area"></div>
         </div>
     </div>
     <script type="module">
@@ -767,7 +945,8 @@
         function renderEventData() {
             document.getElementById('event-title').textContent = eventData.title || '이벤트 월드';
             document.getElementById('event-desc').textContent = eventData.desc || '이벤트에 참여해보세요!';
-            document.getElementById('event-play-btn').style.display = eventData.open ? '' : 'none';
+            const playBtn = document.getElementById('event-play-btn');
+            if (playBtn) playBtn.style.display = eventData.open ? '' : 'none';
             // 관리자 패널 값 동기화
             const titleInput = document.getElementById('event-title-input');
             const descInput = document.getElementById('event-desc-input');
@@ -802,6 +981,173 @@
         // 로그인 상태 바뀔 때마다 관리자 패널 갱신
         onAuthStateChanged(auth, (user) => {
             setEventAdminPanel(user);
+        });
+
+        // ----- 미니게임 구현 -----
+        function getRanking(key) {
+            let arr = [];
+            try {
+                arr = JSON.parse(localStorage.getItem(key) || '[]');
+            } catch(e) { arr = []; }
+            return Array.isArray(arr) ? arr : [];
+        }
+        function setRanking(key, score) {
+            let arr = getRanking(key);
+            arr.push(score);
+            arr = arr.filter(x => typeof x === 'number' && !isNaN(x));
+            arr = arr.sort((a,b)=>b-a).slice(0,5);
+            localStorage.setItem(key, JSON.stringify(arr));
+            return arr;
+        }
+        function renderRanking(key, label) {
+            const arr = getRanking(key);
+            if(arr.length === 0) return '';
+            return `<div style='margin:10px 0 18px 0;'><b>${label} 랭킹 TOP 5</b><ol style='margin:6px 0 0 18px;'>${arr.map((v,i)=>`<li>${v}점</li>`).join('')}</ol></div>`;
+        }
+        function showGame(type) {
+            const area = document.getElementById('game-area');
+            area.innerHTML = '';
+            if(type === 'click') {
+                let score = 0;
+                let best = localStorage.getItem('click_best') || 0;
+                let time = 10;
+                area.innerHTML = `
+                    <h3>클릭 챌린지</h3>
+                    <div style='margin-bottom:10px;'>10초 동안 버튼을 최대한 많이 클릭하세요!</div>
+                    ${renderRanking('click_ranking', '클릭 챌린지')}
+                    <div>점수: <span id='click-score'>0</span> | 최고점수: <span id='click-best'>${best}</span></div>
+                    <div>남은 시간: <span id='click-time'>10</span>초</div>
+                    <button id='click-btn' class='mc-btn-green' style='margin-top:18px;font-size:1.3em;'>클릭!</button>
+                `;
+                const btn = document.getElementById('click-btn');
+                const scoreSpan = document.getElementById('click-score');
+                const bestSpan = document.getElementById('click-best');
+                const timeSpan = document.getElementById('click-time');
+                let timer = setInterval(()=>{
+                    time--;
+                    timeSpan.textContent = time;
+                    if(time <= 0) {
+                        clearInterval(timer);
+                        btn.disabled = true;
+                        if(score > best) {
+                            localStorage.setItem('click_best', score);
+                            bestSpan.textContent = score;
+                        }
+                        const ranking = setRanking('click_ranking', score);
+                        alert('게임 종료! 점수: '+score+'\n현재 랭킹: '+(ranking.indexOf(score)+1)+'위');
+                        showGame('click');
+                    }
+                }, 1000);
+                btn.onclick = ()=>{
+                    if(time > 0) {
+                        score++;
+                        scoreSpan.textContent = score;
+                    }
+                };
+            } else if(type === 'mole') {
+                let score = 0;
+                let best = localStorage.getItem('mole_best') || 0;
+                let time = 20;
+                area.innerHTML = `
+                    <h3>두더지 잡기</h3>
+                    <div style='margin-bottom:10px;'>20초 동안 두더지를 최대한 많이 잡으세요!</div>
+                    ${renderRanking('mole_ranking', '두더지 잡기')}
+                    <div>점수: <span id='mole-score'>0</span> | 최고점수: <span id='mole-best'>${best}</span></div>
+                    <div>남은 시간: <span id='mole-time'>20</span>초</div>
+                    <div id='mole-field' style='display:grid;grid-template-columns:repeat(3,80px);gap:16px;margin:20px auto;width:260px;'></div>
+                `;
+                const field = document.getElementById('mole-field');
+                for(let i=0;i<9;i++) {
+                    const cell = document.createElement('button');
+                    cell.className = 'mc-btn-brown';
+                    cell.style.height = '60px';
+                    cell.style.fontSize = '2em';
+                    cell.textContent = '';
+                    field.appendChild(cell);
+                }
+                let moleIdx = -1;
+                function showMole() {
+                    if(moleIdx >= 0) field.children[moleIdx].textContent = '';
+                    moleIdx = Math.floor(Math.random()*9);
+                    field.children[moleIdx].textContent = '🐹';
+                }
+                let moleTimer = setInterval(showMole, 700);
+                let gameTimer = setInterval(()=>{
+                    time--;
+                    document.getElementById('mole-time').textContent = time;
+                    if(time <= 0) {
+                        clearInterval(gameTimer);
+                        clearInterval(moleTimer);
+                        for(let btn of field.children) btn.disabled = true;
+                        if(score > best) {
+                            localStorage.setItem('mole_best', score);
+                            document.getElementById('mole-best').textContent = score;
+                        }
+                        const ranking = setRanking('mole_ranking', score);
+                        alert('게임 종료! 점수: '+score+'\n현재 랭킹: '+(ranking.indexOf(score)+1)+'위');
+                        showGame('mole');
+                    }
+                }, 1000);
+                for(let i=0;i<9;i++) {
+                    field.children[i].onclick = ()=>{
+                        if(field.children[i].textContent === '🐹' && time > 0) {
+                            score++;
+                            document.getElementById('mole-score').textContent = score;
+                            field.children[i].textContent = '';
+                        }
+                    };
+                }
+                showMole();
+            } else if(type === 'guess') {
+                let score = 0;
+                let best = localStorage.getItem('guess_best') || 0;
+                let answer = Math.floor(Math.random()*100)+1;
+                area.innerHTML = `
+                    <h3>숫자 맞추기</h3>
+                    <div style='margin-bottom:10px;'>1~100 사이의 숫자를 맞추세요! (시도할 때마다 점수 +10, 틀리면 -3)</div>
+                    ${renderRanking('guess_ranking', '숫자 맞추기')}
+                    <div>점수: <span id='guess-score'>0</span> | 최고점수: <span id='guess-best'>${best}</span></div>
+                    <input id='guess-input' type='number' min='1' max='100' style='width:100px;'>
+                    <button id='guess-btn' class='mc-btn-green'>확인</button>
+                    <div id='guess-msg' style='margin-top:10px;'></div>
+                `;
+                const input = document.getElementById('guess-input');
+                const btn = document.getElementById('guess-btn');
+                const msg = document.getElementById('guess-msg');
+                const scoreSpan = document.getElementById('guess-score');
+                const bestSpan = document.getElementById('guess-best');
+                btn.onclick = ()=>{
+                    const val = parseInt(input.value);
+                    if(isNaN(val) || val<1 || val>100) {
+                        msg.textContent = '1~100 사이 숫자를 입력하세요!';
+                        return;
+                    }
+                    if(val === answer) {
+                        score += 10;
+                        msg.textContent = '정답! 새로운 숫자를 맞춰보세요!';
+                        answer = Math.floor(Math.random()*100)+1;
+                        input.value = '';
+                    } else {
+                        score -= 3;
+                        msg.textContent = val < answer ? '더 큰 숫자!' : '더 작은 숫자!';
+                    }
+                    scoreSpan.textContent = score;
+                    if(score > best) {
+                        best = score;
+                        localStorage.setItem('guess_best', score);
+                        bestSpan.textContent = score;
+                    }
+                    const ranking = setRanking('guess_ranking', score);
+                    if(score > 0) {
+                        msg.innerHTML += `<br>현재 랭킹: ${(ranking.indexOf(score)+1)}위`;
+                    }
+                };
+            }
+        }
+        window.showGame = showGame;
+        // 게임 탭 이동 시 초기화
+        document.querySelector('.tab-btn[data-tab="game"]').addEventListener('click', ()=>{
+            document.getElementById('game-area').innerHTML = '';
         });
     </script>
 </body>
