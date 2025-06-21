@@ -16,12 +16,14 @@
             padding: 0;
         }
         .header {
-            background: linear-gradient(135deg, #181818 0%, #232b1a 100%);
+            background: linear-gradient(135deg, rgba(24, 24, 24, 0.7) 0%, rgba(35, 43, 26, 0.7) 100%);
             padding: 0.2rem 0;
             text-align: center;
             border-bottom: 4px solid #62b347;
             box-shadow: 0 4px 0 #145200;
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         .header h1 {
             font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif;
@@ -41,9 +43,9 @@
             display: flex;
             justify-content: center;
             gap: 0.5rem;
-            background: rgba(30,30,30,0.85);
+            background: rgba(30, 30, 30, 0);
             border-radius: 12px;
-            box-shadow: 0 2px 8px #0005;
+            box-shadow: 0 2px 8px #0000;
             padding: 0.5rem 0.5rem;
             margin: 0 auto;
             max-width: 700px;
@@ -433,6 +435,40 @@
             width: auto;
             vertical-align: middle;
         }
+        #header-account {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        #header-account #user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+        }
+        #header-account #user-profile img {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        #header-account #user-profile .minecraft-nickname {
+            font-weight: bold;
+        }
+        #header-account #user-profile .google-name {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+        #header-account .google-login-btn, #header-account #logout-btn {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9em;
+            box-shadow: 0 2px 8px #0003;
+        }
     </style>
 </head>
 <body>
@@ -442,6 +478,7 @@
         </a>
         <h1></h1>
         <p></p>
+        <div id="header-account"></div>
         <div class="tab-menu" style="margin-top:2px;">
             <button class="tab-btn" data-tab="server">홈</button>
             <button class="tab-btn" data-tab="mlp">mlp</button>
@@ -466,7 +503,6 @@
     <div class="community-container tab-content" id="tab-community" style="max-width: 800px; margin: 0 auto 40px auto; display:none;">
         <div class="server-info">
             <h2>커뮤니티</h2>
-            <div id="user-profile" style="display:flex;align-items:center;margin-bottom:10px;"></div>
             <form id="postForm">
                 <input type="text" id="username" placeholder="닉네임" required style="margin-bottom:8px; width:40%;">
                 <br>
@@ -655,21 +691,27 @@
             renderUserProfile(user);
         }
         function renderUserProfile(user) {
-            const userProfile = document.getElementById('user-profile');
+            const headerAccount = document.getElementById('header-account');
+            let userProfile = headerAccount.querySelector('#user-profile');
             if (!user) {
-                userProfile.innerHTML = '';
+                if(userProfile) userProfile.remove();
                 return;
             }
+            if (!userProfile) {
+                userProfile = document.createElement('div');
+                userProfile.id = 'user-profile';
+                headerAccount.insertBefore(userProfile, logoutBtn);
+            }
+
             userProfile.innerHTML = `
-                <img src="${user.photoURL}" alt="프로필" style="width:48px;height:48px;border-radius:50%;margin-right:14px;vertical-align:middle;box-shadow:0 2px 8px #0002;">
-                <div style="display:inline-block;vertical-align:middle;">
-                    <div style="font-size:1.1em;font-weight:bold;">${minecraftNickname}</div>
-                    <div style="font-size:0.98em;color:#62b347;">${user.displayName}</div>
-                    <div style="font-size:0.93em;color:#888;">${user.email || ''}</div>
+                <img src="${user.photoURL}" alt="프로필">
+                <div style="display:inline-block;vertical-align:middle; text-align:left; line-height:1.2;">
+                    <div class="minecraft-nickname">${minecraftNickname || user.displayName}</div>
+                    <div class="google-name">${user.displayName}</div>
                 </div>
             `;
             if (ADMIN_UIDS.includes(user.uid)) {
-                userProfile.innerHTML += ' <span style="color:#ffd600;font-weight:bold;margin-left:8px;">[관리자]</span>';
+                userProfile.innerHTML += ' <span class="mc-admin-badge" style="padding: 2px 4px; font-size: 0.7em;color: #222;">관리자</span>';
             }
         }
 
@@ -864,19 +906,20 @@
         const loginBtn = document.createElement('button');
         loginBtn.textContent = "Google로 로그인";
         loginBtn.className = 'google-login-btn';
-        document.querySelector('.server-info').prepend(loginBtn);
+        document.getElementById('header-account').appendChild(loginBtn);
 
         const logoutBtn = document.createElement('button');
         logoutBtn.textContent = "로그아웃";
-        logoutBtn.style = "margin-bottom:10px; font-weight:bold; display:none;";
-        document.querySelector('.server-info').prepend(logoutBtn);
+        logoutBtn.id = 'logout-btn';
+        logoutBtn.className = 'mc-btn-red';
+        logoutBtn.style.display = 'none';
+        document.getElementById('header-account').appendChild(logoutBtn);
 
         function setCommunityFormState(isLoggedIn, user) {
             const usernameInput = document.getElementById('username');
             const contentInput = document.getElementById('content');
             const submitBtn = document.querySelector('#postForm button[type="submit"]');
             let notice = document.getElementById('login-notice');
-            const userProfile = document.getElementById('user-profile');
             if (!notice) {
                 notice = document.createElement('div');
                 notice.id = 'login-notice';
@@ -884,23 +927,17 @@
                 document.getElementById('postForm').prepend(notice);
             }
             if (isLoggedIn) {
-                loginBtn.style.display = 'none';
-                logoutBtn.style.display = '';
                 usernameInput.value = user.displayName;
                 usernameInput.disabled = true;
                 contentInput.disabled = false;
                 submitBtn.disabled = false;
                 notice.textContent = '';
-                showNicknamePrompt(user);
             } else {
-                loginBtn.style.display = '';
-                logoutBtn.style.display = 'none';
                 usernameInput.value = '';
                 usernameInput.disabled = true;
                 contentInput.disabled = true;
                 submitBtn.disabled = true;
                 notice.textContent = 'Google 로그인을 해야 글을 작성할 수 있습니다.';
-                userProfile.innerHTML = '';
             }
         }
 
@@ -914,12 +951,17 @@
         onAuthStateChanged(auth, (user) => {
             setCommunityFormState(!!user, user || {});
             if (user) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = '';
                 showNicknamePrompt(user);
             } else {
+                loginBtn.style.display = '';
+                logoutBtn.style.display = 'none';
                 minecraftNickname = '';
                 renderUserProfile(null);
             }
             loadServerVersion();
+            setEventAdminPanel(user);
         });
 
         setCommunityFormState(false, {});
