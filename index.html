@@ -933,17 +933,37 @@
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
 
-            // 탭별 배경 처리
-            let bgStyle = "url('default-screen.png') no-repeat center center fixed";
+            // 탭별 배경 처리 (GitHub Pages 등에서 이미지가 안 보일 때 대비)
+            let bgStyle = "#fff"; // 기본값: 흰색 배경
+            let bgImg = "";
             if(tab === '4b4t') {
-                bgStyle = "url('4b4t-background.png') no-repeat center center fixed";
+                bgImg = "4b4t-background.png";
             } else if(tab === 'event') {
-                bgStyle = "url('event-background.png') no-repeat center center fixed";
+                bgImg = "event-background.png";
             } else if(tab === 'mlp') {
-                bgStyle = "url('mlp-background.png') no-repeat center center fixed";
+                bgImg = "mlp-background.png";
+            } else {
+                bgImg = "default-screen.png";
             }
-            document.body.style.background = bgStyle;
-            document.body.style.backgroundSize = 'cover';
+
+            // 이미지가 로드 가능한지 확인
+            if(bgImg) {
+                const img = new Image();
+                img.onload = function() {
+                    document.body.style.background = `url('${bgImg}') no-repeat center center fixed`;
+                    document.body.style.backgroundSize = 'cover';
+                };
+                img.onerror = function() {
+                    // 이미지가 없으면 흰색 배경 유지
+                    document.body.style.background = "#fff";
+                    document.body.style.backgroundSize = '';
+                };
+                img.src = bgImg;
+            } else {
+                document.body.style.background = "#fff";
+                document.body.style.backgroundSize = '';
+            }
+
         }
         window.showTab = showTab;
         document.querySelectorAll('.tab-btn').forEach(btn => {
