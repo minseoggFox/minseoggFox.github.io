@@ -240,10 +240,12 @@
             }
             #logo-container {
                 order: 1;
-                display: flex;
+                display: flex !important;
                 justify-content: center;
                 align-items: center;
                 margin-bottom: 8px;
+                width: 100%;
+                z-index: 2100;
             }
             #logo-container img {
                 height: 48px;
@@ -251,10 +253,12 @@
             }
             #header-account {
                 order: 2;
-                display: flex;
+                display: flex !important;
                 justify-content: center;
                 align-items: center;
                 margin-bottom: 8px;
+                width: 100%;
+                z-index: 2100;
             }
             #header-account .google-login-btn, #header-account #logout-btn {
                 padding: 0.7rem 1.5rem;
@@ -273,6 +277,7 @@
                 order: 3;
                 align-self: flex-end;
                 margin-bottom: 8px;
+                z-index: 2100;
             }
             .tab-menu {
                 position: static;
