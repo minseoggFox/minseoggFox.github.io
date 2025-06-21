@@ -9,17 +9,18 @@
     <style>
         body {
             font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
-            background: linear-gradient(135deg, #1e1e1e 0%, #3c3c3c 100%);
+            background: url('default screen.png') no-repeat center center fixed;
+            background-size: cover;
             color: #222;
             margin: 0;
             padding: 0;
         }
         .header {
             background: linear-gradient(135deg, #181818 0%, #232b1a 100%);
-            padding: 2.5rem 0 1.5rem 0;
+            padding: 0.2rem 0;
             text-align: center;
-            border-bottom: 8px solid #62b347;
-            box-shadow: 0 8px 0 #145200;
+            border-bottom: 4px solid #62b347;
+            box-shadow: 0 4px 0 #145200;
             position: relative;
         }
         .header h1 {
@@ -52,16 +53,15 @@
             background: #222;
             color: #fff;
             border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 0 #62b347, 0 0 0 2px #fff2 inset;
-            padding: 0.7rem 1.7rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 0 #62b347, 0 0 0 1px #fff2 inset;
+            padding: 0.5rem 1rem;
             margin-right: 0;
-            font-size: 1.05em;
+            font-size: 0.9em;
             cursor: pointer;
             transition: background 0.2s, box-shadow 0.2s, color 0.2s;
             font-weight: bold;
             white-space: nowrap;
-            min-width: 110px;
         }
         .tab-btn:hover, .tab-btn.active {
             background: #62b347;
@@ -397,43 +397,70 @@
             margin-bottom: 10px;
             font-weight: bold;
         }
+        .MC_Button.play-bg-btn-4b4t {
+            background: url('4B4T플레이.png') center/cover no-repeat !important;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            transition: transform 0.35s cubic-bezier(.4,2,.3,1), box-shadow 0.2s;
+        }
+        .MC_Button.play-bg-btn-4b4t:hover {
+            transform: scale(1.15) rotate(-7deg);
+            box-shadow: 0 8px 32px #0005, 0 2px 0 #62b34722;
+        }
+        .MC_Button.play-bg-btn-4b4t span, .MC_Button.play-bg-btn-4b4t .arrow {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            text-shadow: 0 2px 8px #000, 0 0 2px #222;
+        }
+        .MC_Button.play-bg-btn-4b4t::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.25);
+            z-index: 1;
+        }
+        #logo-container {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #logo-container img {
+            height: 50px;
+            width: auto;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>mLe 마인크래프트 서버</h1>
-        <p>배드락 에디션 렐름 서버</p>
-        <div class="tab-menu" style="margin-top:20px;">
-            <button class="tab-btn" data-tab="server" style="margin-right:10px;">서버 정보</button>
-            <button class="tab-btn" data-tab="community" style="margin-right:10px;">커뮤니티</button>
-            <button class="tab-btn" data-tab="music" style="margin-right:10px;">노래</button>
+        <a href="#" onclick="showTab('server'); return false;" id="logo-container">
+            <img src="mLe.png" alt="mLe 로고">
+        </a>
+        <h1></h1>
+        <p></p>
+        <div class="tab-menu" style="margin-top:2px;">
+            <button class="tab-btn" data-tab="server">홈</button>
+            <button class="tab-btn" data-tab="mlp">mlp</button>
+            <button class="tab-btn" data-tab="community">커뮤니티</button>
+            <button class="tab-btn" data-tab="music">노래</button>
             <button class="tab-btn" data-tab="useful">유용한 기능</button>
             <button class="tab-btn" data-tab="event">이벤트</button>
-            <button class="tab-btn" data-tab="game">게임</button>
+            <button class="tab-btn" data-tab="4b4t">4B4T</button>
         </div>
     </div>
     
     <div class="container tab-content" id="tab-server">
         <div class="server-info">
-            <h2>서버 정보</h2>
-            <ul>
-                <li>서버 버전: <div id="server-version-div"></div></li>
-                <li>서버 종류: 렐름 서버</li>
-                <li>플랫폼: Minecraft Bedrock Edition</li>
-            </ul>
-            <a href="minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc" class="MC_Button play-bg-btn" aria-label="야생 서버 참가" target="_self" tabindex="0">
-                <span>야생 서버 참가</span>
-                <span class="arrow">&gt;</span>
-            </a>
+            <h2>MLP 서버 패치노트</h2>
+            <div id="mlp-patch-notes-content" style="white-space: pre-wrap; line-height: 1.6;">패치노트를 불러오는 중...</div>
         </div>
         <div class="server-info">
-            <h2>서버 규칙</h2>
-            <ul>
-                <li>다른 플레이어를 존중해주세요</li>
-                <li>비속어 사용을 자제해주세요</li>
-                <li>서버 리소스를 남용하지 마세요</li>
-                <li>버그를 악용하지 마세요</li>
-            </ul>
+            <h2>4B4T 서버 패치노트</h2>
+            <div id="4b4t-patch-notes-content" style="white-space: pre-wrap; line-height: 1.6;">패치노트를 불러오는 중...</div>
         </div>
     </div>
     <div class="community-container tab-content" id="tab-community" style="max-width: 800px; margin: 0 auto 40px auto; display:none;">
@@ -510,20 +537,52 @@
             </a>
         </div>
     </div>
-    <div class="tab-content" id="tab-game" style="max-width:800px;margin:40px auto;display:none;">
+    <div class="tab-content" id="tab-4b4t" style="max-width:800px;margin:40px auto;display:none;">
         <div class="server-info">
-            <h2>미니게임</h2>
-            <div id="game-select" style="margin-bottom:20px;">
-                <button class="mc-btn-green" onclick="showGame('click')">클릭 챌린지</button>
-                <button class="mc-btn-green" onclick="showGame('mole')">두더지 잡기</button>
-                <button class="mc-btn-green" onclick="showGame('guess')">숫자 맞추기</button>
+            <h2>4B4T 서버</h2>
+            <a href="minecraft://acceptRealmInvite?inviteID=nY_9_eGKsJE" class="MC_Button play-bg-btn-4b4t" aria-label="4B4T 서버 참가" target="_self" tabindex="0">
+                <span>4B4T 서버 참가</span>
+                <span class="arrow">&gt;</span>
+            </a>
+            <div style="margin-top:2rem;">
+                <h3>서버 설명</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>인벤세이브: <b>꺼짐</b></li>
+                    <li>서버 성격: <b>무정부</b></li>
+                    <li>테러 가능성: <b style="color:#e53935;">높음</b> <span style="color: #ff5252; font-weight:bold;">[테러를 안 당하고 싶으면 mlp서버를 추천합니다]</span></li>
+                    <li>불 확산: <b>켜짐</b></li>
+                    <li>그 말대로 관리를 거의 안하는 서버입니다.</li>
+                    <li>(그래도 최소한의 관리는 합니다)</li>
+                </ul>
             </div>
-            <div id="game-area"></div>
+        </div>
+        <div class="server-info" style="margin-top:2rem;">
+            <h2>4B4T 커뮤니티</h2>
+            <form id="postForm4b4t">
+                <textarea id="content4b4t" placeholder="내용을 입력하세요" required style="width:90%; height:60px;"></textarea>
+                <br>
+                <button type="submit" class="mc-btn-green" style="margin-top:8px;">글 작성</button>
+            </form>
+            <div id="posts4b4t" style="margin-top:20px;"></div>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-mlp" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2>MLP 야생 서버 정보</h2>
+            <ul>
+                <li>서버 버전: <div id="server-version-div"></div></li>
+                <li>서버 종류: 렐름 서버</li>
+                <li>플랫폼: Minecraft Bedrock Edition</li>
+            </ul>
+            <a href="minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc" class="MC_Button play-bg-btn" aria-label="야생 서버 참가" target="_self" tabindex="0">
+                <span>야생 서버 참가</span>
+                <span class="arrow">&gt;</span>
+            </a>
         </div>
     </div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy, doc, getDoc, updateDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy, doc, getDoc, updateDoc, deleteDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -871,17 +930,22 @@
         function showTab(tab) {
             document.querySelectorAll('.tab-content').forEach(div => div.style.display = 'none');
             document.getElementById('tab-' + tab).style.display = '';
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.style.background = '');
-            document.querySelector('.tab-btn[data-tab="' + tab + '"]').style.background = '#444';
-            // 이벤트 탭 배경 처리
-            if(tab === 'event') {
-                document.body.style.background = "url('이벤트 베경.png') no-repeat center center fixed";
-                document.body.style.backgroundSize = 'cover';
-            } else {
-                document.body.style.background = "url('ddam.png') no-repeat center center fixed";
-                document.body.style.backgroundSize = 'cover';
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
+
+            // 탭별 배경 처리
+            let bgStyle = "url('default screen.png') no-repeat center center fixed";
+            if(tab === '4b4t') {
+                bgStyle = "url('4B4T 배경.png') no-repeat center center fixed";
+            } else if(tab === 'event') {
+                bgStyle = "url('이벤트 베경.png') no-repeat center center fixed";
+            } else if(tab === 'mlp') {
+                bgStyle = "url('ddam.png') no-repeat center center fixed";
             }
+            document.body.style.background = bgStyle;
+            document.body.style.backgroundSize = 'cover';
         }
+        window.showTab = showTab;
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = () => showTab(btn.getAttribute('data-tab'));
         });
@@ -987,172 +1051,220 @@
             setEventAdminPanel(user);
         });
 
-        // ----- 미니게임 구현 -----
-        function getRanking(key) {
-            let arr = [];
-            try {
-                arr = JSON.parse(localStorage.getItem(key) || '[]');
-            } catch(e) { arr = []; }
-            return Array.isArray(arr) ? arr : [];
-        }
-        function setRanking(key, score) {
-            let arr = getRanking(key);
-            arr.push(score);
-            arr = arr.filter(x => typeof x === 'number' && !isNaN(x));
-            arr = arr.sort((a,b)=>b-a).slice(0,5);
-            localStorage.setItem(key, JSON.stringify(arr));
-            return arr;
-        }
-        function renderRanking(key, label) {
-            const arr = getRanking(key);
-            if(arr.length === 0) return '';
-            return `<div style='margin:10px 0 18px 0;'><b>${label} 랭킹 TOP 5</b><ol style='margin:6px 0 0 18px;'>${arr.map((v,i)=>`<li>${v}점</li>`).join('')}</ol></div>`;
-        }
-        function showGame(type) {
-            const area = document.getElementById('game-area');
-            area.innerHTML = '';
-            if(type === 'click') {
-                let score = 0;
-                let best = localStorage.getItem('click_best') || 0;
-                let time = 10;
-                area.innerHTML = `
-                    <h3>클릭 챌린지</h3>
-                    <div style='margin-bottom:10px;'>10초 동안 버튼을 최대한 많이 클릭하세요!</div>
-                    ${renderRanking('click_ranking', '클릭 챌린지')}
-                    <div>점수: <span id='click-score'>0</span> | 최고점수: <span id='click-best'>${best}</span></div>
-                    <div>남은 시간: <span id='click-time'>10</span>초</div>
-                    <button id='click-btn' class='mc-btn-green' style='margin-top:18px;font-size:1.3em;'>클릭!</button>
-                `;
-                const btn = document.getElementById('click-btn');
-                const scoreSpan = document.getElementById('click-score');
-                const bestSpan = document.getElementById('click-best');
-                const timeSpan = document.getElementById('click-time');
-                let timer = setInterval(()=>{
-                    time--;
-                    timeSpan.textContent = time;
-                    if(time <= 0) {
-                        clearInterval(timer);
-                        btn.disabled = true;
-                        if(score > best) {
-                            localStorage.setItem('click_best', score);
-                            bestSpan.textContent = score;
-                        }
-                        const ranking = setRanking('click_ranking', score);
-                        alert('게임 종료! 점수: '+score+'\n현재 랭킹: '+(ranking.indexOf(score)+1)+'위');
-                        showGame('click');
-                    }
-                }, 1000);
-                btn.onclick = ()=>{
-                    if(time > 0) {
-                        score++;
-                        scoreSpan.textContent = score;
-                    }
-                };
-            } else if(type === 'mole') {
-                let score = 0;
-                let best = localStorage.getItem('mole_best') || 0;
-                let time = 20;
-                area.innerHTML = `
-                    <h3>두더지 잡기</h3>
-                    <div style='margin-bottom:10px;'>20초 동안 두더지를 최대한 많이 잡으세요!</div>
-                    ${renderRanking('mole_ranking', '두더지 잡기')}
-                    <div>점수: <span id='mole-score'>0</span> | 최고점수: <span id='mole-best'>${best}</span></div>
-                    <div>남은 시간: <span id='mole-time'>20</span>초</div>
-                    <div id='mole-field' style='display:grid;grid-template-columns:repeat(3,80px);gap:16px;margin:20px auto;width:260px;'></div>
-                `;
-                const field = document.getElementById('mole-field');
-                for(let i=0;i<9;i++) {
-                    const cell = document.createElement('button');
-                    cell.className = 'mc-btn-brown';
-                    cell.style.height = '60px';
-                    cell.style.fontSize = '2em';
-                    cell.textContent = '';
-                    field.appendChild(cell);
-                }
-                let moleIdx = -1;
-                function showMole() {
-                    if(moleIdx >= 0) field.children[moleIdx].textContent = '';
-                    moleIdx = Math.floor(Math.random()*9);
-                    field.children[moleIdx].textContent = '🐹';
-                }
-                let moleTimer = setInterval(showMole, 700);
-                let gameTimer = setInterval(()=>{
-                    time--;
-                    document.getElementById('mole-time').textContent = time;
-                    if(time <= 0) {
-                        clearInterval(gameTimer);
-                        clearInterval(moleTimer);
-                        for(let btn of field.children) btn.disabled = true;
-                        if(score > best) {
-                            localStorage.setItem('mole_best', score);
-                            document.getElementById('mole-best').textContent = score;
-                        }
-                        const ranking = setRanking('mole_ranking', score);
-                        alert('게임 종료! 점수: '+score+'\n현재 랭킹: '+(ranking.indexOf(score)+1)+'위');
-                        showGame('mole');
-                    }
-                }, 1000);
-                for(let i=0;i<9;i++) {
-                    field.children[i].onclick = ()=>{
-                        if(field.children[i].textContent === '🐹' && time > 0) {
-                            score++;
-                            document.getElementById('mole-score').textContent = score;
-                            field.children[i].textContent = '';
-                        }
+        // --- 패치노트 스크립트 ---
+        function setupPatchNotes(collectionName, contentId) {
+            const contentDiv = document.getElementById(contentId);
+            if (!contentDiv) return;
+            const docRef = doc(db, 'config', collectionName);
+
+            const render = (data, user) => {
+                const content = data ? data.content : '패치노트가 없습니다.';
+                if (user && ADMIN_UIDS.includes(user.uid)) {
+                    contentDiv.innerHTML = `
+                        <textarea style="width: 95%; height: 150px; background: #f0f0f0; color: #222; border: 1px solid #ccc; padding: 8px; border-radius: 8px;">${content || ''}</textarea>
+                        <button class="mc-btn-green" style="margin-top: 8px;">저장</button>
+                    `;
+                    contentDiv.querySelector('button').onclick = async () => {
+                        const newContent = contentDiv.querySelector('textarea').value;
+                        await setDoc(docRef, { content: newContent });
+                        alert('저장되었습니다.');
                     };
+                } else {
+                    contentDiv.innerHTML = (content || '패치노트가 없습니다.').replace(/\n/g, '<br>');
                 }
-                showMole();
-            } else if(type === 'guess') {
-                let score = 0;
-                let best = localStorage.getItem('guess_best') || 0;
-                let answer = Math.floor(Math.random()*100)+1;
-                area.innerHTML = `
-                    <h3>숫자 맞추기</h3>
-                    <div style='margin-bottom:10px;'>1~100 사이의 숫자를 맞추세요! (시도할 때마다 점수 +10, 틀리면 -3)</div>
-                    ${renderRanking('guess_ranking', '숫자 맞추기')}
-                    <div>점수: <span id='guess-score'>0</span> | 최고점수: <span id='guess-best'>${best}</span></div>
-                    <input id='guess-input' type='number' min='1' max='100' style='width:100px;'>
-                    <button id='guess-btn' class='mc-btn-green'>확인</button>
-                    <div id='guess-msg' style='margin-top:10px;'></div>
-                `;
-                const input = document.getElementById('guess-input');
-                const btn = document.getElementById('guess-btn');
-                const msg = document.getElementById('guess-msg');
-                const scoreSpan = document.getElementById('guess-score');
-                const bestSpan = document.getElementById('guess-best');
-                btn.onclick = ()=>{
-                    const val = parseInt(input.value);
-                    if(isNaN(val) || val<1 || val>100) {
-                        msg.textContent = '1~100 사이 숫자를 입력하세요!';
-                        return;
-                    }
-                    if(val === answer) {
-                        score += 10;
-                        msg.textContent = '정답! 새로운 숫자를 맞춰보세요!';
-                        answer = Math.floor(Math.random()*100)+1;
-                        input.value = '';
-                    } else {
-                        score -= 3;
-                        msg.textContent = val < answer ? '더 큰 숫자!' : '더 작은 숫자!';
-                    }
-                    scoreSpan.textContent = score;
-                    if(score > best) {
-                        best = score;
-                        localStorage.setItem('guess_best', score);
-                        bestSpan.textContent = score;
-                    }
-                    const ranking = setRanking('guess_ranking', score);
-                    if(score > 0) {
-                        msg.innerHTML += `<br>현재 랭킹: ${(ranking.indexOf(score)+1)}위`;
-                    }
-                };
-            }
+            };
+
+            onSnapshot(docRef, (docSnap) => {
+                render(docSnap.data(), auth.currentUser);
+            });
+
+            onAuthStateChanged(auth, async () => {
+                const docSnap = await getDoc(docRef);
+                render(docSnap.data(), auth.currentUser);
+            });
         }
-        window.showGame = showGame;
-        // 게임 탭 이동 시 초기화
-        document.querySelector('.tab-btn[data-tab="game"]').addEventListener('click', ()=>{
-            document.getElementById('game-area').innerHTML = '';
+        setupPatchNotes('patch_notes_mlp', 'mlp-patch-notes-content');
+        setupPatchNotes('patch_notes_4b4t', '4b4t-patch-notes-content');
+
+        // --- 4B4T 커뮤니티 스크립트 ---
+        async function loadPosts4b4t() {
+            const postsDiv = document.getElementById('posts4b4t');
+            postsDiv.innerHTML = '';
+            const q = query(collection(db, "posts_4b4t"), orderBy("created", "desc"));
+            const querySnapshot = await getDocs(q);
+            for (const docSnap of querySnapshot.docs) {
+                const data = docSnap.data();
+                const postId = docSnap.id;
+                const post = document.createElement('div');
+                post.style = 'background:#222;padding:10px;margin-bottom:10px;border-radius:6px;display:flex;align-items:flex-start;gap:10px;';
+                let profileHTML = '';
+                if (data.photoURL) {
+                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">`;
+                } else {
+                    profileHTML = `<div style='width:32px;height:32px;border-radius:50%;background:#444;display:inline-block;'></div>`;
+                }
+                const likeCount = data.likes ? data.likes.length : 0;
+                const dislikeCount = data.dislikes ? data.dislikes.length : 0;
+                let adminDeleteBtn = '';
+                if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
+                    adminDeleteBtn = `<button class="admin-delete-btn-4b4t mc-btn-red" data-id="${postId}">삭제</button>`;
+                }
+                post.innerHTML = `
+                    ${profileHTML}
+                    <div style="flex:1;">
+                        <b>${data.username}</b> <span style='color:#aaa;font-size:0.9em;'>${data.created?.toDate?.().toLocaleString?.() || ''}</span> ${adminDeleteBtn}<br>
+                        ${data.content}
+                        <div style="margin-top:8px;">
+                            <button class="like-btn-4b4t mc-btn-green" data-id="${postId}">👍 ${likeCount}</button>
+                            <button class="dislike-btn-4b4t mc-btn-red" data-id="${postId}">👎 ${dislikeCount}</button>
+                        </div>
+                        <div class="comment-list" id="comments-4b4t-${postId}"></div>
+                        <form class="comment-box-4b4t" data-id="${postId}">
+                            <input type="text" placeholder="댓글 입력" style="width:60%;padding:3px;" required />
+                            <button type="submit" class="mc-btn-brown" style="padding:3px 10px;">댓글 작성</button>
+                        </form>
+                    </div>
+                `;
+                postsDiv.appendChild(post);
+                loadComments4b4t(postId);
+            }
+            document.querySelectorAll('.like-btn-4b4t').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const userId = auth.currentUser.uid;
+                    const docRef = doc(db, "posts_4b4t", id);
+                    const postSnap = await getDoc(docRef);
+                    let likes = postSnap.data().likes || [];
+                    let dislikes = postSnap.data().dislikes || [];
+                    if (!likes.includes(userId)) likes.push(userId);
+                    dislikes = dislikes.filter(uid => uid !== userId);
+                    await updateDoc(docRef, { likes, dislikes });
+                    loadPosts4b4t();
+                };
+            });
+            document.querySelectorAll('.dislike-btn-4b4t').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const userId = auth.currentUser.uid;
+                    const docRef = doc(db, "posts_4b4t", id);
+                    const postSnap = await getDoc(docRef);
+                    let dislikes = postSnap.data().dislikes || [];
+                    let likes = postSnap.data().likes || [];
+                    if (!dislikes.includes(userId)) dislikes.push(userId);
+                    likes = likes.filter(uid => uid !== userId);
+                    await updateDoc(docRef, { likes, dislikes });
+                    loadPosts4b4t();
+                };
+            });
+            document.querySelectorAll('.comment-box-4b4t').forEach(form => {
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const postId = form.getAttribute('data-id');
+                    const input = form.querySelector('input');
+                    const comment = input.value.trim();
+                    if (!comment) return;
+                    await addDoc(collection(db, `posts_4b4t/${postId}/comments`), {
+                        username: minecraftNickname || auth.currentUser.displayName,
+                        photoURL: auth.currentUser.photoURL,
+                        content: comment,
+                        created: serverTimestamp()
+                    });
+                    input.value = '';
+                    loadComments4b4t(postId);
+                };
+            });
+            document.querySelectorAll('.admin-delete-btn-4b4t').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!confirm('정말 삭제하시겠습니까?')) return;
+                    await deleteDoc(doc(db, 'posts_4b4t', id));
+                    loadPosts4b4t();
+                };
+            });
+        }
+        async function loadComments4b4t(postId) {
+            const commentsDiv = document.getElementById(`comments-4b4t-${postId}`);
+            if (!commentsDiv) return;
+            commentsDiv.innerHTML = '';
+            const q = query(collection(db, `posts_4b4t/${postId}/comments`), orderBy("created", "asc"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                let profileHTML = '';
+                if (data.photoURL) {
+                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:22px;height:22px;border-radius:50%;vertical-align:middle;margin-right:5px;">`;
+                } else {
+                    profileHTML = `<div style='width:22px;height:22px;border-radius:50%;background:#444;display:inline-block;margin-right:5px;'></div>`;
+                }
+                let adminDeleteBtn = '';
+                if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
+                    adminDeleteBtn = `<button class="admin-comment-delete-btn-4b4t mc-btn-red" data-post="${postId}" data-id="${docSnap.id}">삭제</button>`;
+                }
+                const comment = document.createElement('div');
+                comment.style = 'margin-bottom:4px;';
+                comment.innerHTML = `${profileHTML}<b style='font-size:0.98em;'>${data.username}</b> <span style='color:#aaa;font-size:0.85em;'>${data.created?.toDate?.().toLocaleString?.() || ''}</span> ${adminDeleteBtn}<br>${data.content}`;
+                commentsDiv.appendChild(comment);
+            });
+            document.querySelectorAll('.admin-comment-delete-btn-4b4t').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const postId = btn.getAttribute('data-post');
+                    const commentId = btn.getAttribute('data-id');
+                    if (!confirm('댓글을 삭제하시겠습니까?')) return;
+                    await deleteDoc(doc(db, `posts_4b4t/${postId}/comments`, commentId));
+                    loadComments4b4t(postId);
+                };
+            });
+        }
+        async function canPostToday4b4t(uid) {
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const q = query(
+                collection(db, "posts_4b4t"),
+                orderBy("created", "desc")
+            );
+            const querySnapshot = await getDocs(q);
+            let count = 0;
+            querySnapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                if (data.uid === uid && data.created && data.created.toDate) {
+                    const createdDate = data.created.toDate();
+                    if (createdDate >= today && createdDate < tomorrow) {
+                        count++;
+                    }
+                }
+            });
+            return count < 10;
+        }
+        document.getElementById('postForm4b4t').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(!auth.currentUser) return alert('로그인 후 이용하세요!');
+            const content = document.getElementById('content4b4t').value.trim();
+            const username = minecraftNickname || auth.currentUser.displayName;
+            let photoURL = auth.currentUser.photoURL;
+            let uid = auth.currentUser.uid;
+            if (!username || !content) return;
+            if (!(await canPostToday4b4t(uid))) {
+                alert('하루에 최대 10개의 게시글만 작성할 수 있습니다.');
+                return;
+            }
+            await addDoc(collection(db, "posts_4b4t"), {
+                username,
+                content,
+                photoURL,
+                uid,
+                likes: [],
+                dislikes: [],
+                created: serverTimestamp()
+            });
+            document.getElementById('postForm4b4t').reset();
+            loadPosts4b4t();
         });
+        document.querySelector('.tab-btn[data-tab="4b4t"]').addEventListener('click', loadPosts4b4t);
     </script>
 </body>
 </html>
