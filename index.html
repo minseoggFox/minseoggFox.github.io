@@ -14,7 +14,6 @@
             color: #222;
             margin: 0;
             padding: 0;
-            transition: background-image 0.4s ease-in-out;
         }
         .header {
             background: linear-gradient(135deg, #181818 0%, #232b1a 100%);
@@ -434,9 +433,6 @@
             width: auto;
             vertical-align: middle;
         }
-        body.bg-mlp { background-image: url('mlp-background.png'); }
-        body.bg-event { background-image: url('event-background.png'); }
-        body.bg-4b4t { background-image: url('4b4t-background.png'); }
     </style>
 </head>
 <body>
@@ -937,12 +933,17 @@
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
  
-            // 새로운 배경 코드: body의 클래스를 변경
-            document.body.className = ''; // 기존 클래스 모두 제거
-            const specialBgs = ['mlp', 'event', '4b4t'];
-            if (specialBgs.includes(tab)) {
-                document.body.classList.add(`bg-${tab}`);
+            // 탭별 배경 처리
+            let bgStyle = "url('default-screen.png') no-repeat center center fixed";
+            if(tab === '4b4t') {
+                bgStyle = "url('4b4t-background.png') no-repeat center center fixed";
+            } else if(tab === 'event') {
+                bgStyle = "url('event-background.png') no-repeat center center fixed";
+            } else if(tab === 'mlp') {
+                bgStyle = "url('mlp-background.png') no-repeat center center fixed";
             }
+            document.body.style.background = bgStyle;
+            document.body.style.backgroundSize = 'cover';
         }
         window.showTab = showTab;
         document.querySelectorAll('.tab-btn').forEach(btn => {
