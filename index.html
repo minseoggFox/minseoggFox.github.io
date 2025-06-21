@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
-            background: url('./default-screen.png') no-repeat center center fixed;
+            background: url('default-screen.png') no-repeat center center fixed;
             background-size: cover;
             color: #222;
             margin: 0;
@@ -236,7 +236,7 @@
             font-size: 0.7em;
         }
         .MC_Button.play-bg-btn {
-            background: url('./play-button.png') center/cover no-repeat !important;
+            background: url('play-button.png') center/cover no-repeat !important;
             color: #fff;
             position: relative;
             overflow: hidden;
@@ -398,7 +398,7 @@
             font-weight: bold;
         }
         .MC_Button.play-bg-btn-4b4t {
-            background: url('./4b4t-play-button.png') center/cover no-repeat !important;
+            background: url('4b4t-play-button.png') center/cover no-repeat !important;
             color: #fff;
             position: relative;
             overflow: hidden;
@@ -438,7 +438,7 @@
 <body>
     <div class="header">
         <a href="#" onclick="showTab('server'); return false;" id="logo-container">
-            <img src="./mLe.png" alt="mLe 로고">
+            <img src="mLe.png" alt="mLe 로고">
         </a>
         <h1></h1>
         <p></p>
@@ -934,13 +934,13 @@
             document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
 
             // 탭별 배경 처리
-            let bgStyle = "url('./default-screen.png') no-repeat center center fixed";
+            let bgStyle = "url('default-screen.png') no-repeat center center fixed";
             if(tab === '4b4t') {
-                bgStyle = "url('./4b4t-background.png') no-repeat center center fixed";
+                bgStyle = "url('4b4t-background.png') no-repeat center center fixed";
             } else if(tab === 'event') {
-                bgStyle = "url('./event-background.png') no-repeat center center fixed";
+                bgStyle = "url('event-background.png') no-repeat center center fixed";
             } else if(tab === 'mlp') {
-                bgStyle = "url('./mlp-background.png') no-repeat center center fixed";
+                bgStyle = "url('mlp-background.png') no-repeat center center fixed";
             }
             document.body.style.background = bgStyle;
             document.body.style.backgroundSize = 'cover';
