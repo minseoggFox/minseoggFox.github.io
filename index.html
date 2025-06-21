@@ -231,9 +231,10 @@
             .header {
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-between;
+                justify-content: flex-start;
                 align-items: center;
                 padding: 10px 15px;
+                gap: 15px;
             }
             .header h1, .header p {
                 display: none;
@@ -244,16 +245,12 @@
                 transform: none;
             }
 
-            #logo-container {
-                order: 1;
-            }
-            #logo-container img {
-                height: 40px;
-            }
+            #logo-container { order: 1; flex-grow: 1; }
+            #logo-container img { height: 40px; }
 
-            #header-account {
-                order: 2;
-            }
+            #header-account { order: 2; flex-grow: 0; }
+            #hamburger-menu { display: block; order: 3; flex-grow: 0; }
+
             #header-account .google-login-btn, #header-account #logout-btn {
                 padding: 0.4rem 0.8rem;
                 font-size: 0.8em;
@@ -269,12 +266,29 @@
             }
             
             .tab-menu { 
-                flex-direction: column; 
-                gap: 0.2rem; 
-                max-width: 100%;
-                order: 3;
+                display: none;
+                order: 4;
                 width: 100%;
+                flex-direction: column; 
+                gap: 0.5rem; 
                 margin-top: 10px;
+                background: rgba(30, 30, 30, 0.95);
+                padding: 10px;
+                border-radius: 8px;
+            }
+            
+            .header.nav-open .tab-menu {
+                display: flex;
+            }
+
+            .header.nav-open #hamburger-menu .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .header.nav-open #hamburger-menu .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .header.nav-open #hamburger-menu .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
             }
 
             .container, .community-container, .tab-content { padding: 1rem; }
@@ -540,6 +554,22 @@
         #header-account #logout-btn:hover {
             background-color: rgba(255, 100, 100, 0.1);
         }
+        #hamburger-menu {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+        #hamburger-menu .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -550,6 +580,11 @@
         <h1></h1>
         <p></p>
         <div id="header-account"></div>
+        <button id="hamburger-menu" aria-label="메뉴 토글">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
         <div class="tab-menu" style="margin-top:2px;">
             <button class="tab-btn" data-tab="server">홈</button>
             <button class="tab-btn" data-tab="mlp">mlp</button>
@@ -1378,6 +1413,33 @@
             loadPosts4b4t();
         });
         document.querySelector('.tab-btn[data-tab="4b4t"]').addEventListener('click', loadPosts4b4t);
+
+        // --- 모바일 햄버거 메뉴 스크립트 ---
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const header = document.querySelector('.header');
+        const tabMenuButtons = document.querySelectorAll('.tab-menu .tab-btn');
+
+        if (hamburgerMenu && header) {
+            hamburgerMenu.addEventListener('click', () => {
+                header.classList.toggle('nav-open');
+            });
+
+            // 모바일에서 탭 버튼 클릭 시 메뉴 닫기
+            tabMenuButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (window.innerWidth <= 700) {
+                        header.classList.remove('nav-open');
+                    }
+                });
+            });
+
+            // 창 크기 변경 시 메뉴 상태 초기화
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 700) {
+                    header.classList.remove('nav-open');
+                }
+            });
+        }
     </script>
 </body>
 </html>
