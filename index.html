@@ -232,7 +232,7 @@
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: flex-start;
-                align-items: center;
+            align-items: center;
                 padding: 10px 15px;
                 gap: 15px;
             }
@@ -265,16 +265,14 @@
                 height: 32px !important;
             }
             
-            .tab-menu { 
-                display: none;
-                order: 4;
-                width: 100%;
-                flex-direction: column; 
-                gap: 0.5rem; 
-                margin-top: 10px;
-                background: rgba(30, 30, 30, 0.95);
-                padding: 10px;
-                border-radius: 8px;
+            .tab-menu {
+                z-index: 2000;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                margin: 0;
+                border-radius: 0 0 12px 12px;
             }
             
             .header.nav-open .tab-menu {
@@ -326,7 +324,7 @@
         }
         /* 커뮤니티 업그레이드: 카드형, 프로필 강조, 버튼 아이콘화, 애니메이션 */
         #posts > div {
-            background: #fff;
+            background: #222;
             border-radius: 16px;
             box-shadow: 0 4px 24px #0002, 0 2px 0 #62b34722;
             margin-bottom: 18px;
@@ -335,6 +333,7 @@
             align-items: flex-start;
             gap: 16px;
             transition: box-shadow 0.2s, transform 0.18s;
+            color: #fff;
         }
         #posts > div:hover {
             box-shadow: 0 8px 32px #62b34733, 0 4px 0 #14520022;
@@ -1091,8 +1090,8 @@
                 bgStyle = "url('mlp-background.png') no-repeat center center fixed";
             }
             document.body.style.background = bgStyle;
-            document.body.style.backgroundSize = 'cover';
-        }
+                document.body.style.backgroundSize = 'cover';
+            }
         window.showTab = showTab;
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = () => showTab(btn.getAttribute('data-tab'));
