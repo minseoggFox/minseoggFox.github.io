@@ -280,16 +280,22 @@
                 z-index: 2100;
             }
             .tab-menu {
-                position: static;
-                z-index: 2000;
-                width: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                z-index: 3000;
                 flex-direction: column;
                 gap: 0.8rem;
-                margin: 0 0 10px 0;
+                margin: 0;
                 background: rgba(30, 30, 30, 0.97);
                 padding: 18px 0 14px 0;
-                border-radius: 14px;
+                border-radius: 0 0 14px 14px;
                 box-shadow: 0 4px 24px #0003;
+                display: none;
+            }
+            .header.nav-open + .tab-menu {
+                display: flex;
             }
             .tab-btn {
                 font-size: 1.1em;
@@ -591,15 +597,15 @@
             <span class="bar"></span>
             <span class="bar"></span>
         </button>
-        <div class="tab-menu" style="margin-top:2px;">
-            <button class="tab-btn" data-tab="server">홈</button>
-            <button class="tab-btn" data-tab="mlp">mlp</button>
-            <button class="tab-btn" data-tab="community">커뮤니티</button>
-            <button class="tab-btn" data-tab="music">노래</button>
-            <button class="tab-btn" data-tab="useful">유용한 기능</button>
-            <button class="tab-btn" data-tab="event">이벤트</button>
-            <button class="tab-btn" data-tab="4b4t">4B4T</button>
-        </div>
+    </div>
+    <div class="tab-menu" style="margin-top:2px;">
+        <button class="tab-btn" data-tab="server">홈</button>
+        <button class="tab-btn" data-tab="mlp">mlp</button>
+        <button class="tab-btn" data-tab="community">커뮤니티</button>
+        <button class="tab-btn" data-tab="music">노래</button>
+        <button class="tab-btn" data-tab="useful">유용한 기능</button>
+        <button class="tab-btn" data-tab="event">이벤트</button>
+        <button class="tab-btn" data-tab="4b4t">4B4T</button>
     </div>
     
     <div class="container tab-content" id="tab-server">
@@ -1423,9 +1429,10 @@
         // --- 모바일 햄버거 메뉴 스크립트 ---
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const header = document.querySelector('.header');
+        const tabMenu = document.querySelector('.tab-menu');
         const tabMenuButtons = document.querySelectorAll('.tab-menu .tab-btn');
 
-        if (hamburgerMenu && header) {
+        if (hamburgerMenu && header && tabMenu) {
             hamburgerMenu.addEventListener('click', () => {
                 header.classList.toggle('nav-open');
             });
