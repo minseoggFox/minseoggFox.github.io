@@ -228,10 +228,57 @@
             display: none !important;
         }
         @media (max-width: 700px) {
-            .header h1 { font-size: 1.5rem; }
+            .header {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 15px;
+            }
+            .header h1, .header p {
+                display: none;
+            }
+
+            #logo-container, #header-account {
+                position: static;
+                transform: none;
+            }
+
+            #logo-container {
+                order: 1;
+            }
+            #logo-container img {
+                height: 40px;
+            }
+
+            #header-account {
+                order: 2;
+            }
+            #header-account .google-login-btn, #header-account #logout-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8em;
+            }
+            #header-account .google-login-btn {
+                background-size: 16px 16px !important;
+                background-position: 8px center !important;
+                padding-left: 30px !important;
+            }
+             #header-account #user-profile img {
+                width: 32px !important;
+                height: 32px !important;
+            }
+            
+            .tab-menu { 
+                flex-direction: column; 
+                gap: 0.2rem; 
+                max-width: 100%;
+                order: 3;
+                width: 100%;
+                margin-top: 10px;
+            }
+
             .container, .community-container, .tab-content { padding: 1rem; }
             .server-info { padding: 1rem; }
-            .tab-menu { flex-direction: column; gap: 0.2rem; max-width: 98vw; }
         }
         button.tab-btn:nth-child(4) {
             line-height: 1.3;
