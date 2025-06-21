@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mLe 마인크래프트 서버</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686733290484221" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Minecraft', Arial, sans-serif;
+            background: url('ddam.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #2c2c2c;
+            padding: 2rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .server-info {
+            background-color: #2c2c2c;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .join-button {
+            display: inline-block;
+            background-color: #39d12a;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.3rem;
+            padding: 0.8rem 2.2rem 0.8rem 1.2rem;
+            border-radius: 0;
+            box-shadow: 2px 2px 0 #1a6600;
+            border: 2px solid #23a000;
+            text-align: left;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .join-button:hover {
+            background-color: #23a000;
+            box-shadow: 3px 3px 0 #145200;
+        }
+        .google-login-btn {
+            display: inline-block;
+            background: #fff;
+            color: #444;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 0.7rem 2rem 0.7rem 2.8rem;
+            background-image: url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg');
+            background-repeat: no-repeat;
+            background-position: 12px center;
+            background-size: 24px 24px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: box-shadow 0.2s;
+        }
+        .google-login-btn:hover {
+            box-shadow: 0 4px 8px rgba(66,133,244,0.2);
+        }
+        .comment-box {
+            margin-top: 10px;
+            background: #191919;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .comment-list {
+            margin-top: 6px;
+            margin-left: 10px;
+        }
+        .like-btn, .dislike-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 3px 10px;
+            margin-right: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background 0.2s;
+        }
+        .like-btn:hover {
+            background: #4caf50;
+        }
+        .dislike-btn:hover {
+            background: #e53935;
+        }
+        .mc-btn-green {
+            background: #39d12a;
+            border: 2px solid #145200;
+            color: #fff;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            text-shadow: 1px 1px 0 #145200;
+        }
+        .mc-btn-red {
+            background: #e53935;
+            border: 2px solid #7f1d1d;
+            color: #fff;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            text-shadow: 1px 1px 0 #7f1d1d;
+        }
+        .mc-btn-brown {
+            background: #8d5524;
+            border: 2px solid #4e2e0e;
+            color: #fff;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+            text-shadow: 1px 1px 0 #4e2e0e;
+        }
+        .mc-admin-badge {
+            background: #ffd600;
+            color: #222;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.9em;
+            margin-left: 6px;
+            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>mLe 마인크래프트 서버</h1>
+        <p>배드락 에디션 렐름 서버</p>
+        <div class="tab-menu" style="margin-top:20px;">
+            <button class="tab-btn" data-tab="server" style="margin-right:10px;">서버 정보</button>
+            <button class="tab-btn" data-tab="community" style="margin-right:10px;">커뮤니티</button>
+            <button class="tab-btn" data-tab="music" style="margin-right:10px;">노래</button>
+            <button class="tab-btn" data-tab="rhythm">리듬게임</button>
+        </div>
+    </div>
+    
+    <div class="container tab-content" id="tab-server">
+        <div class="server-info">
+            <h2>서버 정보</h2>
+            <ul>
+                <li>서버 버전: <div id="server-version-div"></div></li>
+                <li>서버 종류: 렐름 서버</li>
+                <li>플랫폼: Minecraft Bedrock Edition</li>
+            </ul>
+            <a href="minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc" class="join-button">MINECRAFT 열기</a>
+        </div>
+        <div class="server-info">
+            <h2>서버 규칙</h2>
+            <ul>
+                <li>다른 플레이어를 존중해주세요</li>
+                <li>비속어 사용을 자제해주세요</li>
+                <li>서버 리소스를 남용하지 마세요</li>
+                <li>버그를 악용하지 마세요</li>
+            </ul>
+        </div>
+    </div>
+    <div class="community-container tab-content" id="tab-community" style="max-width: 800px; margin: 0 auto 40px auto; display:none;">
+        <div class="server-info">
+            <h2>커뮤니티</h2>
+            <div id="user-profile" style="display:flex;align-items:center;margin-bottom:10px;"></div>
+            <form id="postForm">
+                <input type="text" id="username" placeholder="닉네임" required style="margin-bottom:8px; width:40%;">
+                <br>
+                <textarea id="content" placeholder="내용을 입력하세요" required style="width:80%; height:60px;"></textarea>
+                <br>
+                <button type="submit" style="margin-top:8px;">글 작성</button>
+            </form>
+            <div id="posts" style="margin-top:20px;"></div>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-music" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2>노래 감상</h2>
+            <div style="margin-bottom:10px;">
+                <select id="music-select" style="font-size:1.1em;padding:4px 10px;">
+                    <option value="Music/READY OR NOT.mp4">READY OR NOT</option>
+                    <option value="Music/DAMNATION.mp4">DAMNATION</option>
+                    <option value="Music/PLEAD.mp4">PLEAD</option>
+                    <option value="Music/FORSNEV 1.mp4">FORSNEV 1</option>
+                    <option value="Music/MONTAGEM MEGALOVANIA (SLOWED).mp4">MONTAGEM MEGALOVANIA (SLOWED)</option>
+                    <option value="Music/RUNNING IN THE 90'S.mp4">RUNNING IN THE 90'S</option>
+                    <option value="Music/Legends Segment.mp4">Legends Segment</option>
+                    <option value="Music/Steve's Lava Chicken.mp4">Steve's Lava Chicken</option>
+                </select>
+            </div>
+            <video id="music-player" width="100%" height="360" controls>
+                <source id="music-source" src="Music/READY OR NOT.mp4" type="video/mp4">
+                브라우저가 video 태그를 지원하지 않습니다.
+            </video>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-rhythm" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2>리듬게임 (키보드로 박자 맞추기)</h2>
+            <div id="rhythm-game" style="text-align:center;">
+                <div id="rhythm-bar" style="width:100%;height:40px;background:#333;position:relative;margin-bottom:20px;border-radius:8px;overflow:hidden;">
+                    <div id="note" style="width:40px;height:40px;background:#ffd600;position:absolute;left:0;top:0;border-radius:50%;transition:left 0.05s;"></div>
+                    <div id="hit-zone" style="position:absolute;right:40px;top:0;width:40px;height:40px;border:2px solid #fff;border-radius:50%;box-sizing:border-box;"></div>
+                </div>
+                <button id="start-rhythm" class="mc-btn-green" style="margin-bottom:10px;">게임 시작</button>
+                <div id="score" style="font-size:1.2em;margin-top:10px;">점수: 0</div>
+                <div style="color:#aaa;font-size:0.95em;margin-top:8px;">스페이스바로 노트를 맞추세요!</div>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy, doc, getDoc, updateDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBE4uWboxXuAEBMUGAL9LdTWETKhUmB1B8",
+            authDomain: "mle-0-c9fdc.firebaseapp.com",
+            projectId: "mle-0-c9fdc",
+            storageBucket: "mle-0-c9fdc.firebasestorage.app",
+            messagingSenderId: "329191039255",
+            appId: "1:329191039255:web:f76fea57abfff2d37e5752",
+            measurementId: "G-5QXDP0ZY1J"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // 관리자 UID 목록 (여러 명이면 쉼표로 추가)
+        const ADMIN_UIDS = ['Fu71mgSTmkay8DbZeAdbADS6mot1', 'UASjTVkxw2ZbEDrtPdLq2oNHtK92'];
+
+        // 서버 버전 Firestore에서 불러오기/수정 (관리자만)
+        let currentServerVersion = '';
+        async function loadServerVersion() {
+            const docRef = doc(db, 'config', 'server');
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                currentServerVersion = docSnap.data().version || '';
+            } else {
+                currentServerVersion = '';
+            }
+            renderServerVersion();
+        }
+        async function saveServerVersion(newVersion) {
+            const docRef = doc(db, 'config', 'server');
+            await setDoc(docRef, { version: newVersion });
+            currentServerVersion = newVersion;
+            renderServerVersion();
+        }
+        function renderServerVersion() {
+            const versionDiv = document.getElementById('server-version-div');
+            versionDiv.innerHTML = '';
+            if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
+                versionDiv.innerHTML = `
+                    <input id="server-version-input" value="${currentServerVersion}" style="width:120px;"> 
+                    <button id="server-version-save">저장</button>
+                `;
+                document.getElementById('server-version-save').onclick = () => {
+                    const newVersion = document.getElementById('server-version-input').value.trim();
+                    if (newVersion) saveServerVersion(newVersion);
+                };
+            } else {
+                versionDiv.textContent = currentServerVersion ? `서버 버전: ${currentServerVersion}` : '서버 버전 정보 없음';
+            }
+        }
+
+        // 로그인 시 마인크래프트 닉네임 입력 및 저장
+        let minecraftNickname = '';
+        function showNicknamePrompt(user) {
+            if (localStorage.getItem('mc_nick')) {
+                minecraftNickname = localStorage.getItem('mc_nick');
+                renderUserProfile(user);
+                return;
+            }
+            let nick = prompt('마인크래프트 닉네임을 입력하세요.');
+            if (nick) {
+                minecraftNickname = nick.trim();
+                localStorage.setItem('mc_nick', minecraftNickname);
+            } else {
+                minecraftNickname = user.displayName;
+            }
+            renderUserProfile(user);
+        }
+        function renderUserProfile(user) {
+            const userProfile = document.getElementById('user-profile');
+            if (!user) {
+                userProfile.innerHTML = '';
+                return;
+            }
+            userProfile.innerHTML = `
+                <img src="${user.photoURL}" alt="프로필" style="width:40px;height:40px;border-radius:50%;margin-right:10px;vertical-align:middle;">
+                <div style="display:inline-block;vertical-align:middle;">
+                    <div style="font-size:0.9em;color:#aaa;">${user.displayName}</div>
+                    <div style="font-size:1.1em;font-weight:bold;">${minecraftNickname}</div>
+                </div>
+            `;
+            if (ADMIN_UIDS.includes(user.uid)) {
+                userProfile.innerHTML += ' <span style="color:#ffd600;font-weight:bold;margin-left:8px;">[관리자]</span>';
+            }
+        }
+
+        async function loadPosts() {
+            const postsDiv = document.getElementById('posts');
+            postsDiv.innerHTML = '';
+            const q = query(collection(db, "posts"), orderBy("created", "desc"));
+            const querySnapshot = await getDocs(q);
+            for (const docSnap of querySnapshot.docs) {
+                const data = docSnap.data();
+                const postId = docSnap.id;
+                const post = document.createElement('div');
+                post.style = 'background:#222;padding:10px;margin-bottom:10px;border-radius:6px;display:flex;align-items:flex-start;gap:10px;';
+                let profileHTML = '';
+                if (data.photoURL) {
+                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">`;
+                } else {
+                    profileHTML = `<div style='width:32px;height:32px;border-radius:50%;background:#444;display:inline-block;'></div>`;
+                }
+                const likeCount = data.likes ? data.likes.length : 0;
+                const dislikeCount = data.dislikes ? data.dislikes.length : 0;
+                let adminDeleteBtn = '';
+                if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
+                    adminDeleteBtn = `<button class="admin-delete-btn mc-btn-red" data-id="${postId}">삭제</button>`;
+                }
+                post.innerHTML = `
+                    ${profileHTML}
+                    <div style="flex:1;">
+                        <b>${data.username}</b> <span style='color:#aaa;font-size:0.9em;'>${data.created?.toDate?.().toLocaleString?.() || ''}</span> ${adminDeleteBtn}<br>
+                        ${data.content}
+                        <div style="margin-top:8px;">
+                            <button class="like-btn mc-btn-green" data-id="${postId}">👍 ${likeCount}</button>
+                            <button class="dislike-btn mc-btn-red" data-id="${postId}">👎 ${dislikeCount}</button>
+                        </div>
+                        <div class="comment-list" id="comments-${postId}"></div>
+                        <form class="comment-box" data-id="${postId}">
+                            <input type="text" placeholder="댓글 입력" style="width:60%;padding:3px;" required />
+                            <button type="submit" class="mc-btn-brown" style="padding:3px 10px;">댓글 작성</button>
+                        </form>
+                    </div>
+                `;
+                postsDiv.appendChild(post);
+                loadComments(postId);
+            }
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const userId = auth.currentUser.uid;
+                    const postRef = collection(db, "posts");
+                    const docRef = doc(postRef, id);
+                    const postSnap = await getDoc(docRef);
+                    let likes = postSnap.data().likes || [];
+                    let dislikes = postSnap.data().dislikes || [];
+                    if (!likes.includes(userId)) likes.push(userId);
+                    dislikes = dislikes.filter(uid => uid !== userId);
+                    await updateDoc(docRef, { likes, dislikes });
+                    loadPosts();
+                };
+            });
+            document.querySelectorAll('.dislike-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const userId = auth.currentUser.uid;
+                    const postRef = collection(db, "posts");
+                    const docRef = doc(postRef, id);
+                    const postSnap = await getDoc(docRef);
+                    let dislikes = postSnap.data().dislikes || [];
+                    let likes = postSnap.data().likes || [];
+                    if (!dislikes.includes(userId)) dislikes.push(userId);
+                    likes = likes.filter(uid => uid !== userId);
+                    await updateDoc(docRef, { likes, dislikes });
+                    loadPosts();
+                };
+            });
+            document.querySelectorAll('.comment-box').forEach(form => {
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    if (!auth.currentUser) return alert('로그인 후 이용하세요!');
+                    const postId = form.getAttribute('data-id');
+                    const input = form.querySelector('input');
+                    const comment = input.value.trim();
+                    if (!comment) return;
+                    await addDoc(collection(db, `posts/${postId}/comments`), {
+                        username: minecraftNickname || auth.currentUser.displayName,
+                        photoURL: auth.currentUser.photoURL,
+                        content: comment,
+                        created: serverTimestamp()
+                    });
+                    input.value = '';
+                    loadComments(postId);
+                };
+            });
+            // 게시글 삭제 이벤트
+            document.querySelectorAll('.admin-delete-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const id = btn.getAttribute('data-id');
+                    if (!confirm('정말 삭제하시겠습니까?')) return;
+                    await deleteDoc(doc(collection(db, 'posts'), id));
+                    loadPosts();
+                };
+            });
+        }
+        async function loadComments(postId) {
+            const commentsDiv = document.getElementById(`comments-${postId}`);
+            if (!commentsDiv) return;
+            commentsDiv.innerHTML = '';
+            const q = query(collection(db, `posts/${postId}/comments`), orderBy("created", "asc"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                let profileHTML = '';
+                if (data.photoURL) {
+                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:22px;height:22px;border-radius:50%;vertical-align:middle;margin-right:5px;">`;
+                } else {
+                    profileHTML = `<div style='width:22px;height:22px;border-radius:50%;background:#444;display:inline-block;margin-right:5px;'></div>`;
+                }
+                let adminDeleteBtn = '';
+                if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
+                    adminDeleteBtn = `<button class="admin-comment-delete-btn mc-btn-red" data-post="${postId}" data-id="${docSnap.id}">삭제</button>`;
+                }
+                const comment = document.createElement('div');
+                comment.style = 'margin-bottom:4px;';
+                comment.innerHTML = `${profileHTML}<b style='font-size:0.98em;'>${data.username}</b> <span style='color:#aaa;font-size:0.85em;'>${data.created?.toDate?.().toLocaleString?.() || ''}</span> ${adminDeleteBtn}<br>${data.content}`;
+                commentsDiv.appendChild(comment);
+            });
+            // 댓글 삭제 이벤트
+            document.querySelectorAll('.admin-comment-delete-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    const postId = btn.getAttribute('data-post');
+                    const commentId = btn.getAttribute('data-id');
+                    if (!confirm('댓글을 삭제하시겠습니까?')) return;
+                    await deleteDoc(doc(collection(db, `posts/${postId}/comments`), commentId));
+                    loadComments(postId);
+                };
+            });
+        }
+
+        // 하루 게시글 제한 함수
+        async function canPostToday(uid) {
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const q = query(
+                collection(db, "posts"),
+                orderBy("created", "desc")
+            );
+            const querySnapshot = await getDocs(q);
+            let count = 0;
+            querySnapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                if (data.uid === uid && data.created && data.created.toDate) {
+                    const createdDate = data.created.toDate();
+                    if (createdDate >= today && createdDate < tomorrow) {
+                        count++;
+                    }
+                }
+            });
+            return count < 10;
+        }
+
+        document.getElementById('postForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = minecraftNickname || document.getElementById('username').value.trim();
+            const content = document.getElementById('content').value.trim();
+            let photoURL = '';
+            let uid = '';
+            if (auth.currentUser) {
+                photoURL = auth.currentUser.photoURL;
+                uid = auth.currentUser.uid;
+            }
+            if (!username || !content) return;
+            if (!(await canPostToday(uid))) {
+                alert('하루에 최대 10개의 게시글만 작성할 수 있습니다.');
+                return;
+            }
+            await addDoc(collection(db, "posts"), {
+                username,
+                content,
+                photoURL,
+                uid,
+                likes: [],
+                dislikes: [],
+                created: serverTimestamp()
+            });
+            document.getElementById('postForm').reset();
+            loadPosts();
+        });
+
+        const loginBtn = document.createElement('button');
+        loginBtn.textContent = "Google로 로그인";
+        loginBtn.className = 'google-login-btn';
+        document.querySelector('.server-info').prepend(loginBtn);
+
+        const logoutBtn = document.createElement('button');
+        logoutBtn.textContent = "로그아웃";
+        logoutBtn.style = "margin-bottom:10px; font-weight:bold; display:none;";
+        document.querySelector('.server-info').prepend(logoutBtn);
+
+        function setCommunityFormState(isLoggedIn, user) {
+            const usernameInput = document.getElementById('username');
+            const contentInput = document.getElementById('content');
+            const submitBtn = document.querySelector('#postForm button[type="submit"]');
+            let notice = document.getElementById('login-notice');
+            const userProfile = document.getElementById('user-profile');
+            if (!notice) {
+                notice = document.createElement('div');
+                notice.id = 'login-notice';
+                notice.style = 'color:#ff5252; margin-bottom:10px; font-weight:bold;';
+                document.getElementById('postForm').prepend(notice);
+            }
+            if (isLoggedIn) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = '';
+                usernameInput.value = user.displayName;
+                usernameInput.disabled = true;
+                contentInput.disabled = false;
+                submitBtn.disabled = false;
+                notice.textContent = '';
+                showNicknamePrompt(user);
+            } else {
+                loginBtn.style.display = '';
+                logoutBtn.style.display = 'none';
+                usernameInput.value = '';
+                usernameInput.disabled = true;
+                contentInput.disabled = true;
+                submitBtn.disabled = true;
+                notice.textContent = 'Google 로그인을 해야 글을 작성할 수 있습니다.';
+                userProfile.innerHTML = '';
+            }
+        }
+
+        loginBtn.onclick = async () => {
+            await signInWithPopup(auth, provider);
+        };
+        logoutBtn.onclick = async () => {
+            await signOut(auth);
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            setCommunityFormState(!!user, user || {});
+            if (user) {
+                showNicknamePrompt(user);
+            } else {
+                minecraftNickname = '';
+                renderUserProfile(null);
+            }
+            loadServerVersion();
+        });
+
+        setCommunityFormState(false, {});
+
+        loadPosts();
+
+        // 탭 메뉴 스크립트
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(div => div.style.display = 'none');
+            document.getElementById('tab-' + tab).style.display = '';
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.style.background = '');
+            document.querySelector('.tab-btn[data-tab="' + tab + '"]').style.background = '#444';
+        }
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => showTab(btn.getAttribute('data-tab'));
+        });
+        // 기본 탭
+        showTab('server');
+        // 노래 선택 기능
+        const musicSelect = document.getElementById('music-select');
+        const musicPlayer = document.getElementById('music-player');
+        const musicSource = document.getElementById('music-source');
+        if(musicSelect && musicPlayer && musicSource) {
+            musicSelect.onchange = function() {
+                musicSource.src = this.value;
+                musicPlayer.load();
+                musicPlayer.play();
+            };
+        }
+        // 리듬게임 간단 구현
+        let rhythmInterval = null;
+        let notePos = 0;
+        let score = 0;
+        let playing = false;
+        const note = document.getElementById('note');
+        const hitZone = document.getElementById('hit-zone');
+        const startBtn = document.getElementById('start-rhythm');
+        const scoreDiv = document.getElementById('score');
+        function resetRhythmGame() {
+            notePos = 0;
+            score = 0;
+            playing = false;
+            note.style.left = '0px';
+            scoreDiv.textContent = '점수: 0';
+        }
+        function startRhythmGame() {
+            resetRhythmGame();
+            playing = true;
+            rhythmInterval = setInterval(() => {
+                notePos += 10;
+                note.style.left = notePos + 'px';
+                if(note.offsetLeft + note.offsetWidth >= hitZone.offsetLeft) {
+                    // 노트가 끝까지 도달하면 실패
+                    playing = false;
+                    clearInterval(rhythmInterval);
+                    alert('게임 오버! 최종 점수: ' + score);
+                    resetRhythmGame();
+                }
+            }, 30);
+        }
+        if(startBtn) {
+            startBtn.onclick = startRhythmGame;
+        }
+        document.addEventListener('keydown', function(e) {
+            if(!playing) return;
+            if(e.code === 'Space') {
+                // hitZone 근처에서만 성공
+                const noteRight = note.offsetLeft + note.offsetWidth;
+                const hitLeft = hitZone.offsetLeft;
+                if(Math.abs(noteRight - hitLeft) < 30) {
+                    score++;
+                    scoreDiv.textContent = '점수: ' + score;
+                    notePos = 0;
+                    note.style.left = '0px';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
