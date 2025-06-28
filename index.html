@@ -16,16 +16,11 @@
             padding: 0;
         }
         .header {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            background: rgba(24, 24, 24, 0.55);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 0.2rem 0 0.2rem 0;
+            background: linear-gradient(135deg, rgba(24, 24, 24, 0.4) 0%, rgba(35, 43, 26, 0.4) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0.2rem 0;
             text-align: center;
-            /* border-bottom: 4px solid #62b347; */
-            /* box-shadow: 0 4px 0 #145200; */
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -50,7 +45,7 @@
             gap: 0.5rem;
             background: rgba(30, 30, 30, 0);
             border-radius: 12px;
-            /* box-shadow: 0 2px 8px #0000; */
+            box-shadow: 0 2px 8px #0000;
             padding: 0.5rem 0.5rem;
             margin: 0 auto;
             max-width: 700px;
@@ -81,7 +76,9 @@
             padding: 2rem;
         }
         .server-info {
-            background: rgba(255,255,255,0.97);
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 18px;
             box-shadow: 0 8px 32px #0002, 0 2px 0 #62b34722;
             padding: 2.2rem 2.5rem;
@@ -154,7 +151,9 @@
             padding: 1.1rem 2.8rem;
         }
         .comment-box, .comment-list, #notice-list, .community-container, .tab-content {
-            background: rgba(255,255,255,0.93);
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 14px !important;
             box-shadow: 0 2px 12px #0001;
             padding: 1rem 1.5rem;
@@ -257,11 +256,6 @@
                 max-width: 90vw;
             }
             #header-account {
-                margin-left: auto;
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                height: 100%;
                 order: 2;
                 display: flex !important;
             justify-content: center;
@@ -270,12 +264,7 @@
                 width: 100%;
                 z-index: 2100;
             }
-            .google-login-btn, #logout-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 44px;
-                vertical-align: middle;
+            #header-account .google-login-btn, #header-account #logout-btn {
                 padding: 0.7rem 1.5rem;
                 font-size: 1em;
             }
@@ -346,7 +335,9 @@
         }
         /* 커뮤니티 업그레이드: 카드형, 프로필 강조, 버튼 아이콘화, 애니메이션 */
         #posts > div {
-            background: #222;
+            background: rgba(34, 34, 34, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 16px;
             box-shadow: 0 4px 24px #0002, 0 2px 0 #62b34722;
             margin-bottom: 18px;
@@ -405,7 +396,9 @@
             padding-left: 0;
         }
         #posts .comment-list > div {
-            background: #f7f7f7;
+            background: rgba(247, 247, 247, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 8px;
             margin-bottom: 6px;
             padding: 0.5em 1em;
@@ -413,12 +406,12 @@
             display: flex;
             align-items: flex-start;
             gap: 8px;
+            color: #222;
         }
-        #posts .comment-list img[alt="프로필"] {
-            width: 28px !important;
-            height: 28px !important;
-            border-radius: 50%;
-            margin-right: 0;
+        #posts .comment-list b {
+            color: #222;
+            background: transparent;
+            padding: 0;
         }
         #posts .comment-box {
             background: #f3f3f3;
@@ -446,7 +439,9 @@
             padding: 0.4em 1.1em;
         }
         #user-profile {
-            background: #f7f7f7;
+            background: rgba(247, 247, 247, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 12px;
             box-shadow: 0 2px 8px #0001;
             padding: 10px 18px;
@@ -519,11 +514,6 @@
             vertical-align: middle;
         }
         #header-account {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            height: 100%;
             position: absolute;
             right: 25px;
             top: 50%;
@@ -596,72 +586,35 @@
             background-color: #fff;
             transition: all 0.3s ease-in-out;
         }
-        /* 4B4T 커뮤니티 게시글 스타일 추가 */
-        #posts4b4t {
-            background: #f7f7fa;
-            border-radius: 18px;
-            padding: 32px 0;
-            margin-bottom: 40px;
-        }
         #posts4b4t > div {
-            background: #fff;
-            color: #000;
-            font-size: 1.18em;
-            font-weight: 700;
-            line-height: 1.85;
-            border-radius: 18px;
-            box-shadow: 0 4px 20px #0002;
-            margin: 0 auto 30px auto;
-            padding: 36px 38px 26px 38px;
-            max-width: 700px;
-            border: 2px solid #bbb;
+            background: rgba(34, 34, 34, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 4px 24px #0002, 0 2px 0 #62b34722;
+            margin-bottom: 18px;
+            padding: 18px 22px 12px 22px;
             display: flex;
             align-items: flex-start;
-            gap: 24px;
-            transition: box-shadow 0.18s;
+            gap: 16px;
+            transition: box-shadow 0.2s, transform 0.18s;
+            color: #fff;
         }
-        #posts4b4t .post-username, #posts4b4t .post-content, #posts4b4t .comment-list > div, #posts4b4t .comment-list b {
-            color: #000 !important;
-            font-weight: 800;
+        #posts4b4t > div:hover {
+            box-shadow: 0 8px 32px #62b34733, 0 4px 0 #14520022;
+            transform: translateY(-2px) scale(1.012);
+        }
+        #posts4b4t b {
             font-size: 1.08em;
-        }
-        #posts4b4t .post-date {
-            color: #666 !important;
-            font-size: 0.98em;
-        }
-        #posts4b4t .like-btn-4b4t, #posts4b4t .dislike-btn-4b4t {
-            color: #000 !important;
-            background: #f3f3f3;
-            font-weight: 700;
-            font-size: 1.05em;
-            border: 1.5px solid #bbb;
-        }
-        #posts4b4t .like-btn-4b4t:hover {
-            background: #b6f5b6;
-            color: #176d1a !important;
-        }
-        #posts4b4t .dislike-btn-4b4t:hover {
-            background: #ffdede;
-            color: #a00 !important;
+            color: #fff;
+            background: #222;
+            padding: 2px 10px;
+            border-radius: 6px;
         }
         #posts4b4t .comment-list > div {
-            background: #fdfdfd;
-            color: #000;
-            font-size: 1.05em;
-            font-weight: 600;
-            border: 1px solid #eee;
-        }
-        #posts4b4t .comment-box-4b4t input {
-            color: #000;
-            font-size: 1.05em;
-            font-weight: 600;
-        }
-        #posts4b4t .comment-list {
-            margin-top: 10px;
-            padding-left: 0;
-        }
-        #posts4b4t .comment-list > div {
-            background: #f7f7f7;
+            background: rgba(247, 247, 247, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 8px;
             margin-bottom: 6px;
             padding: 0.5em 1em;
@@ -669,54 +622,12 @@
             display: flex;
             align-items: flex-start;
             gap: 8px;
-        }
-        #posts4b4t .comment-list img[alt="프로필"] {
-            width: 28px !important;
-            height: 28px !important;
-            border-radius: 50%;
-            margin-right: 0;
-        }
-        #posts4b4t .comment-box-4b4t {
-            background: #f3f3f3;
-            border-radius: 10px;
-            border: none;
-            box-shadow: 0 1px 4px #0001;
-            margin-top: 8px;
-            padding: 8px 12px;
-            display: flex;
-            gap: 8px;
-        }
-        #posts4b4t .comment-box-4b4t input {
-            flex: 1;
-            border-radius: 8px;
-            border: none;
-            background: #fff;
             color: #222;
-            font-size: 1em;
-            box-shadow: 0 1px 4px #0001;
-            padding: 0.5em 1em;
         }
-        #posts4b4t .comment-box-4b4t button {
-            border-radius: 8px;
-            font-size: 0.98em;
-            padding: 0.4em 1.1em;
-            background: #8d5524;
-            color: #fff;
-            border: none;
-            transition: background 0.15s;
-        }
-        #posts4b4t .comment-box-4b4t button:hover {
-            background: #b07d4a;
-        }
-        #posts4b4t .admin-delete-btn-4b4t {
-            border-radius: 8px !important;
-            font-size: 0.95em;
-            padding: 0.4em 1.1em;
-        }
-        #posts4b4t .admin-comment-delete-btn-4b4t {
-            border-radius: 8px !important;
-            font-size: 0.95em;
-            padding: 0.4em 1.1em;
+        #posts4b4t .comment-list b {
+            color: #222;
+            background: transparent;
+            padding: 0;
         }
     </style>
 </head>
@@ -738,9 +649,9 @@
             <button class="tab-btn" data-tab="mlp">mlp</button>
             <button class="tab-btn" data-tab="community">커뮤니티</button>
             <button class="tab-btn" data-tab="music">노래</button>
+            <button class="tab-btn" data-tab="useful">유용한 기능</button>
             <button class="tab-btn" data-tab="event">이벤트</button>
             <button class="tab-btn" data-tab="4b4t">4B4T</button>
-            <button class="tab-btn" data-tab="command">명령어</button>
         </div>
     </div>
     
@@ -786,6 +697,29 @@
                 <source id="music-source" src="Music/READY OR NOT.mp4" type="video/mp4">
                 브라우저가 video 태그를 지원하지 않습니다.
             </video>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-useful" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2>유용한 기능</h2>
+            <div style="margin-bottom:18px;">
+                <b>마인크래프트 닉네임:</b>
+                <span id="copy-nick" style="background:#222;padding:4px 10px;border-radius:6px;margin-right:8px;">닉네임 불러오는 중...</span>
+                <button id="copy-nick-btn" class="mc-btn-green">복사</button>
+            </div>
+            <div style="margin-bottom:18px;">
+                <b>서버 초대링크:</b>
+                <span id="copy-invite" style="background:#222;padding:4px 10px;border-radius:6px;margin-right:8px;">minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc</span>
+                <button id="copy-invite-btn" class="mc-btn-green">복사</button>
+            </div>
+            <div style="margin-bottom:18px;">
+                <b>공지사항</b>
+                <ul id="notice-list" style="margin-top:8px;margin-bottom:0;padding-left:18px;">
+                    <li>서버는 24시간 운영됩니다.</li>
+                    <li>최신 서버 버전은 상단에서 확인하세요.</li>
+                    <li>문의는 댓글 또는 관리자에게 DM!</li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="tab-content" id="tab-event" style="max-width:800px;margin:40px auto;display:none;">
@@ -845,11 +779,6 @@
                 <span>야생 서버 참가</span>
                 <span class="arrow">&gt;</span>
             </a>
-        </div>
-    </div>
-    <div class="tab-content" id="tab-command" style="max-width:800px;margin:40px auto;display:none;">
-        <div class="server-info" style="text-align:center;">
-            <button id="move-index1-btn" class="mc-btn-green" style="font-size:1.2em;padding:1em 2.5em;">이동하기</button>
         </div>
     </div>
     <script type="module">
@@ -1210,17 +1139,20 @@
             document.getElementById('tab-' + tab).style.display = '';
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
-
-            // 명령어 탭일 때만 이동 버튼 이벤트 연결
-            if(tab === 'command') {
-                const moveBtn = document.getElementById('move-index1-btn');
-                if(moveBtn) {
-                    moveBtn.onclick = function() {
-                        window.location.href = 'index1.html';
-                    };
-                }
+ 
+            // 탭별 배경 처리
+            let bgStyle = "url('default-screen.png') no-repeat center center fixed";
+            if(tab === '4b4t') {
+                bgStyle = "url('4b4t-background.png') no-repeat center center fixed";
+            } else if(tab === 'event') {
+                bgStyle = "url('event-background.png') no-repeat center center fixed";
+            } else if(tab === 'mlp') {
+                bgStyle = "url('mlp-background.png') no-repeat center center fixed";
             }
-        }
+            document.body.style.background = bgStyle;
+                document.body.style.backgroundSize = 'cover';
+            }
+        window.showTab = showTab;
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = () => showTab(btn.getAttribute('data-tab'));
         });
@@ -1570,4 +1502,3 @@
     </script>
 </body>
 </html>
-
