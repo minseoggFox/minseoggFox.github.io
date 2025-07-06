@@ -908,7 +908,6 @@
             <button class="tab-btn" data-tab="mlp">mlp</button>
             <button class="tab-btn" data-tab="community">커뮤니티</button>
             <button class="tab-btn" data-tab="music">노래</button>
-            <button class="tab-btn" data-tab="useful">유용한 기능</button>
             <button class="tab-btn" data-tab="event">이벤트</button>
             <button class="tab-btn" data-tab="4b4t">4B4T</button>
         </div>
@@ -971,29 +970,6 @@
             </video>
         </div>
     </div>
-    <div class="tab-content" id="tab-useful" style="max-width:800px;margin:40px auto;display:none;">
-        <div class="server-info">
-            <h2>유용한 기능</h2>
-            <div style="margin-bottom:18px;">
-                <b>마인크래프트 닉네임:</b>
-                <span id="copy-nick" style="background:#222;padding:4px 10px;border-radius:6px;margin-right:8px;">닉네임 불러오는 중...</span>
-                <button id="copy-nick-btn" class="mc-btn-green">복사</button>
-            </div>
-            <div style="margin-bottom:18px;">
-                <b>서버 초대링크:</b>
-                <span id="copy-invite" style="background:#222;padding:4px 10px;border-radius:6px;margin-right:8px;">minecraft://acceptRealmInvite?inviteID=rhYxr2Pfgyc</span>
-                <button id="copy-invite-btn" class="mc-btn-green">복사</button>
-            </div>
-            <div style="margin-bottom:18px;">
-                <b>공지사항</b>
-                <ul id="notice-list" style="margin-top:8px;margin-bottom:0;padding-left:18px;">
-                    <li>서버는 24시간 운영됩니다.</li>
-                    <li>최신 서버 버전은 상단에서 확인하세요.</li>
-                    <li>문의는 댓글 또는 관리자에게 DM!</li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <div class="tab-content" id="tab-event" style="max-width:800px;margin:40px auto;display:none;">
         <div class="server-info" id="event-bg" style="background:rgba(255,255,255,0.85); min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <div id="event-admin-panel" style="display:none;width:100%;max-width:500px;margin-bottom:20px;background:rgba(0,0,0,0.08);padding:16px 20px;border-radius:10px;">
@@ -1051,6 +1027,34 @@
                 <span>야생 서버 참가</span>
                 <span class="arrow">&gt;</span>
             </a>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-naming" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2>명명어 생성기</h2>
+            <p style="margin-bottom:20px;color:#666;">마인크래프트에서 사용할 수 있는 멋진 이름을 생성해보세요!</p>
+            
+            <div style="margin-bottom:20px;">
+                <label for="naming-type" style="display:block;margin-bottom:8px;font-weight:bold;">생성 타입:</label>
+                <select id="naming-type" style="width:200px;padding:8px;border-radius:8px;border:1px solid #ddd;">
+                    <option value="cool">멋진 이름</option>
+                    <option value="funny">재미있는 이름</option>
+                    <option value="epic">대단한 이름</option>
+                    <option value="simple">간단한 이름</option>
+                    <option value="random">랜덤 이름</option>
+                </select>
+            </div>
+            
+            <button id="generate-name-btn" class="mc-btn-green" style="margin-bottom:20px;">이름 생성하기</button>
+            
+            <div id="generated-names" style="background:#f8f9fa;border-radius:12px;padding:20px;min-height:100px;">
+                <p style="text-align:center;color:#666;margin:0;">생성된 이름이 여기에 표시됩니다</p>
+            </div>
+            
+            <div style="margin-top:20px;">
+                <button id="copy-name-btn" class="mc-btn-brown" style="margin-right:10px;">선택한 이름 복사</button>
+                <button id="clear-names-btn" class="mc-btn-red">목록 지우기</button>
+            </div>
         </div>
     </div>
     <script type="module">
@@ -1281,7 +1285,7 @@
                 btn.onclick = async (e) => {
                     const postId = btn.getAttribute('data-post');
                     const commentId = btn.getAttribute('data-id');
-                    if (!confirm('댓글을 삭제하시겠습니까?')) return;
+                    if (!confirm('댓글을 삭제하시겠습니다?')) return;
                     await deleteDoc(doc(collection(db, `posts/${postId}/comments`), commentId));
                     loadComments(postId);
                 };
@@ -1399,6 +1403,23 @@
             }
             loadServerVersion();
             setEventAdminPanel(user);
+
+            // 명명어 버튼 동적 추가/제거
+            const socialLinks = document.querySelector('.social-links');
+            if (!socialLinks) return;
+            // 기존 명명어 버튼 제거
+            const oldNamingBtn = document.getElementById('dynamic-naming-btn');
+            if (oldNamingBtn) oldNamingBtn.remove();
+            if (user) {
+                // 명명어 버튼 생성
+                const namingBtn = document.createElement('button');
+                namingBtn.id = 'dynamic-naming-btn';
+                namingBtn.textContent = '명명어';
+                namingBtn.className = 'mc-btn-green';
+                namingBtn.style.marginRight = '10px';
+                namingBtn.onclick = () => { window.location.href = 'mka.html'; };
+                socialLinks.parentNode.insertBefore(namingBtn, socialLinks);
+            }
         });
 
         setCommunityFormState(false, {});
@@ -1867,6 +1888,23 @@
             renderAccountDropdown(user);
             loadServerVersion();
             setEventAdminPanel(user);
+
+            // 명명어 버튼 동적 추가/제거
+            const socialLinks = document.querySelector('.social-links');
+            if (!socialLinks) return;
+            // 기존 명명어 버튼 제거
+            const oldNamingBtn = document.getElementById('dynamic-naming-btn');
+            if (oldNamingBtn) oldNamingBtn.remove();
+            if (user) {
+                // 명명어 버튼 생성
+                const namingBtn = document.createElement('button');
+                namingBtn.id = 'dynamic-naming-btn';
+                namingBtn.textContent = '명명어';
+                namingBtn.className = 'mc-btn-green';
+                namingBtn.style.marginRight = '10px';
+                namingBtn.onclick = () => { window.location.href = 'mka.html'; };
+                socialLinks.parentNode.insertBefore(namingBtn, socialLinks);
+            }
         });
 
         // 마인크래프트 닉네임 복사
@@ -1938,6 +1976,155 @@
                 };
             }
         }
+
+        // --- 명명어 생성기 스크립트 ---
+        const coolNames = [
+            'ShadowBlade', 'FrostWolf', 'ThunderStrike', 'DarkPhoenix', 'IronGuardian',
+            'CrimsonFang', 'VoidWalker', 'StormBreaker', 'NightHawk', 'FireDrake',
+            'SilverArrow', 'MysticWanderer', 'BlazeRunner', 'ShadowHunter', 'FrostGiant',
+            'ThunderLord', 'DarkKnight', 'IronWolf', 'CrimsonStorm', 'VoidMaster'
+        ];
+
+        const funnyNames = [
+            'PotatoKing', 'DancingPickaxe', 'SillySteve', 'CreeperHugger', 'DiamondHoarder',
+            'LavaSwimmer', 'BedrockBreaker', 'WoolCollector', 'ChickenRider', 'MushroomFarmer',
+            'RedstoneWizard', 'CobblestoneLover', 'DirtDigger', 'TreePuncher', 'WaterWalker',
+            'SandcastleBuilder', 'CaveExplorer', 'MobHugger', 'TorchPlacer', 'ChestOpener'
+        ];
+
+        const epicNames = [
+            'DragonSlayer', 'WorldEnder', 'TimeMaster', 'RealityBender', 'CosmicGuardian',
+            'EternalWarrior', 'LegendaryHero', 'MythicBeast', 'AncientOne', 'SupremeRuler',
+            'InfinitePower', 'UltimateForce', 'DivineProtector', 'CelestialBeing', 'MysticSage',
+            'ShadowEmperor', 'LightBringer', 'DarkDestroyer', 'LifeGiver', 'DeathWalker'
+        ];
+
+        const simpleNames = [
+            'Alex', 'Steve', 'Bob', 'Alice', 'John', 'Emma', 'Mike', 'Sarah', 'Tom', 'Lisa',
+            'David', 'Anna', 'Chris', 'Mary', 'Paul', 'Kate', 'Mark', 'Jane', 'Luke', 'Rose'
+        ];
+
+        const randomWords = [
+            'Shadow', 'Light', 'Fire', 'Ice', 'Thunder', 'Storm', 'Dark', 'Bright', 'Swift', 'Strong',
+            'Wolf', 'Eagle', 'Lion', 'Tiger', 'Bear', 'Dragon', 'Phoenix', 'Hawk', 'Falcon', 'Raven',
+            'Blade', 'Sword', 'Shield', 'Bow', 'Arrow', 'Axe', 'Hammer', 'Spear', 'Dagger', 'Staff',
+            'Walker', 'Runner', 'Fighter', 'Hunter', 'Guardian', 'Warrior', 'Knight', 'Mage', 'Rogue', 'Paladin'
+        ];
+
+        function generateName(type) {
+            switch(type) {
+                case 'cool':
+                    return coolNames[Math.floor(Math.random() * coolNames.length)];
+                case 'funny':
+                    return funnyNames[Math.floor(Math.random() * funnyNames.length)];
+                case 'epic':
+                    return epicNames[Math.floor(Math.random() * epicNames.length)];
+                case 'simple':
+                    return simpleNames[Math.floor(Math.random() * simpleNames.length)];
+                case 'random':
+                    const word1 = randomWords[Math.floor(Math.random() * randomWords.length)];
+                    const word2 = randomWords[Math.floor(Math.random() * randomWords.length)];
+                    return word1 + word2;
+                default:
+                    return coolNames[Math.floor(Math.random() * coolNames.length)];
+            }
+        }
+
+        function setupNamingGenerator() {
+            const generateBtn = document.getElementById('generate-name-btn');
+            const copyBtn = document.getElementById('copy-name-btn');
+            const clearBtn = document.getElementById('clear-names-btn');
+            const namesContainer = document.getElementById('generated-names');
+            let selectedName = null;
+
+            if (generateBtn) {
+                generateBtn.addEventListener('click', () => {
+                    const type = document.getElementById('naming-type').value;
+                    const name = generateName(type);
+                    
+                    // 기존 메시지 제거
+                    if (namesContainer.querySelector('p')) {
+                        namesContainer.querySelector('p').remove();
+                    }
+                    
+                    // 새 이름 추가
+                    const nameElement = document.createElement('div');
+                    nameElement.className = 'generated-name';
+                    nameElement.style.cssText = `
+                        background: #fff;
+                        border: 2px solid #62b347;
+                        border-radius: 8px;
+                        padding: 12px;
+                        margin: 8px 0;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        font-weight: bold;
+                        color: #222;
+                    `;
+                    nameElement.textContent = name;
+                    
+                    // 클릭 이벤트
+                    nameElement.addEventListener('click', () => {
+                        // 이전 선택 해제
+                        document.querySelectorAll('.generated-name').forEach(el => {
+                            el.style.borderColor = '#62b347';
+                            el.style.backgroundColor = '#fff';
+                        });
+                        
+                        // 현재 선택
+                        nameElement.style.borderColor = '#e53935';
+                        nameElement.style.backgroundColor = '#ffeaea';
+                        selectedName = name;
+                    });
+                    
+                    nameElement.addEventListener('mouseenter', () => {
+                        if (nameElement.style.borderColor !== 'rgb(229, 57, 53)') {
+                            nameElement.style.backgroundColor = '#f0f0f0';
+                        }
+                    });
+                    
+                    nameElement.addEventListener('mouseleave', () => {
+                        if (nameElement.style.borderColor !== 'rgb(229, 57, 53)') {
+                            nameElement.style.backgroundColor = '#fff';
+                        }
+                    });
+                    
+                    namesContainer.appendChild(nameElement);
+                });
+            }
+
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    if (selectedName) {
+                        navigator.clipboard.writeText(selectedName).then(() => {
+                            alert('이름이 클립보드에 복사되었습니다!');
+                        }).catch(() => {
+                            const textArea = document.createElement('textarea');
+                            textArea.value = selectedName;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                            alert('이름이 클립보드에 복사되었습니다!');
+                        });
+                    } else {
+                        alert('복사할 이름을 선택해주세요!');
+                    }
+                });
+            }
+
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => {
+                    namesContainer.innerHTML = '<p style="text-align:center;color:#666;margin:0;">생성된 이름이 여기에 표시됩니다</p>';
+                    selectedName = null;
+                });
+            }
+        }
+
+        // 명명어 탭 클릭 시 초기화
+        document.querySelector('.tab-btn[data-tab="naming"]').addEventListener('click', () => {
+            window.location.href = 'mka.html';
+        });
     </script>
 </body>
 </html>
