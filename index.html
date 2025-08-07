@@ -7,6 +7,12 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686733290484221" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
             background: url('default-screen.png') no-repeat center center fixed;
@@ -14,19 +20,52 @@
             color: #222;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(98, 179, 71, 0.1) 0%,
+                rgba(20, 82, 0, 0.15) 25%,
+                rgba(34, 34, 34, 0.2) 50%,
+                rgba(98, 179, 71, 0.05) 75%,
+                rgba(20, 82, 0, 0.1) 100%);
+            backdrop-filter: blur(1px);
+            pointer-events: none;
+            z-index: -1;
         }
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: linear-gradient(135deg, rgba(24, 24, 24, 0.4) 0%, rgba(35, 43, 26, 0.4) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 0.2rem 2vw;
+            background: linear-gradient(135deg, 
+                rgba(24, 24, 24, 0.7) 0%, 
+                rgba(35, 43, 26, 0.6) 50%,
+                rgba(98, 179, 71, 0.3) 100%);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 0.6rem 2vw;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            border-bottom: 1px solid rgba(98, 179, 71, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .header:hover {
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4),
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
         }
         .header-content {
             display: flex;
@@ -52,153 +91,513 @@
         .header h1 {
             font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif;
             font-size: 2.8rem;
-            color: #fff;
+            background: linear-gradient(135deg, #fff 0%, #62b347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             letter-spacing: 2px;
-            text-shadow: 2px 2px 0 #145200, 0 4px 12px #000a;
-            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 16px rgba(98, 179, 71, 0.3);
+            margin-bottom: 0.3rem;
+            font-weight: 800;
+            position: relative;
+            animation: textGlow 3s ease-in-out infinite alternate;
         }
+
+        @keyframes textGlow {
+            from {
+                filter: drop-shadow(0 0 20px rgba(98, 179, 71, 0.5));
+            }
+            to {
+                filter: drop-shadow(0 0 35px rgba(98, 179, 71, 0.8));
+            }
+        }
+
         .header p {
-            color: #e0ffe0;
-            font-size: 1.2rem;
-            margin-bottom: 1.2rem;
-            text-shadow: 1px 1px 0 #145200;
+            color: rgba(224, 255, 224, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            font-weight: 500;
         }
+
         .tab-menu {
             display: flex;
             justify-content: center;
-            gap: 0.5rem;
-            background: rgba(30, 30, 30, 0);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px #0000;
-            padding: 0.5rem 0.5rem;
+            gap: 0.6rem;
+            background: transparent;
+            padding: 0.8rem;
             margin: 0 auto;
-            max-width: 700px;
+            max-width: 750px;
+            position: relative;
         }
+
         .tab-btn {
             font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
-            background: #222;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            box-shadow: 0 2px 0 #62b347, 0 0 0 1px #fff2 inset;
-            padding: 0.5rem 1rem;
-            margin-right: 0;
-            font-size: 0.9em;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            color: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2),
+                        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            padding: 0.7rem 1.2rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: background 0.2s, box-shadow 0.2s, color 0.2s;
-            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        background-color 0.3s ease,
+                        border-color 0.3s ease,
+                        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
+
+        .tab-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(98, 179, 71, 0.3), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
         .tab-btn:hover, .tab-btn.active {
-            background: #62b347;
-            color: #222;
-            box-shadow: 0 4px 0 #145200;
+            background: rgba(98, 179, 71, 0.8);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            color: #fff;
+            border-color: rgba(98, 179, 71, 0.6);
+            box-shadow: 0 12px 48px rgba(98, 179, 71, 0.4),
+                        0 8px 32px rgba(0, 0, 0, 0.3),
+                        0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+            transform: translateY(-3px) scale(1.08);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .tab-btn.active {
+            animation: activeGlow 2s ease-in-out infinite alternate;
+            background: rgba(98, 179, 71, 0.9);
+            box-shadow: 0 16px 60px rgba(98, 179, 71, 0.5),
+                        0 8px 32px rgba(0, 0, 0, 0.4),
+                        0 0 0 2px rgba(255, 255, 255, 0.4) inset;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(98, 179, 71, 0.3), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        @keyframes activeGlow {
+            from {
+                box-shadow: 0 16px 60px rgba(98, 179, 71, 0.5),
+                           0 8px 32px rgba(0, 0, 0, 0.4),
+                           0 0 0 2px rgba(255, 255, 255, 0.4) inset;
+            }
+            to {
+                box-shadow: 0 20px 80px rgba(98, 179, 71, 0.7),
+                           0 12px 40px rgba(0, 0, 0, 0.5),
+                           0 0 0 3px rgba(255, 255, 255, 0.6) inset;
+            }
         }
         .container, .community-container, .tab-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tab-content.fade-out {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content.fade-in {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 탭 전환 애니메이션 */
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes slideOutToLeft {
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-50px) scale(0.95);
+            }
+        }
+
+        .tab-content.slide-in {
+            animation: slideInFromRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .tab-content.slide-out {
+            animation: slideOutToLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         .server-info {
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 18px;
-            box-shadow: 0 8px 32px #0002, 0 2px 0 #62b34722;
-            padding: 2.2rem 2.5rem;
-            margin: 2.5rem 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(248, 253, 248, 0.9) 50%,
+                rgba(240, 248, 240, 0.85) 100%);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                        0 2px 0 rgba(98, 179, 71, 0.3);
+            padding: 3rem;
+            margin: 3rem 0;
             color: #222;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .server-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, 
+                rgba(98, 179, 71, 0.05) 0%,
+                transparent 70%);
+            animation: rotateGradient 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .server-info:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2),
+                        0 0 0 2px rgba(255, 255, 255, 0.3) inset,
+                        0 4px 0 rgba(98, 179, 71, 0.5);
+        }
+
+        .server-info h2 {
+            color: #2c5530;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2c5530 0%, #62b347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
         }
         .join-button, .mc-btn-green, .mc-btn-red, .mc-btn-brown, .MC_Button {
             display: inline-block;
-            border-radius: 12px !important;
-            box-shadow: 0 4px 16px #0002, 0 2px 0 #62b347;
+            border-radius: 16px !important;
             border: none !important;
             font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
-            letter-spacing: 1px;
-            font-weight: bold;
-            transition: background 0.2s, box-shadow 0.2s, color 0.2s;
-            padding: 0.8rem 2.2rem;
-            font-size: 1.08em;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.2rem 2.8rem;
+            font-size: 1.15em;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            cursor: pointer;
+            user-select: none;
         }
+
+        .join-button::before, .mc-btn-green::before, .mc-btn-red::before, 
+        .mc-btn-brown::before, .MC_Button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .join-button:hover::before, .mc-btn-green:hover::before, 
+        .mc-btn-red:hover::before, .mc-btn-brown:hover::before, 
+        .MC_Button:hover::before {
+            left: 100%;
+        }
+
         .join-button, .mc-btn-green {
-            background: linear-gradient(180deg, #62b347 0%, #4e8c2b 100%);
+            background: linear-gradient(135deg, #62b347 0%, #4e8c2b 50%, #3a6b20 100%);
             color: #fff;
-            text-shadow: 1px 1px 0 #145200;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 24px rgba(98, 179, 71, 0.3),
+                        0 4px 0 #145200,
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
         }
+
         .join-button:hover, .mc-btn-green:hover {
-            background: linear-gradient(180deg, #7be85a 0%, #62b347 100%);
-            box-shadow: 0 8px 24px #62b34755, 0 4px 0 #145200;
-            color: #222;
+            background: linear-gradient(135deg, #7be85a 0%, #62b347 50%, #4e8c2b 100%);
+            box-shadow: 0 12px 36px rgba(98, 179, 71, 0.5),
+                        0 6px 0 #145200,
+                        0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+            transform: translateY(-4px) scale(1.08);
+            color: #fff;
         }
+
         .mc-btn-red {
-            background: linear-gradient(180deg, #e53935 0%, #b71c1c 100%);
+            background: linear-gradient(135deg, #e53935 0%, #b71c1c 50%, #7f0000 100%);
             color: #fff;
-            text-shadow: 1px 1px 0 #7f1d1d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 24px rgba(229, 57, 53, 0.3),
+                        0 4px 0 #7f1d1d,
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
         }
+
         .mc-btn-red:hover {
-            background: linear-gradient(180deg, #ff6b6b 0%, #e53935 100%);
-            box-shadow: 0 8px 24px #e5393555, 0 4px 0 #7f1d1d;
+            background: linear-gradient(135deg, #ff6b6b 0%, #e53935 50%, #b71c1c 100%);
+            box-shadow: 0 12px 36px rgba(229, 57, 53, 0.5),
+                        0 6px 0 #7f1d1d,
+                        0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+            transform: translateY(-4px) scale(1.08);
         }
+
         .mc-btn-brown {
-            background: linear-gradient(180deg, #8d5524 0%, #5a3e1b 100%);
+            background: linear-gradient(135deg, #8d5524 0%, #5a3e1b 50%, #3d2a12 100%);
             color: #fff;
-            text-shadow: 1px 1px 0 #4e2e0e;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 24px rgba(141, 85, 36, 0.3),
+                        0 4px 0 #4e2e0e,
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
         }
+
         .mc-btn-brown:hover {
-            background: linear-gradient(180deg, #b07d4a 0%, #8d5524 100%);
-            box-shadow: 0 8px 24px #8d552455, 0 4px 0 #4e2e0e;
+            background: linear-gradient(135deg, #b07d4a 0%, #8d5524 50%, #5a3e1b 100%);
+            box-shadow: 0 12px 36px rgba(141, 85, 36, 0.5),
+                        0 6px 0 #4e2e0e,
+                        0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+            transform: translateY(-4px) scale(1.08);
         }
+
         .MC_Button {
-            background: linear-gradient(180deg, #62b347 0%, #4e8c2b 100%);
+            background: linear-gradient(135deg, #62b347 0%, #4e8c2b 50%, #3a6b20 100%);
             color: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px #0002, 0 2px 0 #62b347;
-            font-size: 1.15rem;
-            font-weight: bold;
-            padding: 1rem 2.5rem;
-            min-width: 180px;
-            min-height: 44px;
-        }
-        .MC_Button:hover {
-            background: linear-gradient(180deg, #7be85a 0%, #62b347 100%);
-            color: #222;
-            box-shadow: 0 8px 24px #62b34755, 0 4px 0 #145200;
-        }
-        .MC_Button .arrow {
-            margin-left: 16px;
-            font-size: 1.3em;
-            font-weight: bold;
-        }
-        .MC_Button_Hero {
+            border-radius: 20px;
             font-size: 1.3rem;
-            padding: 1.1rem 2.8rem;
+            font-weight: 800;
+            padding: 1.4rem 3rem;
+            min-width: 220px;
+            min-height: 60px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 36px rgba(98, 179, 71, 0.4),
+                        0 6px 0 #145200,
+                        0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+        }
+
+        .MC_Button:hover {
+            background: linear-gradient(135deg, #7be85a 0%, #62b347 50%, #4e8c2b 100%);
+            color: #fff;
+            box-shadow: 0 16px 48px rgba(98, 179, 71, 0.6),
+                        0 8px 0 #145200,
+                        0 0 0 3px rgba(255, 255, 255, 0.3) inset;
+            transform: translateY(-6px) scale(1.1);
+        }
+
+        .MC_Button .arrow {
+            margin-left: 20px;
+            font-size: 1.5em;
+            font-weight: 900;
+            transition: transform 0.3s ease;
+        }
+
+        .MC_Button:hover .arrow {
+            transform: translateX(8px);
+        }
+
+        .MC_Button_Hero {
+            font-size: 1.5rem;
+            padding: 1.6rem 3.5rem;
+        }
+        
+        /* 문의 접수 버튼 스타일 */
+        .support-submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(98, 179, 71, 0.4);
+            background: linear-gradient(135deg, rgba(98, 179, 71, 1), rgba(76, 175, 80, 0.9));
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .support-submit-btn:hover .arrow {
+            transform: translateX(5px);
+        }
+        
+        .support-submit-btn:active {
+            transform: translateY(-1px) scale(1.01);
+            box-shadow: 0 8px 20px rgba(98, 179, 71, 0.5);
+        }
+        
+        .support-submit-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+            z-index: 1;
+        }
+        
+        .support-submit-btn:hover:before {
+            left: 100%;
+        }
+        
+        .support-submit-btn:disabled {
+            background: linear-gradient(135deg, rgba(150, 150, 150, 0.6), rgba(120, 120, 120, 0.5));
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .support-submit-btn:disabled:before {
+            display: none;
+        }
+        
+        /* 펄스 애니메이션 */
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(98, 179, 71, 0.3); }
+            50% { box-shadow: 0 8px 35px rgba(98, 179, 71, 0.5); }
+            100% { box-shadow: 0 8px 25px rgba(98, 179, 71, 0.3); }
+        }
+        
+        .support-submit-btn:focus {
+            animation: pulse 2s infinite;
+            outline: none;
         }
         .comment-box, .comment-list, #notice-list, .community-container, .tab-content {
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 14px !important;
-            box-shadow: 0 2px 12px #0001;
-            padding: 1rem 1.5rem;
-            margin-bottom: 1.2rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(248, 253, 248, 0.8) 100%);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.8rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .comment-box::before, .comment-list::before, .community-container::before, 
+        .tab-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(98, 179, 71, 0.02) 0%,
+                transparent 50%,
+                rgba(98, 179, 71, 0.02) 100%);
+            pointer-events: none;
+        }
+
+        .comment-box:hover, .comment-list:hover, .community-container:hover, 
+        .tab-content:hover {
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15),
+                        0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+            transform: translateY(-2px);
         }
         input, textarea, select {
-            border-radius: 10px !important;
-            border: none !important;
-            background: #f3f3f3;
+            border-radius: 14px !important;
+            border: 2px solid rgba(98, 179, 71, 0.2) !important;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
             color: #222;
             font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
-            box-shadow: 0 2px 8px #0001;
-            padding: 0.7rem 1rem;
-            font-size: 1em;
-            margin-bottom: 0.5rem;
-            transition: box-shadow 0.2s, border 0.2s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08),
+                        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            padding: 1rem 1.5rem;
+            font-size: 1.1em;
+            margin-bottom: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
         }
+
         input:focus, textarea:focus, select:focus {
             outline: none;
-            box-shadow: 0 0 0 2px #62b347, 0 2px 8px #62b34733;
-            border: 1.5px solid #62b347 !important;
+            border-color: #62b347 !important;
+            box-shadow: 0 0 0 4px rgba(98, 179, 71, 0.2),
+                        0 8px 24px rgba(98, 179, 71, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+            transform: translateY(-2px) scale(1.02);
+            background: linear-gradient(135deg, #fff 0%, #f0fff0 100%);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(34, 34, 34, 0.6);
+            font-weight: 400;
         }
         .admin-delete-btn, .admin-comment-delete-btn {
             border-radius: 8px !important;
@@ -222,26 +621,50 @@
         }
         .google-login-btn {
             font-family: 'Roboto', Arial, sans-serif !important;
-            font-size: 1.1rem;
-            font-weight: 500;
+            font-size: 1.2rem;
+            font-weight: 600;
             color: #444;
-            background: #fff;
-            border: 1px solid #dadce0 !important;
-            border-radius: 4px !important;
-            box-shadow: 0 2px 4px rgba(60,64,67,.15);
-            padding: 0.7rem 2rem 0.7rem 2.8rem;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border: 2px solid rgba(218, 220, 224, 0.8) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 24px rgba(60, 64, 67, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            padding: 1rem 2.5rem 1rem 3.5rem;
             background-image: url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg') !important;
             background-repeat: no-repeat !important;
-            background-position: 12px center !important;
-            background-size: 18px 18px !important;
+            background-position: 16px center !important;
+            background-size: 22px 22px !important;
             cursor: pointer;
-            margin-bottom: 10px;
-            transition: box-shadow 0.2s;
-            letter-spacing: 0;
-            padding-left: 2.5rem !important; /* 로고 공간 확보 */
+            margin-bottom: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
         }
+
+        .google-login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(66, 133, 244, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .google-login-btn:hover::before {
+            left: 100%;
+        }
+
         .google-login-btn:hover {
-            box-shadow: 0 4px 8px rgba(66,133,244,0.2);
+            box-shadow: 0 12px 36px rgba(66, 133, 244, 0.25),
+                        0 0 0 2px rgba(255, 255, 255, 0.8) inset;
+            transform: translateY(-3px) scale(1.05);
+            border-color: rgba(66, 133, 244, 0.5) !important;
         }
         .mc-admin-badge {
             border-radius: 0 !important;
@@ -255,90 +678,206 @@
         .join-button, #event-play-btn {
             display: none !important;
         }
-        @media (max-width: 700px) {
+        @media (max-width: 768px) {
+            body::before {
+                background: linear-gradient(135deg, 
+                    rgba(98, 179, 71, 0.15) 0%,
+                    rgba(20, 82, 0, 0.2) 50%,
+                    rgba(34, 34, 34, 0.25) 100%);
+            }
+
             .header {
                 flex-direction: column;
-                align-items: stretch;
-                justify-content: flex-start;
-                padding: 18px 10px 10px 10px;
-                min-height: 90px;
+                padding: 1rem 1rem;
+                background: linear-gradient(135deg, 
+                    rgba(24, 24, 24, 0.9) 0%, 
+                    rgba(35, 43, 26, 0.8) 100%);
             }
-            .header-content {
-                flex-direction: column;
-                gap: 8px;
+
+            .header h1 {
+                font-size: 2.2rem;
+                margin-bottom: 0.8rem;
             }
-            .header-section {
-                width: 100%;
-                justify-content: center !important;
-                margin-bottom: 6px;
-            }
-            #logo-container {
-                order: 1;
-                display: flex !important;
-                justify-content: center;
-            align-items: center;
-                margin-bottom: 8px;
-                width: 100%;
-                z-index: 2100;
-            }
-            #logo-container img {
-                height: 48px;
-                max-width: 90vw;
-            }
-            #header-account {
-                order: 3;
-                display: flex !important;
-            justify-content: center;
-                align-items: center;
-                margin-bottom: 0;
-                width: 100%;
-                z-index: 2100;
-                background: transparent !important;
-                box-shadow: none !important;
-            }
-            #header-account .google-login-btn, #header-account #logout-btn {
-                padding: 0.7rem 1.5rem;
-                font-size: 1em;
-            }
-            #header-account .google-login-btn {
-                background-size: 20px 20px !important;
-                background-position: 12px center !important;
-                padding-left: 38px !important;
-            }
-            #header-account #user-profile img {
-                width: 36px !important;
-                height: 36px !important;
-            }
-            #hamburger-menu {
-                order: 4;
-                align-self: flex-end;
-                margin-bottom: 8px;
-                z-index: 2100;
-            }
+
             .tab-menu {
-                position: static;
-                z-index: 2000;
                 width: 100%;
                 flex-direction: column;
                 gap: 0.8rem;
-                margin: 0 0 10px 0;
-                background: rgba(30, 30, 30, 0.97);
-                padding: 18px 0 14px 0;
-                border-radius: 14px;
-                box-shadow: 0 4px 24px #0003;
+                padding: 1rem;
+                background: transparent;
             }
+
             .tab-btn {
-                font-size: 1.1em;
-                padding: 1.1rem 0;
-                width: 90%;
-                margin: 0 auto;
-                border-radius: 8px;
+                font-size: 1rem;
+                padding: 1rem;
+                border-radius: 16px;
+                width: 100%;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                background: rgba(255, 255, 255, 0.15);
+                border: 2px solid rgba(255, 255, 255, 0.25);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                           0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            }
+
+            .server-info {
+                padding: 2rem 1.5rem;
+                margin: 2rem 1rem;
+                border-radius: 20px;
+            }
+
+            .server-info h2 {
+                font-size: 2rem;
+            }
+
+            .MC_Button {
+                width: 100%;
+                padding: 1.5rem 2rem;
+                font-size: 1.2rem;
+            }
+
+            #posts > div, #posts4b4t > div {
+                flex-direction: column;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            #posts img[alt="프로필"], #posts4b4t img[alt="프로필"] {
+                width: 48px !important;
+                height: 48px !important;
+                align-self: center;
+            }
+
+            .google-login-btn {
+                width: 100%;
+                padding: 1.2rem 2rem 1.2rem 3rem;
+                font-size: 1.1rem;
+            }
+
+            input, textarea, select {
+                width: 100%;
+                padding: 1.2rem;
+                font-size: 1.1rem;
+            }
+
+            .container, .community-container, .tab-content {
+                padding: 1rem;
+            }
+            
+            /* 고객센터 모바일 최적화 */
+            #tab-support .server-info {
+                padding: 1.5rem;
+            }
+            
+            #tab-support [style*="grid-template-columns"] {
+                display: block !important;
+            }
+            
+            #tab-support [style*="grid-template-columns"] > div {
+                margin-bottom: 2rem;
+            }
+            
+            #tab-support form [style*="grid-template-columns"] {
+                display: block !important;
+            }
+            
+            #tab-support form [style*="grid-template-columns"] > * {
+                margin-bottom: 1rem;
             }
         }
-        button.tab-btn:nth-child(4) {
-            line-height: 1.3;
-            letter-spacing: -0.05em;
-            font-size: 0.7em;
+        /* 페이지 로딩 애니메이션 */
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            animation: pageLoad 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .tab-menu {
+            animation: pageLoad 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        /* 탭 전환 시 부드러운 스크롤 */
+        html {
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: linear-gradient(135deg, 
+                rgba(24, 24, 24, 0.3) 0%,
+                rgba(35, 43, 26, 0.2) 100%);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #62b347 0%, #4e8c2b 100%);
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(98, 179, 71, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #7be85a 0%, #62b347 100%);
+            box-shadow: 0 4px 12px rgba(98, 179, 71, 0.5);
+        }
+
+        /* 선택 텍스트 스타일 */
+        ::selection {
+            background: rgba(98, 179, 71, 0.3);
+            color: #fff;
+        }
+
+        ::-moz-selection {
+            background: rgba(98, 179, 71, 0.3);
+            color: #fff;
+        }
+
+        /* 로딩 애니메이션 */
+        @keyframes shimmerLoad {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* 포커스 가능한 요소들의 접근성 개선 */
+        button:focus-visible, 
+        input:focus-visible, 
+        textarea:focus-visible, 
+        select:focus-visible {
+            outline: 3px solid rgba(98, 179, 71, 0.5);
+            outline-offset: 2px;
+        }
+
+        /* 미디어 쿼리 - 태블릿 */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .header h1 {
+                font-size: 2.8rem;
+            }
+
+            .server-info {
+                padding: 2.5rem;
+            }
+
+            .tab-menu {
+                padding: 0.8rem;
+                gap: 0.6rem;
+            }
+
+            .tab-btn {
+                padding: 1rem 1.3rem;
+                font-size: 0.95rem;
+            }
         }
         .MC_Button.play-bg-btn {
             background: url('play-button.png') center/cover no-repeat !important;
@@ -346,81 +885,194 @@
             position: relative;
             overflow: hidden;
             border: none;
-            transition: transform 0.35s cubic-bezier(.4,2,.3,1), box-shadow 0.2s;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3),
+                        0 8px 0 rgba(98, 179, 71, 0.3),
+                        0 0 0 2px rgba(255, 255, 255, 0.2) inset;
         }
         .MC_Button.play-bg-btn:hover {
-            transform: scale(1.15) rotate(-7deg);
-            box-shadow: 0 8px 32px #0005, 0 2px 0 #62b34722;
+            transform: translateY(-8px) scale(1.15) rotate(-3deg);
+            box-shadow: 0 24px 64px rgba(98, 179, 71, 0.4),
+                        0 12px 0 rgba(98, 179, 71, 0.5),
+                        0 0 0 3px rgba(255, 255, 255, 0.4) inset;
+            animation: playButtonPulse 1.5s ease-in-out infinite;
         }
         .MC_Button.play-bg-btn span, .MC_Button.play-bg-btn .arrow {
             position: relative;
             z-index: 2;
             color: #fff;
-            text-shadow: 0 2px 8px #000, 0 0 2px #222;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8),
+                         0 0 4px rgba(0, 0, 0, 0.6);
+            font-weight: 900;
         }
         .MC_Button.play-bg-btn::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.25);
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(98, 179, 71, 0.2) 50%,
+                rgba(0, 0, 0, 0.4) 100%);
             z-index: 1;
+            transition: all 0.3s ease;
         }
-        /* 커뮤니티 업그레이드: 카드형, 프로필 강조, 버튼 아이콘화, 애니메이션 */
-        #posts > div {
-            background: rgba(34, 34, 34, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 16px;
-            box-shadow: 0 4px 24px #0002, 0 2px 0 #62b34722;
-            margin-bottom: 18px;
-            padding: 18px 22px 12px 22px;
+        .MC_Button.play-bg-btn:hover::before {
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.1) 0%,
+                rgba(98, 179, 71, 0.3) 50%,
+                rgba(0, 0, 0, 0.2) 100%);
+        }
+
+        @keyframes playButtonPulse {
+            0%, 100% {
+                box-shadow: 0 24px 64px rgba(98, 179, 71, 0.4),
+                           0 12px 0 rgba(98, 179, 71, 0.5),
+                           0 0 0 3px rgba(255, 255, 255, 0.4) inset;
+            }
+            50% {
+                box-shadow: 0 32px 80px rgba(98, 179, 71, 0.6),
+                           0 16px 0 rgba(98, 179, 71, 0.7),
+                           0 0 0 4px rgba(255, 255, 255, 0.6) inset,
+                           0 0 60px rgba(98, 179, 71, 0.5);
+            }
+        }
+        /* 커뮤니티 업그레이드: 현대적 카드 디자인, 애니메이션, 네온 효과 */
+        #posts > div, #posts4b4t > div {
+            background: linear-gradient(135deg, 
+                rgba(24, 24, 24, 0.95) 0%,
+                rgba(35, 43, 26, 0.9) 50%,
+                rgba(18, 18, 18, 0.95) 100%);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                        0 2px 0 rgba(98, 179, 71, 0.3);
+            margin-bottom: 2rem;
+            padding: 2rem 2.5rem 1.5rem 2.5rem;
             display: flex;
             align-items: flex-start;
-            gap: 16px;
-            transition: box-shadow 0.2s, transform 0.18s;
+            gap: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             color: #fff;
+            position: relative;
+            overflow: hidden;
         }
-        #posts > div:hover {
-            box-shadow: 0 8px 32px #62b34733, 0 4px 0 #14520022;
-            transform: translateY(-2px) scale(1.012);
+
+        #posts > div::before, #posts4b4t > div::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(98, 179, 71, 0.1), 
+                transparent);
+            transition: left 0.8s ease;
         }
-        #posts img[alt="프로필"] {
-            width: 48px !important;
-            height: 48px !important;
+
+        #posts > div:hover::before, #posts4b4t > div:hover::before {
+            left: 100%;
+        }
+
+        #posts > div:hover, #posts4b4t > div:hover {
+            box-shadow: 0 20px 60px rgba(98, 179, 71, 0.2),
+                        0 8px 32px rgba(0, 0, 0, 0.4),
+                        0 0 0 2px rgba(98, 179, 71, 0.3) inset,
+                        0 4px 0 rgba(98, 179, 71, 0.5);
+            transform: translateY(-6px) scale(1.01);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        #posts img[alt="프로필"], #posts4b4t img[alt="프로필"] {
+            width: 56px !important;
+            height: 56px !important;
             border-radius: 50%;
-            box-shadow: 0 2px 8px #0001;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3),
+                        0 0 0 3px rgba(98, 179, 71, 0.5);
             margin-right: 0;
+            transition: all 0.3s ease;
         }
-        #posts b {
-            font-size: 1.08em;
+
+        #posts > div:hover img[alt="프로필"], #posts4b4t > div:hover img[alt="프로필"] {
+            box-shadow: 0 8px 24px rgba(98, 179, 71, 0.4),
+                        0 0 0 4px rgba(98, 179, 71, 0.7);
+            transform: scale(1.1);
+        }
+
+        #posts b, #posts4b4t b {
+            font-size: 1.2em;
             color: #fff;
-            background: #222;
-            padding: 2px 10px;
-            border-radius: 6px;
+            background: linear-gradient(135deg, #62b347 0%, #4e8c2b 100%);
+            padding: 6px 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(98, 179, 71, 0.3);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        #posts .admin-delete-btn {
-            margin-left: 8px;
-        }
-        #posts .like-btn, #posts .dislike-btn {
-            border-radius: 8px !important;
-            font-size: 1.1em;
-            padding: 0.4em 1.1em;
-            margin-right: 6px;
-            background: #f3f3f3;
-            color: #222;
+
+        #posts .like-btn, #posts .dislike-btn,
+        #posts4b4t .like-btn-4b4t, #posts4b4t .dislike-btn-4b4t {
+            border-radius: 12px !important;
+            font-size: 1.2em;
+            padding: 0.8rem 1.5rem;
+            margin-right: 10px;
             border: none !important;
-            box-shadow: 0 1px 4px #0001;
-            transition: background 0.15s, color 0.15s, transform 0.12s;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        #posts .like-btn:hover {
-            background: #d0f5d0;
-            color: #2e7d32;
-            transform: scale(1.08);
+
+        #posts .like-btn::before, #posts .dislike-btn::before,
+        #posts4b4t .like-btn-4b4t::before, #posts4b4t .dislike-btn-4b4t::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.6s ease;
         }
-        #posts .dislike-btn:hover {
-            background: #ffeaea;
-            color: #c62828;
-            transform: scale(1.08);
+
+        #posts .like-btn:hover::before, #posts .dislike-btn:hover::before,
+        #posts4b4t .like-btn-4b4t:hover::before, #posts4b4t .dislike-btn-4b4t:hover::before {
+            left: 100%;
+        }
+
+        #posts .like-btn, #posts4b4t .like-btn-4b4t {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        #posts .like-btn:hover, #posts4b4t .like-btn-4b4t:hover {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.5);
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        #posts .dislike-btn, #posts4b4t .dislike-btn-4b4t {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(244, 67, 54, 0.3);
+        }
+
+        #posts .dislike-btn:hover, #posts4b4t .dislike-btn-4b4t:hover {
+            background: linear-gradient(135deg, #ef5350 0%, #f44336 100%);
+            box-shadow: 0 8px 24px rgba(244, 67, 54, 0.5);
+            transform: translateY(-3px) scale(1.1);
         }
         #posts .comment-list {
             margin-top: 10px;
@@ -471,22 +1123,57 @@
             padding: 0.4em 1.1em;
         }
         #user-profile {
-            background: rgba(247, 247, 247, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px #0001;
-            padding: 10px 18px;
-            margin-bottom: 12px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(248, 253, 248, 0.9) 100%);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+                        0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+
+        #user-profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(98, 179, 71, 0.05) 0%,
+                transparent 50%,
+                rgba(98, 179, 71, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        #user-profile:hover {
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15),
+                        0 0 0 2px rgba(255, 255, 255, 0.5) inset;
+            transform: translateY(-2px);
+        }
+
         #user-profile img {
-            width: 44px !important;
-            height: 44px !important;
+            width: 52px !important;
+            height: 52px !important;
             border-radius: 50%;
-            box-shadow: 0 2px 8px #0001;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1),
+                        0 0 0 3px rgba(98, 179, 71, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #user-profile:hover img {
+            box-shadow: 0 8px 24px rgba(98, 179, 71, 0.3),
+                        0 0 0 4px rgba(98, 179, 71, 0.5);
+            transform: scale(1.1);
         }
         #postForm input, #postForm textarea {
             border-radius: 8px !important;
@@ -515,24 +1202,42 @@
             position: relative;
             overflow: hidden;
             border: none;
-            transition: transform 0.35s cubic-bezier(.4,2,.3,1), box-shadow 0.2s;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3),
+                        0 8px 0 rgba(98, 179, 71, 0.3),
+                        0 0 0 2px rgba(255, 255, 255, 0.2) inset;
         }
         .MC_Button.play-bg-btn-4b4t:hover {
-            transform: scale(1.15) rotate(-7deg);
-            box-shadow: 0 8px 32px #0005, 0 2px 0 #62b34722;
+            transform: translateY(-8px) scale(1.15) rotate(-3deg);
+            box-shadow: 0 24px 64px rgba(98, 179, 71, 0.4),
+                        0 12px 0 rgba(98, 179, 71, 0.5),
+                        0 0 0 3px rgba(255, 255, 255, 0.4) inset;
+            animation: playButtonPulse 1.5s ease-in-out infinite;
         }
         .MC_Button.play-bg-btn-4b4t span, .MC_Button.play-bg-btn-4b4t .arrow {
             position: relative;
             z-index: 2;
             color: #fff;
-            text-shadow: 0 2px 8px #000, 0 0 2px #222;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8),
+                         0 0 4px rgba(0, 0, 0, 0.6);
+            font-weight: 900;
         }
         .MC_Button.play-bg-btn-4b4t::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.25);
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(98, 179, 71, 0.2) 50%,
+                rgba(0, 0, 0, 0.4) 100%);
             z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .MC_Button.play-bg-btn-4b4t:hover::before {
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.1) 0%,
+                rgba(98, 179, 71, 0.3) 50%,
+                rgba(0, 0, 0, 0.2) 100%);
         }
         #logo-container {
             position: absolute;
@@ -575,22 +1280,23 @@
             opacity: 0.8;
         }
         #header-account .google-login-btn, #header-account #logout-btn {
-            padding: 0.5rem 1.2rem;
-            font-size: 0.9em;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8em;
             box-shadow: none;
             background-color: transparent;
             color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             transition: background-color 0.2s;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-            border-radius: 8px !important;
+            border-radius: 6px !important;
+            margin: 0 0.2rem;
         }
         #header-account .google-login-btn {
             background-image: url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg') !important;
             background-repeat: no-repeat !important;
-            background-position: 12px center !important;
-            background-size: 18px 18px !important;
-            padding-left: 2.5rem !important; /* 로고 공간 확보 */
+            background-position: 8px center !important;
+            background-size: 14px 14px !important;
+            padding-left: 1.8rem !important; /* 로고 공간 확보 */
         }
         #header-account #logout-btn {
             background: transparent !important; /* 기존 그라데이션 제거 */
@@ -718,112 +1424,174 @@
             position: absolute;
             right: 0;
             top: 100%;
-            min-width: 280px;
-            background: rgba(255,255,255,0.98);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px #0002, 0 2px 8px #0001;
-            border-radius: 16px;
-            padding: 20px;
+            min-width: 320px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.98) 0%,
+                rgba(248, 253, 248, 0.95) 100%);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+                        0 8px 32px rgba(0, 0, 0, 0.1),
+                        0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+            border-radius: 24px;
+            padding: 2rem;
             z-index: 3000;
             color: #222;
-            border: 1px solid rgba(255,255,255,0.2);
-            margin-top: 8px;
+            border: 1px solid rgba(98, 179, 71, 0.2);
+            margin-top: 12px;
+            position: relative;
+            overflow: hidden;
         }
+
+        .account-dropdown::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at top right, 
+                rgba(98, 179, 71, 0.05) 0%,
+                transparent 60%);
+            pointer-events: none;
+        }
+
         .account-dropdown.active {
             display: block;
-            animation: dropdownFadeIn 0.2s ease-out;
+            animation: dropdownFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         @keyframes dropdownFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-20px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
+
         .account-dropdown .logout-btn {
-            background: linear-gradient(180deg, #e53935 0%, #b71c1c 100%);
+            background: linear-gradient(135deg, #e53935 0%, #b71c1c 50%, #7f0000 100%);
             color: #fff;
             border: none;
-            border-radius: 10px;
-            padding: 12px 20px;
-            margin-top: 15px;
-            font-weight: bold;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            margin-top: 1.5rem;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px #e5393533;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(229, 57, 53, 0.3);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
+
+        .account-dropdown .logout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .account-dropdown .logout-btn:hover::before {
+            left: 100%;
+        }
+
         .account-dropdown .logout-btn:hover {
-            background: linear-gradient(180deg, #ff6b6b 0%, #e53935 100%);
-            box-shadow: 0 4px 12px #e5393555;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #ff6b6b 0%, #e53935 50%, #b71c1c 100%);
+            box-shadow: 0 12px 36px rgba(229, 57, 53, 0.5);
+            transform: translateY(-3px) scale(1.05);
         }
+
         .account-dropdown .profile {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            gap: 18px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(98, 179, 71, 0.1);
+            position: relative;
         }
+
         .account-dropdown .profile img {
-            width: 50px;
-            height: 50px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            box-shadow: 0 4px 12px #0002;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1),
+                        0 0 0 4px rgba(98, 179, 71, 0.3);
             border: 3px solid #fff;
+            transition: all 0.3s ease;
         }
-        .account-dropdown .profile-info {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
+
+        .account-dropdown .profile:hover img {
+            box-shadow: 0 12px 32px rgba(98, 179, 71, 0.2),
+                        0 0 0 5px rgba(98, 179, 71, 0.5);
+            transform: scale(1.1);
         }
+
         .account-dropdown .profile-info .nickname {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #222;
-            margin-bottom: 2px;
+            font-weight: 800;
+            font-size: 1.4em;
+            background: linear-gradient(135deg, #2c5530 0%, #62b347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
         }
-        .account-dropdown .profile-info .google-name {
-            font-size: 0.9em;
-            color: #666;
-        }
-        .account-dropdown .profile-info .email {
-            font-size: 0.8em;
-            color: #888;
-            margin-top: 2px;
-        }
-        .account-dropdown .account-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+
         .account-dropdown .action-btn {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #222;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 0.9em;
+            border: 2px solid rgba(98, 179, 71, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: left;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
         }
+
+        .account-dropdown .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(98, 179, 71, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .account-dropdown .action-btn:hover::before {
+            left: 100%;
+        }
+
         .account-dropdown .action-btn:hover {
-            background: #e9ecef;
-            border-color: #dee2e6;
-        }
-        .account-dropdown .action-btn .action-icon {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            border-color: rgba(98, 179, 71, 0.4);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(98, 179, 71, 0.2);
         }
         .account-btn {
             background: #fff;
@@ -910,6 +1678,7 @@
             <button class="tab-btn" data-tab="music">노래</button>
             <button class="tab-btn" data-tab="event">이벤트</button>
             <button class="tab-btn" data-tab="4b4t">4B4T</button>
+            <button class="tab-btn" data-tab="support">고객센터</button>
         </div>
         <div class="social-links" style="flex:0 0 auto; gap:8px; display:flex; align-items:center; margin-right:16px;">
             <a href="https://discord.gg/s63XD2AuNy" target="_blank" class="social-btn discord-btn">
@@ -1015,6 +1784,115 @@
             <div id="posts4b4t" style="margin-top:20px;"></div>
         </div>
     </div>
+    
+    <!-- 고객센터 탭 -->
+    <div class="tab-content" id="tab-support" style="max-width:800px;margin:40px auto;display:none;">
+        <div class="server-info">
+            <h2 style="text-align:center; margin-bottom:2rem;">고객센터</h2>
+            <p style="text-align:center; color:#666; margin-bottom:3rem;">서버 문제나 궁금한 사항이 있으시면 언제든지 문의해주세요!</p>
+            
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; margin-bottom:3rem;">
+                <!-- FAQ 섹션 -->
+                <div style="background: linear-gradient(135deg, rgba(98, 179, 71, 0.1), rgba(98, 179, 71, 0.05)); padding:2rem; border-radius:20px; border:2px solid rgba(98, 179, 71, 0.2);">
+                    <h3 style="color:#62b347; margin-bottom:1.5rem; display:flex; align-items:center;">
+                        자주 묻는 질문
+                    </h3>
+                    <div style="margin-bottom:1rem;">
+                        <details style="margin-bottom:1rem; cursor:pointer;">
+                            <summary style="font-weight:bold; padding:0.5rem; background:rgba(98, 179, 71, 0.1); border-radius:8px; margin-bottom:0.5rem;">서버 접속이 안돼요</summary>
+                            <p style="padding:0.5rem; color:#666; line-height:1.6;">1. 인터넷 연결을 확인해주세요<br>2. 마인크래프트 버전을 확인해주세요<br>3. 렐름 초대 링크를 다시 클릭해보세요<br>4. 계정이 잘못됐거나 밴이 당했는지 확인하세요</p>
+                        </details>
+                        <details style="margin-bottom:1rem; cursor:pointer;">
+                            <summary style="font-weight:bold; padding:0.5rem; background:rgba(98, 179, 71, 0.1); border-radius:8px; margin-bottom:0.5rem;">권한이 없다고 나와요</summary>
+                            <p style="padding:0.5rem; color:#666; line-height:1.6;">관리자에게 권한 요청을 해주세요. 디스코드나 커뮤니티를 통해 문의 가능합니다.</p>
+                        </details>
+                    </div>
+                </div>
+                
+                <!-- 연락처 섹션 -->
+                <div style="background: linear-gradient(135deg, rgba(66, 133, 244, 0.1), rgba(66, 133, 244, 0.05)); padding:2rem; border-radius:20px; border:2px solid rgba(66, 133, 244, 0.2);">
+                    <h3 style="color:#4285f4; margin-bottom:1.5rem; display:flex; align-items:center;">
+                        연락처
+                    </h3>
+                    <div style="margin-bottom:1rem;">
+                        <div style="display:flex; align-items:center; margin-bottom:1rem; padding:0.8rem; background:rgba(66, 133, 244, 0.05); border-radius:8px;">
+                            <span style="font-size:1.2em; margin-right:0.5rem;">💬</span>
+                            <div>
+                                <strong>디스코드</strong>
+                                <p style="color:#666; font-size:0.9em;">가장 빠른 응답</p>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:1rem; padding:0.8rem; background:rgba(66, 133, 244, 0.05); border-radius:8px;">
+                            <span style="font-size:1.2em; margin-right:0.5rem;">💌</span>
+                            <div>ㅌ
+                                <strong>이메일</strong>
+                                <p style="color:#666; font-size:0.9em;">자세한 문의사항</p>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:1rem; padding:0.8rem; background:rgba(66, 133, 244, 0.05); border-radius:8px;">
+                            <span style="font-size:1.2em; margin-right:0.5rem;">🌐</span>
+                            <div>
+                                <strong>커뮤니티</strong>
+                                <p style="color:#666; font-size:0.9em;">다른 유저와 소통</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 문의 폼 -->
+            <div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 253, 248, 0.8)); padding:2.5rem; border-radius:20px; box-shadow:0 8px 32px rgba(0,0,0,0.1);">
+                <h3 style="text-align:center; margin-bottom:2rem; color:#2c5530;">
+                    문의하기
+                </h3>
+                <form id="supportForm" style="display:grid; gap:1.5rem;">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                        <input type="text" id="support-name" placeholder="닉네임" required style="padding:1rem; border:2px solid rgba(98, 179, 71, 0.2); border-radius:12px; font-size:1rem;">
+                        <select id="support-category" required style="padding:1rem; border:2px solid rgba(98, 179, 71, 0.2); border-radius:12px; font-size:1rem;">
+                            <option value="">문의 유형 선택</option>
+                            <option value="technical">기술적 문제</option>
+                            <option value="account">계정 문제</option>
+                            <option value="gameplay">게임플레이 문제</option>
+                            <option value="report">신고</option>
+                            <option value="suggestion">건의사항</option>
+                            <option value="other">기타</option>
+                        </select>
+                    </div>
+                    <input type="text" id="support-subject" placeholder="제목" required style="padding:1rem; border:2px solid rgba(98, 179, 71, 0.2); border-radius:12px; font-size:1rem;">
+                    <textarea id="support-content" placeholder="문의 내용을 자세히 작성해주세요..." required style="padding:1rem; border:2px solid rgba(98, 179, 71, 0.2); border-radius:12px; font-size:1rem; min-height:150px; resize:vertical;"></textarea>
+                    <button type="submit" class="support-submit-btn" style="justify-self:center; min-width:220px; padding:1rem 2rem; background: linear-gradient(135deg, rgba(98, 179, 71, 0.9), rgba(76, 175, 80, 0.8)); border:none; border-radius:15px; color:#fff; font-size:1.1rem; font-weight:bold; cursor:pointer; box-shadow:0 8px 25px rgba(98, 179, 71, 0.3); backdrop-filter:blur(10px); border:2px solid rgba(255, 255, 255, 0.2); transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative; overflow:hidden;">
+                        <span style="position:relative; z-index:2; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            <span>✉️ 문의 접수</span>
+                            <span class="arrow" style="transition:transform 0.3s ease;">→</span>
+                        </span>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- 서버 상태 -->
+            <div style="margin-top:3rem; text-align:center;">
+                <h3 style="margin-bottom:1.5rem; color:#2c5530;">실시간 서버 상태</h3>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem;">
+                    <div style="background: linear-gradient(135deg, rgba(98, 179, 71, 0.1), rgba(98, 179, 71, 0.05)); padding:1.5rem; border-radius:15px; border:2px solid rgba(98, 179, 71, 0.2);">
+                        <div style="font-size:2em; margin-bottom:0.5rem;">🟢</div>
+                        <h4 style="color:#62b347; margin-bottom:0.5rem;">MLP 서버</h4>
+                        <p style="color:#666; font-size:0.9em;">온라인</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05)); padding:1.5rem; border-radius:15px; border:2px solid rgba(255, 193, 7, 0.3);">
+                        <div style="font-size:2em; margin-bottom:0.5rem;">🟡</div>
+                        <h4 style="color:#ffc107; margin-bottom:0.5rem;">4B4T 서버</h4>
+                        <p style="color:#666; font-size:0.9em;">불안정</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, rgba(66, 133, 244, 0.1), rgba(66, 133, 244, 0.05)); padding:1.5rem; border-radius:15px; border:2px solid rgba(66, 133, 244, 0.2);">
+                        <div style="font-size:2em; margin-bottom:0.5rem;">💻</div>
+                        <h4 style="color:#4285f4; margin-bottom:0.5rem;">웹사이트</h4>
+                        <p style="color:#666; font-size:0.9em;">정상</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="tab-content" id="tab-mlp" style="max-width:800px;margin:40px auto;display:none;">
         <div class="server-info">
             <h2>MLP 야생 서버 정보</h2>
@@ -1428,12 +2306,61 @@
 
         // 탭 메뉴 스크립트
         function showTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(div => div.style.display = 'none');
-            document.getElementById('tab-' + tab).style.display = '';
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
- 
-            // 탭별 배경 처리
+            // 현재 활성화된 탭 찾기
+            const currentTab = document.querySelector('.tab-content[style*="display: block"], .tab-content:not([style*="display: none"])');
+            const newTab = document.getElementById('tab-' + tab);
+            
+            // 새 탭이 존재하지 않으면 에러 로그 출력
+            if (!newTab) {
+                console.error(`Tab with id 'tab-${tab}' not found`);
+                return;
+            }
+            
+            // 이미 활성화된 탭이면 리턴
+            if (currentTab === newTab && !newTab.classList.contains('fade-out')) {
+                return;
+            }
+
+            // 현재 탭이 있으면 페이드 아웃
+            if (currentTab && currentTab !== newTab) {
+                currentTab.classList.add('slide-out');
+                setTimeout(() => {
+                    currentTab.style.display = 'none';
+                    currentTab.classList.remove('slide-out', 'active');
+                }, 300);
+            }
+
+            // 새 탭 표시
+            setTimeout(() => {
+                // 모든 탭 숨기기
+                document.querySelectorAll('.tab-content').forEach(div => {
+                    div.style.display = 'none';
+                    div.classList.remove('active', 'slide-in', 'slide-out');
+                });
+                
+                // 새 탭 보여주기
+                newTab.style.display = 'block';
+                newTab.classList.add('slide-in', 'active');
+                
+                // 버튼 활성화 상태 변경
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+                if (activeBtn) {
+                    activeBtn.classList.add('active');
+                }
+                
+                // 커뮤니티 탭 특별 처리
+                if (tab === 'community') {
+                    // 커뮤니티 데이터 새로고침
+                    setTimeout(() => {
+                        if (typeof loadPosts === 'function') {
+                            loadPosts();
+                        }
+                    }, 100);
+                }
+            }, currentTab && currentTab !== newTab ? 150 : 0);
+
+            // 탭별 배경 처리 (애니메이션과 함께)
             let bgStyle = "url('default-screen.png') no-repeat center center fixed";
             if(tab === '4b4t') {
                 bgStyle = "url('4b4t-background.png') no-repeat center center fixed";
@@ -1441,15 +2368,52 @@
                 bgStyle = "url('event-background.png') no-repeat center center fixed";
             } else if(tab === 'mlp') {
                 bgStyle = "url('mlp-background.png') no-repeat center center fixed";
+            } else if(tab === 'support') {
+                bgStyle = "url('default-screen.png') no-repeat center center fixed";
             }
-            document.body.style.background = bgStyle;
+            
+            // 배경 변경 (약간의 지연으로 부드러운 전환)
+            setTimeout(() => {
+                document.body.style.background = bgStyle;
                 document.body.style.backgroundSize = 'cover';
-            }
+            }, 200);
+        }
         window.showTab = showTab;
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.onclick = () => showTab(btn.getAttribute('data-tab'));
+        
+        // 탭 버튼 이벤트 리스너 - 더 안정적인 버전
+        function initializeTabButtons() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    const tabName = btn.getAttribute('data-tab');
+                    if (tabName) {
+                        showTab(tabName);
+                    } else {
+                        console.error('Tab button missing data-tab attribute:', btn);
+                    }
+                };
+            });
+        }
+        
+        // DOM이 로드되면 탭 버튼 초기화
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeTabButtons);
+        } else {
+            initializeTabButtons();
+        }
+        // 기본 탭 (초기 로딩 시 애니메이션 없이)
+        document.addEventListener('DOMContentLoaded', function() {
+            const serverTab = document.getElementById('tab-server');
+            if (serverTab) {
+                serverTab.style.display = 'block';
+                serverTab.classList.add('active');
+                // 초기 로딩 시에는 바로 표시
+                setTimeout(() => {
+                    serverTab.style.opacity = '1';
+                    serverTab.style.transform = 'translateX(0)';
+                }, 100);
+            }
         });
-        // 기본 탭
         showTab('server');
         // 노래 선택 기능
         const musicSelect = document.getElementById('music-select');
@@ -1765,6 +2729,88 @@
             loadPosts4b4t();
         });
         document.querySelector('.tab-btn[data-tab="4b4t"]').addEventListener('click', loadPosts4b4t);
+
+        // 고객센터 폼 처리
+        document.getElementById('supportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('support-name').value;
+            const category = document.getElementById('support-category').value;
+            const subject = document.getElementById('support-subject').value;
+            const content = document.getElementById('support-content').value;
+            
+            // 폼 유효성 검사
+            if (!name || !category || !subject || !content) {
+                alert('모든 필드를 입력해주세요.');
+                return;
+            }
+            
+            // 문의 접수 처리 (여기서는 시뮬레이션)
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // 로딩 상태로 변경
+            submitBtn.innerHTML = `
+                <span style="position:relative; z-index:2; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <span style="animation: spin 1s linear infinite;">⏳</span>
+                    <span>접수 중...</span>
+                </span>
+            `;
+            submitBtn.disabled = true;
+            submitBtn.style.background = 'linear-gradient(135deg, rgba(255, 193, 7, 0.9), rgba(255, 152, 0, 0.8))';
+            
+            // CSS 애니메이션 추가
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                @keyframes successPulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                    100% { transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 2초 후 완료 메시지
+            setTimeout(() => {
+                // 성공 상태로 변경
+                submitBtn.innerHTML = `
+                    <span style="position:relative; z-index:2; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <span>✅</span>
+                        <span>접수 완료!</span>
+                    </span>
+                `;
+                submitBtn.style.background = 'linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(56, 142, 60, 0.8))';
+                submitBtn.style.animation = 'successPulse 0.6s ease-in-out';
+                
+                alert(`문의가 접수되었습니다!\n\n접수번호: CS-${Date.now().toString().slice(-6)}\n문의유형: ${getCategoryText(category)}\n제목: ${subject}\n\n빠른 시일 내에 답변드리겠습니다.`);
+                
+                // 1초 후 폼 초기화 및 버튼 복원
+                setTimeout(() => {
+                    document.getElementById('supportForm').reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.background = '';
+                    submitBtn.style.animation = '';
+                    document.head.removeChild(style);
+                }, 1000);
+            }, 2000);
+        });
+        
+        function getCategoryText(category) {
+            const categories = {
+                'technical': '기술적 문제',
+                'account': '계정 문제', 
+                'gameplay': '게임플레이 문제',
+                'report': '신고',
+                'suggestion': '건의사항',
+                'other': '기타'
+            };
+            return categories[category] || '기타';
+        }
 
         // --- 모바일 햄버거 메뉴 스크립트 ---
         const hamburgerMenu = document.getElementById('hamburger-menu');
