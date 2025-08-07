@@ -3578,19 +3578,24 @@
         
         // 마인크래프트 스킨 URL 생성 함수
         function getMinecraftSkinUrl(username, size = 32) {
-            // 마인크래프트 닉네임인지 확인 (Google 계정명이 아닌 경우)
-            const isMinecraftNickname = username && 
-                                      username !== auth.currentUser?.displayName && 
-                                      username.length >= 3 && 
-                                      username.length <= 16 && 
-                                      /^[a-zA-Z0-9_]+$/.test(username);
+            console.log(`🎮 스킨 요청: ${username}, 크기: ${size}px`);
             
-            if (isMinecraftNickname) {
-                // Crafatar API를 사용해서 마인크래프트 스킨 헤드 가져오기
-                return `https://crafatar.com/avatars/${username}?size=${size}&default=MHF_Steve&overlay`;
+            // 현재 설정 확인
+            const useMCNickname = localStorage.getItem('useMCNickname') === 'true';
+            const mcNickname = localStorage.getItem('mcNickname');
+            
+            console.log(`⚙️ 설정 - MC 닉네임 사용: ${useMCNickname}, MC 닉네임: ${mcNickname}`);
+            
+            // MC 닉네임 사용이 활성화되고 MC 닉네임이 설정되어 있으면 마인크래프트 스킨 사용
+            if (useMCNickname && mcNickname && mcNickname.length >= 3 && mcNickname.length <= 16 && /^[a-zA-Z0-9_]+$/.test(mcNickname)) {
+                const skinUrl = `https://crafatar.com/avatars/${mcNickname}?size=${size}&default=MHF_Steve&overlay`;
+                console.log(`✅ 마인크래프트 스킨 URL: ${skinUrl}`);
+                return skinUrl;
             } else {
-                // 마인크래프트 닉네임이 아니면 Google 프로필 이미지 사용
-                return auth.currentUser?.photoURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk5OSI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==';
+                // 마인크래프트 닉네임이 설정되지 않았거나 비활성화된 경우 Google 프로필 사용
+                const fallbackUrl = auth.currentUser?.photoURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk5OSI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==';
+                console.log(`📷 Google 프로필 사용: ${fallbackUrl}`);
+                return fallbackUrl;
             }
         }
         
