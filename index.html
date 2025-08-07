@@ -2168,12 +2168,10 @@
                 const postId = docSnap.id;
                 const post = document.createElement('div');
                 post.style = 'background:#222;padding:10px;margin-bottom:10px;border-radius:6px;display:flex;align-items:flex-start;gap:10px;';
-                let profileHTML = '';
-                if (data.photoURL) {
-                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">`;
-                } else {
-                    profileHTML = `<div style='width:32px;height:32px;border-radius:50%;background:#444;display:inline-block;'></div>`;
-                }
+                
+                // 사용자명에 따른 프로필 이미지 (마인크래프트 스킨 또는 Google 프로필)
+                const profileHTML = getProfileImageHtml(data.username, 32);
+                
                 const likeCount = data.likes ? data.likes.length : 0;
                 const dislikeCount = data.dislikes ? data.dislikes.length : 0;
                 let adminDeleteBtn = '';
@@ -2240,7 +2238,7 @@
                     const comment = input.value.trim();
                     if (!comment) return;
                     await addDoc(collection(db, `posts/${postId}/comments`), {
-                        username: minecraftNickname || auth.currentUser.displayName,
+                        username: getCurrentDisplayName(),
                         photoURL: auth.currentUser.photoURL,
                         content: comment,
                         created: serverTimestamp()
@@ -2278,12 +2276,10 @@
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach(docSnap => {
                 const data = docSnap.data();
-                let profileHTML = '';
-                if (data.photoURL) {
-                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:22px;height:22px;border-radius:50%;vertical-align:middle;margin-right:5px;">`;
-                } else {
-                    profileHTML = `<div style='width:22px;height:22px;border-radius:50%;background:#444;display:inline-block;margin-right:5px;'></div>`;
-                }
+                
+                // 사용자명에 따른 프로필 이미지 (마인크래프트 스킨 또는 Google 프로필)
+                const profileHTML = getProfileImageHtml(data.username, 22).replace('vertical-align:middle;', 'vertical-align:middle;margin-right:5px;');
+                
                 let adminDeleteBtn = '';
                 if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
                     adminDeleteBtn = `<button class="admin-comment-delete-btn mc-btn-red" data-post="${postId}" data-id="${docSnap.id}">삭제</button>`;
@@ -2333,7 +2329,7 @@
             e.preventDefault();
             
             try {
-                const username = minecraftNickname || document.getElementById('username').value.trim();
+                const username = getCurrentDisplayName();
                 const content = document.getElementById('content').value.trim();
                 let photoURL = '';
                 let uid = '';
@@ -2386,7 +2382,9 @@
                 document.getElementById('postForm').prepend(notice);
             }
             if (isLoggedIn) {
-                usernameInput.value = user.displayName;
+                // 설정에 따른 닉네임 표시
+                const displayName = getCurrentDisplayName();
+                usernameInput.value = displayName;
                 usernameInput.disabled = true;
                 contentInput.disabled = false;
                 submitBtn.disabled = false;
@@ -2753,12 +2751,7 @@
                 const postId = docSnap.id;
                 const post = document.createElement('div');
                 post.style = 'background:#222;padding:10px;margin-bottom:10px;border-radius:6px;display:flex;align-items:flex-start;gap:10px;';
-                let profileHTML = '';
-                if (data.photoURL) {
-                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">`;
-                } else {
-                    profileHTML = `<div style='width:32px;height:32px;border-radius:50%;background:#444;display:inline-block;'></div>`;
-                }
+                const profileHTML = getProfileImageHtml(data.username, 32);
                 const likeCount = data.likes ? data.likes.length : 0;
                 const dislikeCount = data.dislikes ? data.dislikes.length : 0;
                 let adminDeleteBtn = '';
@@ -2823,7 +2816,7 @@
                     const comment = input.value.trim();
                     if (!comment) return;
                     await addDoc(collection(db, `posts_4b4t/${postId}/comments`), {
-                        username: minecraftNickname || auth.currentUser.displayName,
+                        username: getCurrentDisplayName(),
                         photoURL: auth.currentUser.photoURL,
                         content: comment,
                         created: serverTimestamp()
@@ -2849,12 +2842,7 @@
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach(docSnap => {
                 const data = docSnap.data();
-                let profileHTML = '';
-                if (data.photoURL) {
-                    profileHTML = `<img src="${data.photoURL}" alt="프로필" style="width:22px;height:22px;border-radius:50%;vertical-align:middle;margin-right:5px;">`;
-                } else {
-                    profileHTML = `<div style='width:22px;height:22px;border-radius:50%;background:#444;display:inline-block;margin-right:5px;'></div>`;
-                }
+                const profileHTML = getProfileImageHtml(data.username, 22, 'margin-right:5px;');
                 let adminDeleteBtn = '';
                 if (auth.currentUser && ADMIN_UIDS.includes(auth.currentUser.uid)) {
                     adminDeleteBtn = `<button class="admin-comment-delete-btn-4b4t mc-btn-red" data-post="${postId}" data-id="${docSnap.id}">삭제</button>`;
@@ -2900,7 +2888,7 @@
             e.preventDefault();
             if(!auth.currentUser) return alert('로그인 후 이용하세요!');
             const content = document.getElementById('content4b4t').value.trim();
-            const username = minecraftNickname || auth.currentUser.displayName;
+            const username = getCurrentDisplayName();
             let photoURL = auth.currentUser.photoURL;
             let uid = auth.currentUser.uid;
             if (!username || !content) return;
@@ -3356,46 +3344,68 @@
             accountIcon.setAttribute('viewBox', '0 0 24 24');
             
             const accountText = document.createElement('span');
-            accountText.textContent = "계정";
+            accountText.textContent = "설정";
             
             accountBtn.appendChild(accountIcon);
             accountBtn.appendChild(accountText);
             headerAccount.appendChild(accountBtn);
             
-            // 드롭다운
+            // 설정 드롭다운
             const dropdown = document.createElement('div');
             dropdown.className = 'account-dropdown';
             dropdown.innerHTML = `
-                <div class="profile">
-                    <img src="${user.photoURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk5OSI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg=='}" alt="프로필">
-                    <div class="profile-info">
-                        <div class="nickname">${minecraftNickname || user.displayName || '사용자'}${ADMIN_UIDS.includes(user.uid) ? ' <span style="color: #62b347; font-weight: bold;">(관리자)</span>' : ''}</div>
-                        <div class="google-name" style="font-size: 0.85em; color: #666; margin-top: 2px;">${user.displayName || 'Google 사용자'}</div>
-                        <div class="email" style="font-size: 0.8em; color: #888; margin-top: 2px;">${user.email || ''}</div>
+                <div class="profile-header">
+                    <img src="${user.photoURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk5OSI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg=='}" alt="프로필" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 10px;">
+                    <div>
+                        <div style="font-weight: bold; color: #333;">${user.displayName || 'Google 사용자'}${ADMIN_UIDS.includes(user.uid) ? ' <span style="color: #62b347; font-weight: bold;">(관리자)</span>' : ''}</div>
+                        <div style="font-size: 0.8em; color: #888;">${user.email || ''}</div>
                     </div>
                 </div>
-                <div class="nickname-edit">
-                    <input type="text" placeholder="마인크래프트 닉네임 입력" value="${minecraftNickname || ''}">
-                    <div class="edit-buttons">
-                        <button class="edit-btn save-btn">저장</button>
-                        <button class="edit-btn cancel-btn">취소</button>
+                <div class="setting-divider" style="height: 1px; background: #eee; margin: 15px 0;"></div>
+                
+                <div class="setting-section">
+                    <h4 style="margin: 0 0 10px 0; color: #333; font-size: 0.9em; font-weight: bold;">⚙️ 일반 설정</h4>
+                    
+                    <!-- 마인크래프트 닉네임 설정 -->
+                    <div class="setting-item" style="margin-bottom: 15px;">
+                        <label style="display: block; font-size: 0.85em; color: #666; margin-bottom: 5px;">마인크래프트 닉네임</label>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <input type="text" id="minecraft-nickname-input" placeholder="닉네임 입력" value="${minecraftNickname || ''}" 
+                                   style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.85em;">
+                            <button id="save-nickname-btn" class="setting-btn" style="padding: 8px 12px; background: #62b347; color: white; border: none; border-radius: 4px; font-size: 0.8em; cursor: pointer;">저장</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 닉네임 사용 설정 -->
+                    <div class="setting-item" style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85em; color: #666; cursor: pointer;">
+                            <input type="checkbox" id="use-minecraft-nickname" ${minecraftNickname ? 'checked' : ''} 
+                                   style="margin: 0;">
+                            <span>커뮤니티에서 마인크래프트 닉네임 사용</span>
+                        </label>
+                        <div style="font-size: 0.75em; color: #999; margin-top: 3px; margin-left: 20px;">체크 해제 시 Google 계정명 사용</div>
                     </div>
                 </div>
-                <div class="account-actions">
-                    <button class="action-btn" onclick="toggleNicknameEdit()">
-                        <svg class="action-icon" viewBox="0 0 24 24">
-                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                        </svg>
-                        닉네임 편집
-                    </button>
-                    <button class="action-btn" onclick="copyMinecraftNickname()">
-                        <svg class="action-icon" viewBox="0 0 24 24">
+                
+                <div class="setting-divider" style="height: 1px; background: #eee; margin: 15px 0;"></div>
+                
+                <div class="setting-section">
+                    <h4 style="margin: 0 0 10px 0; color: #333; font-size: 0.9em; font-weight: bold;">🔧 도구</h4>
+                    
+                    <!-- 현재 닉네임 복사 -->
+                    <button class="setting-action-btn" id="copy-current-nickname" style="width: 100%; padding: 10px; margin-bottom: 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; color: #333; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#666">
                             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                         </svg>
-                        닉네임 복사
+                        <span>현재 닉네임 복사</span>
                     </button>
                 </div>
-                <button class="logout-btn">로그아웃</button>
+                
+                <div class="setting-divider" style="height: 1px; background: #eee; margin: 15px 0;"></div>
+                
+                <button class="logout-btn" style="width: 100%; padding: 12px; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                    🚪 로그아웃
+                </button>
             `;
             headerAccount.appendChild(dropdown);
             
@@ -3426,8 +3436,8 @@
                 }
             };
             
-            // 드롭다운 이벤트 리스너 설정
-            setupDropdownEventListeners();
+            // 새로운 설정 이벤트 리스너 설정
+            setupSettingsEventListeners();
         }
         // onAuthStateChanged에서 계정 드롭다운 렌더링
         onAuthStateChanged(auth, (user) => {
@@ -3453,75 +3463,158 @@
             }
         });
 
-        // 마인크래프트 닉네임 복사
+        // 설정 이벤트 리스너 설정
+        function setupSettingsEventListeners() {
+            // 마인크래프트 닉네임 저장
+            const saveNicknameBtn = document.getElementById('save-nickname-btn');
+            if (saveNicknameBtn) {
+                saveNicknameBtn.onclick = () => {
+                    const input = document.getElementById('minecraft-nickname-input');
+                    const newNick = input.value.trim();
+                    
+                    if (newNick === '') {
+                        alert('닉네임을 입력해주세요!');
+                        return;
+                    }
+                    
+                    // 닉네임 저장
+                    localStorage.setItem('mc_nick', newNick);
+                    minecraftNickname = newNick;
+                    
+                    // 마인크래프트 닉네임 사용 체크박스도 자동으로 체크
+                    const useCheckbox = document.getElementById('use-minecraft-nickname');
+                    if (useCheckbox) {
+                        useCheckbox.checked = true;
+                        localStorage.setItem('use_mc_nick', 'true');
+                    }
+                    
+                    showConnectionStatus("✅ 닉네임이 저장되었습니다", "success");
+                    
+                    // 드롭다운 새로 렌더링
+                    setTimeout(() => {
+                        renderAccountDropdown(auth.currentUser);
+                    }, 100);
+                };
+            }
+            
+            // Enter 키로 닉네임 저장
+            const nicknameInput = document.getElementById('minecraft-nickname-input');
+            if (nicknameInput) {
+                nicknameInput.onkeypress = (e) => {
+                    if (e.key === 'Enter') {
+                        saveNicknameBtn?.click();
+                    }
+                };
+            }
+            
+            // 마인크래프트 닉네임 사용 설정
+            const useCheckbox = document.getElementById('use-minecraft-nickname');
+            if (useCheckbox) {
+                // 저장된 설정 불러오기
+                const useMcNick = localStorage.getItem('use_mc_nick');
+                useCheckbox.checked = useMcNick === 'true' && minecraftNickname;
+                
+                useCheckbox.onchange = () => {
+                    localStorage.setItem('use_mc_nick', useCheckbox.checked.toString());
+                    
+                    if (useCheckbox.checked) {
+                        if (!minecraftNickname) {
+                            alert('먼저 마인크래프트 닉네임을 설정해주세요!');
+                            useCheckbox.checked = false;
+                            localStorage.setItem('use_mc_nick', 'false');
+                            return;
+                        }
+                        showConnectionStatus("✅ 마인크래프트 닉네임을 사용합니다", "success");
+                    } else {
+                        showConnectionStatus("ℹ️ Google 계정명을 사용합니다", "info");
+                    }
+                };
+            }
+            
+            // 현재 닉네임 복사
+            const copyBtn = document.getElementById('copy-current-nickname');
+            if (copyBtn) {
+                copyBtn.onclick = () => {
+                    const currentNickname = getCurrentDisplayName();
+                    
+                    navigator.clipboard.writeText(currentNickname).then(() => {
+                        showConnectionStatus("✅ 닉네임이 복사되었습니다", "success");
+                        copyBtn.innerHTML = `
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#62b347">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>복사 완료!</span>
+                        `;
+                        setTimeout(() => {
+                            copyBtn.innerHTML = `
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#666">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                </svg>
+                                <span>현재 닉네임 복사</span>
+                            `;
+                        }, 2000);
+                    }).catch(() => {
+                        // Fallback
+                        const textArea = document.createElement('textarea');
+                        textArea.value = currentNickname;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        showConnectionStatus("✅ 닉네임이 복사되었습니다", "success");
+                    });
+                };
+            }
+        }
+        
+        // 현재 표시되는 닉네임 가져오기 (설정에 따라)
+        function getCurrentDisplayName() {
+            const useMcNick = localStorage.getItem('use_mc_nick') === 'true';
+            if (useMcNick && minecraftNickname) {
+                return minecraftNickname;
+            }
+            return auth.currentUser?.displayName || '사용자';
+        }
+        
+        // 마인크래프트 스킨 URL 생성 함수
+        function getMinecraftSkinUrl(username, size = 32) {
+            // 마인크래프트 닉네임인지 확인 (Google 계정명이 아닌 경우)
+            const isMinecraftNickname = username && 
+                                      username !== auth.currentUser?.displayName && 
+                                      username.length >= 3 && 
+                                      username.length <= 16 && 
+                                      /^[a-zA-Z0-9_]+$/.test(username);
+            
+            if (isMinecraftNickname) {
+                // Crafatar API를 사용해서 마인크래프트 스킨 헤드 가져오기
+                return `https://crafatar.com/avatars/${username}?size=${size}&default=MHF_Steve&overlay`;
+            } else {
+                // 마인크래프트 닉네임이 아니면 Google 프로필 이미지 사용
+                return auth.currentUser?.photoURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk5OSI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==';
+            }
+        }
+        
+        // 프로필 이미지 HTML 생성 함수
+        function getProfileImageHtml(username, size = 32) {
+            const skinUrl = getMinecraftSkinUrl(username, size);
+            return `<img src="${skinUrl}" alt="${username} 프로필" style="width:${size}px;height:${size}px;border-radius:4px;vertical-align:middle;" 
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk5OSI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==';">`;
+        }
+        // 마인크래프트 닉네임 복사 (호환성을 위해 유지)
         function copyMinecraftNickname() {
-            const nickname = minecraftNickname || auth.currentUser?.displayName || '닉네임 없음';
-            navigator.clipboard.writeText(nickname).then(() => {
-                alert('닉네임이 클립보드에 복사되었습니다!');
+            const currentNickname = getCurrentDisplayName();
+            navigator.clipboard.writeText(currentNickname).then(() => {
+                showConnectionStatus("✅ 닉네임이 복사되었습니다", "success");
             }).catch(() => {
                 // 클립보드 API가 지원되지 않는 경우
                 const textArea = document.createElement('textarea');
-                textArea.value = nickname;
+                textArea.value = currentNickname;
                 document.body.appendChild(textArea);
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                alert('닉네임이 클립보드에 복사되었습니다!');
+                showConnectionStatus("✅ 닉네임이 복사되었습니다", "success");
             });
-        }
-
-        // 닉네임 편집 토글
-        function toggleNicknameEdit() {
-            const nicknameEdit = document.querySelector('.nickname-edit');
-            if (nicknameEdit) {
-                nicknameEdit.classList.toggle('active');
-                if (nicknameEdit.classList.contains('active')) {
-                    const input = nicknameEdit.querySelector('input');
-                    input.focus();
-                    input.select();
-                }
-            }
-        }
-
-        // 드롭다운 이벤트 리스너 설정
-        function setupDropdownEventListeners() {
-            // 저장 버튼
-            const saveBtn = document.querySelector('.nickname-edit .save-btn');
-            if (saveBtn) {
-                saveBtn.onclick = () => {
-                    const input = document.querySelector('.nickname-edit input');
-                    const newNick = input.value.trim();
-                    if (newNick !== '') {
-                        localStorage.setItem('mc_nick', newNick);
-                        minecraftNickname = newNick; // 전역 변수도 업데이트
-                        renderAccountDropdown(auth.currentUser);
-                        alert('닉네임이 저장되었습니다!');
-                    } else {
-                        alert('닉네임을 입력해주세요!');
-                    }
-                };
-            }
-
-            // 취소 버튼
-            const cancelBtn = document.querySelector('.nickname-edit .cancel-btn');
-            if (cancelBtn) {
-                cancelBtn.onclick = () => {
-                    const nicknameEdit = document.querySelector('.nickname-edit');
-                    nicknameEdit.classList.remove('active');
-                    const input = nicknameEdit.querySelector('input');
-                    input.value = minecraftNickname || '';
-                };
-            }
-
-            // Enter 키로 저장
-            const input = document.querySelector('.nickname-edit input');
-            if (input) {
-                input.onkeypress = (e) => {
-                    if (e.key === 'Enter') {
-                        saveBtn.click();
-                    }
-                };
-            }
         }
 
         // --- 명명어 생성기 스크립트 ---
