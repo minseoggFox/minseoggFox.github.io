@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mLe 마인크래프트 서버</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686733290484221" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -22,7 +21,6 @@
             padding: 0;
             overflow-x: hidden;
             position: relative;
-            transition: background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body::before {
@@ -235,60 +233,14 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            opacity: 0;
-            transform: translateX(30px);
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 400px;
+            box-sizing: border-box;
+            overflow: visible;
+            display: none;
         }
 
         .tab-content.active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .tab-content.fade-out {
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .tab-content.fade-in {
-            opacity: 1;
-            transform: translateX(0);
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* 탭 전환 애니메이션 */
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-
-        @keyframes slideOutToLeft {
-            from {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(-50px) scale(0.95);
-            }
-        }
-
-        .tab-content.slide-in {
-            animation: slideInFromRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .tab-content.slide-out {
-            animation: slideOutToLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            display: block;
         }
         .server-info {
             background: linear-gradient(135deg, 
@@ -620,7 +572,7 @@
             box-shadow: 0 1px 4px #62b34711;
         }
         .google-login-btn {
-            font-family: 'Roboto', Arial, sans-serif !important;
+            font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
             font-size: 1.2rem;
             font-weight: 600;
             color: #444;
@@ -671,7 +623,7 @@
             border: 2px solid #ffd600;
             background: #ffd600;
             color: #222;
-            font-family: 'Press Start 2P', 'Minecraft', Arial, sans-serif !important;
+            font-family: 'Segoe UI', 'Malgun Gothic', Arial, sans-serif !important;
             box-shadow: 2px 2px 0 #bfa600;
         }
         /* 기존 버튼 숨김 */
@@ -740,6 +692,14 @@
                 flex-direction: column;
                 padding: 1.5rem;
                 margin-bottom: 1.5rem;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            
+            #posts, #posts4b4t {
+                width: 100%;
+                overflow: visible;
+                box-sizing: border-box;
             }
 
             #posts img[alt="프로필"], #posts4b4t img[alt="프로필"] {
@@ -762,6 +722,8 @@
 
             .container, .community-container, .tab-content {
                 padding: 1rem;
+                overflow: visible;
+                min-height: 300px;
             }
             
             /* 고객센터 모바일 최적화 */
@@ -1681,6 +1643,7 @@
     </style>
 </head>
 <body>
+    
     <div class="header" style="padding: 0.2rem 2vw; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
         <div id="logo-container" style="flex: 0 0 auto;">
             <a href="#" onclick="showTab('server'); return false;">
@@ -1763,8 +1726,8 @@
                 <label>열기: <input type="checkbox" id="event-open-input"></label>
                 <button id="event-save-btn" class="mc-btn-green" style="margin-left:10px;">저장</button>
             </div>
-            <h2 id="event-title" style="background:rgba(0,0,0,0.05);padding:10px 30px;border-radius:10px;">이벤트 월드</h2>
-            <div id="event-desc" style="background:rgba(0,0,0,0.03);padding:10px 20px;border-radius:8px;margin:10px 0 20px 0;max-width:500px;text-align:center;">이벤트에 참여해보세요!</div>
+            <h2 id="event-title" style="background:rgba(0,0,0,0.05);padding:10px 30px;border-radius:10px;color:black;">이벤트 월드</h2>
+            <div id="event-desc" style="background:rgba(0,0,0,0.03);padding:10px 20px;border-radius:8px;margin:10px 0 20px 0;max-width:500px;text-align:center;color:black;">이벤트에 참여해보세요!</div>
             <a id="event-play-btn" href="minecraft://acceptRealmInvite?inviteID=ACCtdNPqYnGSoK8" class="MC_Button" aria-label="이벤트 참가" target="_self" tabindex="0">
                 <span>이벤트 참가</span>
                 <span class="arrow">&gt;</span>
@@ -2406,26 +2369,9 @@
             } else {
                 minecraftNickname = '';
             }
-            renderAccountDropdown(user); // 통합된 계정 UI 렌더링
+            renderAccountDropdown(user);
             loadServerVersion();
             setEventAdminPanel(user);
-
-            // 명명어 버튼 동적 추가/제거
-            const socialLinks = document.querySelector('.social-links');
-            if (!socialLinks) return;
-            // 기존 명명어 버튼 제거
-            const oldNamingBtn = document.getElementById('dynamic-naming-btn');
-            if (oldNamingBtn) oldNamingBtn.remove();
-            if (user) {
-                // 명명어 버튼 생성
-                const namingBtn = document.createElement('button');
-                namingBtn.id = 'dynamic-naming-btn';
-                namingBtn.textContent = '명명어';
-                namingBtn.className = 'mc-btn-green';
-                namingBtn.style.marginRight = '10px';
-                namingBtn.onclick = () => { window.location.href = 'mka.html'; };
-                socialLinks.parentNode.insertBefore(namingBtn, socialLinks);
-            }
         });
 
         setCommunityFormState(false, {});
@@ -2434,8 +2380,7 @@
 
         // 탭 메뉴 스크립트
         function showTab(tab) {
-            // 현재 활성화된 탭 찾기
-            const currentTab = document.querySelector('.tab-content[style*="display: block"], .tab-content:not([style*="display: none"])');
+            // 새 탭 요소 찾기
             const newTab = document.getElementById('tab-' + tab);
             
             // 새 탭이 존재하지 않으면 에러 로그 출력
@@ -2444,51 +2389,32 @@
                 return;
             }
             
-            // 이미 활성화된 탭이면 리턴
-            if (currentTab === newTab && !newTab.classList.contains('fade-out')) {
-                return;
+            // 모든 탭 숨기기
+            document.querySelectorAll('.tab-content').forEach(div => {
+                div.style.display = 'none';
+                div.classList.remove('active');
+            });
+            
+            // 새 탭 보여주기
+            newTab.style.display = 'block';
+            newTab.classList.add('active');
+            
+            // 버튼 활성화 상태 변경
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // 커뮤니티 탭 특별 처리
+            if (tab === 'community') {
+                // 커뮤니티 데이터 새로고침
+                if (typeof loadPosts === 'function') {
+                    loadPosts();
+                }
             }
 
-            // 현재 탭이 있으면 페이드 아웃
-            if (currentTab && currentTab !== newTab) {
-                currentTab.classList.add('slide-out');
-                setTimeout(() => {
-                    currentTab.style.display = 'none';
-                    currentTab.classList.remove('slide-out', 'active');
-                }, 300);
-            }
-
-            // 새 탭 표시
-            setTimeout(() => {
-                // 모든 탭 숨기기
-                document.querySelectorAll('.tab-content').forEach(div => {
-                    div.style.display = 'none';
-                    div.classList.remove('active', 'slide-in', 'slide-out');
-                });
-                
-                // 새 탭 보여주기
-                newTab.style.display = 'block';
-                newTab.classList.add('slide-in', 'active');
-                
-                // 버튼 활성화 상태 변경
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
-                if (activeBtn) {
-                    activeBtn.classList.add('active');
-                }
-                
-                // 커뮤니티 탭 특별 처리
-                if (tab === 'community') {
-                    // 커뮤니티 데이터 새로고침
-                    setTimeout(() => {
-                        if (typeof loadPosts === 'function') {
-                            loadPosts();
-                        }
-                    }, 100);
-                }
-            }, currentTab && currentTab !== newTab ? 150 : 0);
-
-            // 탭별 배경 처리 (애니메이션과 함께)
+            // 탭별 배경 처리
             let bgStyle = "url('default-screen.png') no-repeat center center fixed";
             if(tab === '4b4t') {
                 bgStyle = "url('4b4t-background.png') no-repeat center center fixed";
@@ -2500,13 +2426,26 @@
                 bgStyle = "url('default-screen.png') no-repeat center center fixed";
             }
             
-            // 배경 변경 (약간의 지연으로 부드러운 전환)
-            setTimeout(() => {
-                document.body.style.background = bgStyle;
-                document.body.style.backgroundSize = 'cover';
-            }, 200);
+            // 배경 즉시 변경 (애니메이션 없음)
+            document.body.style.background = bgStyle;
+            document.body.style.backgroundSize = 'cover';
         }
         window.showTab = showTab;
+        
+        // 슬라이드 배경 시스템 초기화
+        function initializeBackgroundSystem() {
+            const overlay = document.getElementById('bg-overlay');
+            if (overlay) {
+                // 초기 배경 설정
+                overlay.style.background = "url('default-screen.png') no-repeat center center fixed";
+                overlay.style.backgroundSize = 'cover';
+                overlay.style.transform = 'translateX(100%)';
+                
+                console.log('✅ 슬라이드 배경 전환 시스템 초기화 완료');
+            } else {
+                console.warn('⚠️ 배경 오버레이 요소를 찾을 수 없습니다');
+            }
+        }
         
         // 탭 버튼 이벤트 리스너 - 더 안정적인 버전
         function initializeTabButtons() {
@@ -2525,7 +2464,9 @@
         
         // DOM이 로드되면 탭 버튼 초기화
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeTabButtons);
+            document.addEventListener('DOMContentLoaded', () => {
+                initializeTabButtons();
+            });
         } else {
             initializeTabButtons();
         }
@@ -2535,11 +2476,6 @@
             if (serverTab) {
                 serverTab.style.display = 'block';
                 serverTab.classList.add('active');
-                // 초기 로딩 시에는 바로 표시
-                setTimeout(() => {
-                    serverTab.style.opacity = '1';
-                    serverTab.style.transform = 'translateX(0)';
-                }, 100);
             }
         });
         showTab('server');
@@ -3444,23 +3380,6 @@
             renderAccountDropdown(user);
             loadServerVersion();
             setEventAdminPanel(user);
-
-            // 명명어 버튼 동적 추가/제거
-            const socialLinks = document.querySelector('.social-links');
-            if (!socialLinks) return;
-            // 기존 명명어 버튼 제거
-            const oldNamingBtn = document.getElementById('dynamic-naming-btn');
-            if (oldNamingBtn) oldNamingBtn.remove();
-            if (user) {
-                // 명명어 버튼 생성
-                const namingBtn = document.createElement('button');
-                namingBtn.id = 'dynamic-naming-btn';
-                namingBtn.textContent = '명명어';
-                namingBtn.className = 'mc-btn-green';
-                namingBtn.style.marginRight = '10px';
-                namingBtn.onclick = () => { window.location.href = 'mka.html'; };
-                socialLinks.parentNode.insertBefore(namingBtn, socialLinks);
-            }
         });
 
         // 설정 이벤트 리스너 설정
