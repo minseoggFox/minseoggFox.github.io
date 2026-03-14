@@ -1,344 +1,129 @@
-package TirariRipple.magbFoxx;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameRule;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-public final class MagbFoxx extends JavaPlugin implements CommandExecutor, Listener {
-
-    private final String MAIN_GUI_TITLE = ChatColor.DARK_GRAY + "관리자 GUI";
-    private final String SAVE_GUI_TITLE = ChatColor.DARK_BLUE + "인벤 세이브 설정";
-    private final String CHAT_GUI_TITLE = ChatColor.DARK_AQUA + "채팅 GUI";
-    private final String CHAT_FILTER_GUI_TITLE = ChatColor.GOLD + "채팅 필터링 목록";
-    private final String CHAT_BLOCK_GUI_TITLE = ChatColor.RED + "차단 관리";
-    private final String DETAIL_GUI_TITLE = ChatColor.DARK_PURPLE + "세부 설정 GUI";
-    private final String SPAWN_PROT_GUI_TITLE = ChatColor.GREEN + "스폰 보호 설정";
-
-    private boolean isChatEnabled = true;
-    private List<String> filteredWords = new ArrayList<>();
-    private List<String> blockedPlayers = new ArrayList<>();
-    private final Map<UUID, String> inputWaitMode = new HashMap<>();
-
-    private boolean isSpawnProtEnabled = false;
-    private int spawnProtRadius = 16;
-    private boolean isPvpEnabled = true;
-
-    @Override
-    public void onEnable() {
-        saveDefaultConfig();
-        loadData();
-        getCommand("관리자sw").setExecutor(this);
-        getServer().getPluginManager().registerEvents(this, this);
-    }
-
-    private void loadData() {
-        isChatEnabled = getConfig().getBoolean("chat-enabled", true);
-        filteredWords = getConfig().getStringList("filtered-words");
-        blockedPlayers = getConfig().getStringList("blocked-players");
-        isSpawnProtEnabled = getConfig().getBoolean("spawn-protection-enabled", false);
-        spawnProtRadius = getConfig().getInt("spawn-protection-radius", 16);
-        isPvpEnabled = getConfig().getBoolean("pvp-enabled", true);
-    }
-
-    private void saveData() {
-        getConfig().set("chat-enabled", isChatEnabled);
-        getConfig().set("filtered-words", filteredWords);
-        getConfig().set("blocked-players", blockedPlayers);
-        getConfig().set("spawn-protection-enabled", isSpawnProtEnabled);
-        getConfig().set("spawn-protection-radius", spawnProtRadius);
-        getConfig().set("pvp-enabled", isPvpEnabled);
-        saveConfig();
-    }
-
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage("플레이어만 사용 가능합니다.");
-            return true;
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loader</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #2c3e50, #000000);
+            color: #ecf0f1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
         }
-        if (!player.getName().equals("magbFox")) {
-            player.sendMessage(ChatColor.RED + "당신은 magbFox가 아닙니다.");
-            return true;
+
+        .container {
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
         }
-        openMainGUI(player);
-        return true;
-    }
 
-    private void openMainGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 9, MAIN_GUI_TITLE);
-        gui.setItem(2, createItem(Material.CHEST, ChatColor.YELLOW + "인벤 세이브"));
-        gui.setItem(4, createItem(Material.PAPER, ChatColor.AQUA + "채팅"));
-        gui.setItem(6, createItem(Material.COMPARATOR, ChatColor.LIGHT_PURPLE + "세부 설정"));
-        player.openInventory(gui);
-    }
-
-    private void openSaveGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 9, SAVE_GUI_TITLE);
-        gui.setItem(2, createWorldBtn(Material.GRASS_BLOCK, ChatColor.GREEN + "오버월드", "world"));
-        gui.setItem(4, createWorldBtn(Material.NETHERRACK, ChatColor.RED + "네더", "world_nether"));
-        gui.setItem(6, createWorldBtn(Material.END_STONE, ChatColor.DARK_PURPLE + "엔더", "world_the_end"));
-        player.openInventory(gui);
-    }
-
-    private void openChatGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 9, CHAT_GUI_TITLE);
-        gui.setItem(2, createItem(Material.BOOK, ChatColor.GOLD + "채팅 필터링"));
-        gui.setItem(4, createItem(isChatEnabled ? Material.LIME_DYE : Material.GRAY_DYE,
-                ChatColor.WHITE + "채팅: " + (isChatEnabled ? ChatColor.GREEN + "ON" : ChatColor.RED + "OFF")));
-        gui.setItem(6, createItem(Material.PLAYER_HEAD, ChatColor.RED + "차단"));
-        player.openInventory(gui);
-    }
-
-    private void openDetailGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 9, DETAIL_GUI_TITLE);
-        gui.setItem(3, createItem(Material.BEACON, ChatColor.GREEN + "스폰 보호"));
-        gui.setItem(5, createItem(Material.IRON_SWORD, ChatColor.RED + "PVP 설정",
-                ChatColor.GRAY + "현재 상태: " + (isPvpEnabled ? ChatColor.GREEN + "허용(ON)" : ChatColor.RED + "비허용(OFF)")));
-        player.openInventory(gui);
-    }
-
-    private void openSpawnProtGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 27, SPAWN_PROT_GUI_TITLE);
-        gui.setItem(10, createItem(isSpawnProtEnabled ? Material.LIME_DYE : Material.GRAY_DYE,
-                ChatColor.WHITE + "스폰 보호: " + (isSpawnProtEnabled ? ChatColor.GREEN + "ON" : ChatColor.RED + "OFF")));
-        gui.setItem(13, createItem(Material.MAP, ChatColor.YELLOW + "보호 반경: " + ChatColor.WHITE + spawnProtRadius,
-                ChatColor.GRAY + "현재 반경 내에서 보호가 작동합니다."));
-        gui.setItem(4, createItem(Material.REDSTONE_BLOCK, ChatColor.RED + "+10"));
-        gui.setItem(5, createItem(Material.REDSTONE, ChatColor.RED + "+1"));
-        gui.setItem(22, createItem(Material.LAPIS_BLOCK, ChatColor.BLUE + "-10"));
-        gui.setItem(23, createItem(Material.LAPIS_LAZULI, ChatColor.BLUE + "-1"));
-        player.openInventory(gui);
-    }
-
-    private void openFilterGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 54, CHAT_FILTER_GUI_TITLE);
-        for (int i = 0; i < Math.min(filteredWords.size(), 45); i++) {
-            gui.setItem(i, createItem(Material.PAPER, ChatColor.YELLOW + filteredWords.get(i), ChatColor.GRAY + "클릭하여 삭제"));
+        .spinner {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 40px;
         }
-        gui.setItem(49, createItem(Material.ANVIL, ChatColor.GREEN + "단어 추가", ChatColor.GRAY + "채팅창에 단어 입력"));
-        player.openInventory(gui);
-    }
 
-    private void openBlockGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 54, CHAT_BLOCK_GUI_TITLE);
-        int slot = 0;
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (slot >= 54) break;
-            ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-            SkullMeta meta = (SkullMeta) head.getItemMeta();
-            if (meta != null) {
-                meta.setOwningPlayer(p);
-                meta.setDisplayName(ChatColor.YELLOW + p.getName());
-                boolean isBlocked = blockedPlayers.contains(p.getName());
-                meta.setLore(Collections.singletonList(isBlocked ? ChatColor.RED + "[차단됨]" : ChatColor.GREEN + "[정상]"));
-                head.setItemMeta(meta);
-            }
-            gui.setItem(slot++, head);
+        .spinner div {
+            position: absolute;
+            width: 4px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #3498db;
+            left: 50%;
+            top: 50%;
+            transform-origin: 50% 0%;
+            animation: spinner-glow 1.2s infinite ease-in-out;
         }
-        player.openInventory(gui);
-    }
 
-    private ItemStack createItem(Material material, String name, String... lore) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(name);
-            if (lore.length > 0) {
-                List<String> lores = new ArrayList<>();
-                Collections.addAll(lores, lore);
-                meta.setLore(lores);
-            }
-            item.setItemMeta(meta);
-        }
-        return item;
-    }
+        .spinner div:nth-child(1) { --delay: 0.1; transform: translate(-50%, -100%) rotate(36deg); }
+        .spinner div:nth-child(2) { --delay: 0.2; transform: translate(-50%, -100%) rotate(72deg); }
+        .spinner div:nth-child(3) { --delay: 0.3; transform: translate(-50%, -100%) rotate(108deg); }
+        .spinner div:nth-child(4) { --delay: 0.4; transform: translate(-50%, -100%) rotate(144deg); }
+        .spinner div:nth-child(5) { --delay: 0.5; transform: translate(-50%, -100%) rotate(180deg); }
+        .spinner div:nth-child(6) { --delay: 0.6; transform: translate(-50%, -100%) rotate(216deg); }
+        .spinner div:nth-child(7) { --delay: 0.7; transform: translate(-50%, -100%) rotate(252deg); }
+        .spinner div:nth-child(8) { --delay: 0.8; transform: translate(-50%, -100%) rotate(288deg); }
+        .spinner div:nth-child(9) { --delay: 0.9; transform: translate(-50%, -100%) rotate(324deg); }
+        .spinner div:nth-child(10) { --delay: 1.0; transform: translate(-50%, -100%) rotate(360deg); }
 
-    private ItemStack createWorldBtn(Material material, String name, String worldName) {
-        World world = Bukkit.getWorld(worldName);
-        boolean isKeep = world != null && Boolean.TRUE.equals(world.getGameRuleValue(GameRule.KEEP_INVENTORY));
-        return createItem(material, name, ChatColor.GRAY + "현재 상태: " + (isKeep ? ChatColor.GREEN + "ON" : ChatColor.RED + "OFF"));
-    }
-
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        String title = event.getView().getTitle();
-        ItemStack clicked = event.getCurrentItem();
-        if (clicked == null || clicked.getType() == Material.AIR) return;
-
-        if (title.equals(MAIN_GUI_TITLE)) {
-            event.setCancelled(true);
-            if (clicked.getType() == Material.CHEST) openSaveGUI(player);
-            else if (clicked.getType() == Material.PAPER) openChatGUI(player);
-            else if (clicked.getType() == Material.COMPARATOR) openDetailGUI(player);
-        } else if (title.equals(SAVE_GUI_TITLE)) {
-            event.setCancelled(true);
-            String worldName = "";
-            if (clicked.getType() == Material.GRASS_BLOCK) worldName = "world";
-            else if (clicked.getType() == Material.NETHERRACK) worldName = "world_nether";
-            else if (clicked.getType() == Material.END_STONE) worldName = "world_the_end";
-            if (!worldName.isEmpty()) {
-                World world = Bukkit.getWorld(worldName);
-                if (world != null) {
-                    boolean current = Boolean.TRUE.equals(world.getGameRuleValue(GameRule.KEEP_INVENTORY));
-                    world.setGameRule(GameRule.KEEP_INVENTORY, !current);
-                    openSaveGUI(player);
-                }
+        @keyframes spinner-glow {
+            0%, 100% {
+                background: #3498db;
+                box-shadow: 0 0 5px #3498db;
+                opacity: 0.3;
             }
-        } else if (title.equals(CHAT_GUI_TITLE)) {
-            event.setCancelled(true);
-            if (clicked.getType() == Material.BOOK) openFilterGUI(player);
-            else if (clicked.getType() == Material.LIME_DYE || clicked.getType() == Material.GRAY_DYE) {
-                isChatEnabled = !isChatEnabled;
-                saveData();
-                openChatGUI(player);
-            } else if (clicked.getType() == Material.PLAYER_HEAD) openBlockGUI(player);
-        } else if (title.equals(DETAIL_GUI_TITLE)) {
-            event.setCancelled(true);
-            if (clicked.getType() == Material.BEACON) {
-                openSpawnProtGUI(player);
-            } else if (clicked.getType() == Material.IRON_SWORD) {
-                isPvpEnabled = !isPvpEnabled;
-                saveData();
-                openDetailGUI(player);
-            }
-        } else if (title.equals(SPAWN_PROT_GUI_TITLE)) {
-            event.setCancelled(true);
-            Material type = clicked.getType();
-            if (type == Material.LIME_DYE || type == Material.GRAY_DYE) isSpawnProtEnabled = !isSpawnProtEnabled;
-            else if (type == Material.REDSTONE_BLOCK) spawnProtRadius += 10;
-            else if (type == Material.REDSTONE) spawnProtRadius += 1;
-            else if (type == Material.LAPIS_BLOCK) spawnProtRadius = Math.max(0, spawnProtRadius - 10);
-            else if (type == Material.LAPIS_LAZULI) spawnProtRadius = Math.max(0, spawnProtRadius - 1);
-            saveData();
-            openSpawnProtGUI(player);
-        } else if (title.equals(CHAT_FILTER_GUI_TITLE)) {
-            event.setCancelled(true);
-            if (clicked.getType() == Material.PAPER) {
-                String word = ChatColor.stripColor(clicked.getItemMeta().getDisplayName());
-                filteredWords.remove(word);
-                saveData();
-                openFilterGUI(player);
-            } else if (clicked.getType() == Material.ANVIL) {
-                player.closeInventory();
-                player.sendMessage(ChatColor.YELLOW + "추가할 필터링 단어를 채팅창에 입력해주세요. (취소하려면 '취소' 입력)");
-                inputWaitMode.put(player.getUniqueId(), "FILTER");
-            }
-        } else if (title.equals(CHAT_BLOCK_GUI_TITLE)) {
-            event.setCancelled(true);
-            if (clicked.getType() == Material.PLAYER_HEAD) {
-                String targetName = ChatColor.stripColor(clicked.getItemMeta().getDisplayName());
-                if (blockedPlayers.contains(targetName)) blockedPlayers.remove(targetName);
-                else blockedPlayers.add(targetName);
-                saveData();
-                openBlockGUI(player);
+            50% {
+                background: #f1c40f;
+                box-shadow: 0 0 20px #f1c40f;
+                opacity: 1;
+                height: 25px;
             }
         }
-    }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        if (inputWaitMode.containsKey(player.getUniqueId())) {
-            event.setCancelled(true);
-            String message = event.getMessage();
-            inputWaitMode.remove(player.getUniqueId());
-            if (!message.equals("취소")) {
-                if (!filteredWords.contains(message)) {
-                    filteredWords.add(message);
-                    saveData();
-                    player.sendMessage(ChatColor.GREEN + "'" + message + "' 단어가 추가되었습니다.");
-                }
-            }
-            Bukkit.getScheduler().runTask(this, () -> openFilterGUI(player));
-            return;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        if (player.getName().equals("magbFox")) return;
-        if (!isChatEnabled || blockedPlayers.contains(player.getName())) {
-            event.setCancelled(true);
-            return;
-        }
-        String message = event.getMessage();
-        for (String word : filteredWords) {
-            if (message.contains(word)) {
-                event.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "부적절한 단어가 포함되어 있습니다.");
-                return;
-            }
-        }
-    }
 
-    // --- 스폰 보호 로직 ---
-    private boolean isInsideSpawnProtection(Location loc) {
-        if (!isSpawnProtEnabled) return false;
-        Location spawn = loc.getWorld().getSpawnLocation();
-        double distance = Math.sqrt(Math.pow(loc.getX() - spawn.getX(), 2) + Math.pow(loc.getZ() - spawn.getZ(), 2));
-        return distance <= spawnProtRadius;
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-        if (event.getPlayer().getName().equals("magbFox")) return;
-        if (isInsideSpawnProtection(event.getBlock().getLocation())) {
-            event.setCancelled(true);
-            event.getPlayer().sendMessage(ChatColor.RED + "스폰 보호 구역입니다.");
+        .text-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 800;
+            background: linear-gradient(45deg, #3498db, #f1c40f, #e74c3c, #9b59b6);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-text 5s ease infinite;
         }
-    }
 
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        if (event.getPlayer().getName().equals("magbFox")) return;
-        if (isInsideSpawnProtection(event.getBlock().getLocation())) {
-            event.setCancelled(true);
-            event.getPlayer().sendMessage(ChatColor.RED + "스폰 보호 구역입니다.");
+        @keyframes gradient-text {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-    }
 
-    @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
-        if (event.getPlayer().getName().equals("magbFox")) return;
-        Block block = event.getClickedBlock();
-        if (block != null && isInsideSpawnProtection(block.getLocation())) event.setCancelled(true);
-    }
-
-    // --- PVP 설정 로직 ---
-    @EventHandler
-    public void onPvp(EntityDamageByEntityEvent event) {
-        if (isPvpEnabled) return;
-        if (event.getEntity() instanceof Player && event.getDamager() instanceof Player attacker) {
-            if (attacker.getName().equals("magbFox")) return; // 관리자는 공격 가능
-            event.setCancelled(true);
-            attacker.sendMessage(ChatColor.RED + "현재 PVP가 금지되어 있습니다.");
+        .text-content p {
+            font-size: 1.2rem;
+            color: #bdc3c7;
+            animation: pulse 2s infinite ease-in-out;
         }
-    }
-}
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner">
+            <div style="animation-delay: calc(0.1s * 1)"></div>
+            <div style="animation-delay: calc(0.1s * 2)"></div>
+            <div style="animation-delay: calc(0.1s * 3)"></div>
+            <div style="animation-delay: calc(0.1s * 4)"></div>
+            <div style="animation-delay: calc(0.1s * 5)"></div>
+            <div style="animation-delay: calc(0.1s * 6)"></div>
+            <div style="animation-delay: calc(0.1s * 7)"></div>
+            <div style="animation-delay: calc(0.1s * 8)"></div>
+            <div style="animation-delay: calc(0.1s * 9)"></div>
+            <div style="animation-delay: calc(0.1s * 10)"></div>
+        </div>
+        <div class="text-content">
+            <h1>magbFoxx</h1>
+            <p>아직 개발 중이에요...</p>
+        </div>
+    </div>
+</body>
+</html>
