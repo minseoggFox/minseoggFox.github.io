@@ -3,127 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loader</title>
+    <title>magbFoxx | 시청자 참여 마인크래프트 서버</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle, #2c3e50, #000000);
-            color: #ecf0f1;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #000000;
+            color: #e0e0e0;
+            scroll-behavior: smooth;
         }
-
-        .container {
+        .card {
+            background-color: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #f59e0b;
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #111;
+            color: #fff;
             text-align: center;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        .spinner {
-            position: relative;
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 40px;
-        }
-
-        .spinner div {
-            position: absolute;
-            width: 4px;
-            height: 20px;
-            background: #3498db;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #3498db;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
             left: 50%;
-            top: 50%;
-            transform-origin: 50% 0%;
-            animation: spinner-glow 1.2s infinite ease-in-out;
+            bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            border: 2px solid #f59e0b;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.4s, opacity 0.4s;
         }
-
-        .spinner div:nth-child(1) { --delay: 0.1; transform: translate(-50%, -100%) rotate(36deg); }
-        .spinner div:nth-child(2) { --delay: 0.2; transform: translate(-50%, -100%) rotate(72deg); }
-        .spinner div:nth-child(3) { --delay: 0.3; transform: translate(-50%, -100%) rotate(108deg); }
-        .spinner div:nth-child(4) { --delay: 0.4; transform: translate(-50%, -100%) rotate(144deg); }
-        .spinner div:nth-child(5) { --delay: 0.5; transform: translate(-50%, -100%) rotate(180deg); }
-        .spinner div:nth-child(6) { --delay: 0.6; transform: translate(-50%, -100%) rotate(216deg); }
-        .spinner div:nth-child(7) { --delay: 0.7; transform: translate(-50%, -100%) rotate(252deg); }
-        .spinner div:nth-child(8) { --delay: 0.8; transform: translate(-50%, -100%) rotate(288deg); }
-        .spinner div:nth-child(9) { --delay: 0.9; transform: translate(-50%, -100%) rotate(324deg); }
-        .spinner div:nth-child(10) { --delay: 1.0; transform: translate(-50%, -100%) rotate(360deg); }
-
-        @keyframes spinner-glow {
-            0%, 100% {
-                background: #3498db;
-                box-shadow: 0 0 5px #3498db;
-                opacity: 0.3;
-            }
-            50% {
-                background: #f1c40f;
-                box-shadow: 0 0 20px #f1c40f;
-                opacity: 1;
-                height: 25px;
-            }
+        .toast.show {
+            visibility: visible;
+            transform: translateY(0);
+            opacity: 1;
         }
-
+        .btn-primary {
+            background-color: #f59e0b;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #d97706;
+            transform: scale(1.05);
+        }
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .text-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-weight: 800;
-            background: linear-gradient(45deg, #3498db, #f1c40f, #e74c3c, #9b59b6);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-text 5s ease infinite;
-        }
-
-        @keyframes gradient-text {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .text-content p {
-            font-size: 1.2rem;
-            color: #bdc3c7;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        .skin-view {
+            filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.3));
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="spinner">
-            <div style="animation-delay: calc(0.1s * 1)"></div>
-            <div style="animation-delay: calc(0.1s * 2)"></div>
-            <div style="animation-delay: calc(0.1s * 3)"></div>
-            <div style="animation-delay: calc(0.1s * 4)"></div>
-            <div style="animation-delay: calc(0.1s * 5)"></div>
-            <div style="animation-delay: calc(0.1s * 6)"></div>
-            <div style="animation-delay: calc(0.1s * 7)"></div>
-            <div style="animation-delay: calc(0.1s * 8)"></div>
-            <div style="animation-delay: calc(0.1s * 9)"></div>
-            <div style="animation-delay: calc(0.1s * 10)"></div>
-        </div>
-        <div class="text-content">
-            <h1>magbFoxx</h1>
-            <p>아직 개발 중이에요...</p>
+<body class="bg-black overflow-x-hidden">
+
+    <div id="toast" class="toast">
+        <div class="flex items-center justify-center space-x-3">
+            <i class="fa-solid fa-check-circle text-amber-500 text-xl"></i>
+            <span>메시지 내용</span>
         </div>
     </div>
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/5">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div onclick="showHomePage()" class="text-2xl font-bold text-amber-500 tracking-tight cursor-pointer">
+                magbFoxx
+            </div>
+            <nav id="main-nav" class="hidden md:flex space-x-8">
+                <a href="#about" class="hover:text-amber-400 transition">서버 소개</a>
+                <a href="#rules" class="hover:text-amber-400 transition">규칙</a>
+            </nav>
+            <button onclick="showRegistrationPage()" class="btn-primary text-white px-5 py-2 rounded-full text-sm font-medium">
+                서버 계정 등록
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Page -->
+    <div id="home-page" class="fade-in">
+        <section class="relative pt-48 pb-32 overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1920" class="w-full h-full object-cover opacity-10" alt="Minecraft Background">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/50 to-black"></div>
+            </div>
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <h1 class="text-6xl md:text-8xl font-bold mb-8 text-white leading-tight">
+                    함께 성장하는 즐거움,<br><span class="text-amber-500">magbFoxx</span>
+                </h1>
+                <p class="text-2xl text-gray-400 mb-12 max-w-3xl mx-auto font-light">
+                    시청자와 함께 만들어가는 최고의 마인크래프트 커뮤니티입니다.<br>
+                    지금 바로 가입하고 당신만의 이야기를 시작해보세요!
+                </p>
+                <div class="bg-white/5 p-5 rounded-2xl inline-flex items-center space-x-5 border border-white/10 shadow-2xl backdrop-blur-sm group hover:border-amber-500/50 transition-colors">
+                    <span class="text-sm font-bold text-gray-500 uppercase tracking-widest">SERVER IP:</span>
+                    <span class="text-2xl font-mono text-amber-400">magbfox.n-e.kr</span>
+                    <button onclick="copyIP()" class="ml-2 p-3 hover:bg-white/10 rounded-xl transition text-amber-500 hover:scale-125 active:scale-90">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+                <div class="mt-12 flex justify-center space-x-6">
+                    <span class="flex items-center text-sm px-4 py-2 bg-green-500/10 rounded-full border border-green-500/20">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                        현재 <span class="font-bold text-white mx-1">12</span>명 플레이 중
+                    </span>
+                    <span class="flex items-center text-sm px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                        버전: <span class="text-white ml-2">1.21.11</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <main class="container mx-auto px-6 py-20">
+            <section id="about" class="mb-40">
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl font-bold mb-6">서버의 매력</h2>
+                    <div class="h-1.5 w-24 bg-amber-500 mx-auto rounded-full"></div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="card p-10 rounded-3xl">
+                        <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-8 text-3xl">
+                            <i class="fa-solid fa-users-viewfinder"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-5">시청자 소통 중심</h3>
+                        <p class="text-gray-400 leading-relaxed">단순히 플레이만 하는 공간을 넘어, 실시간 소통과 피드백으로 발전하는 서버입니다.</p>
+                    </div>
+                    <div class="card p-10 rounded-3xl">
+                        <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-8 text-3xl">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-5">차별화된 컨텐츠</h3>
+                        <p class="text-gray-400 leading-relaxed">magbFoxx 전용 시스템과 플러그인을 통해 어디에서도 경험하지 못한 재미를 선사합니다.</p>
+                    </div>
+                    <div class="card p-10 rounded-3xl">
+                        <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-8 text-3xl">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-5">활발한 커뮤니티</h3>
+                        <p class="text-gray-400 leading-relaxed">매너 있는 플레이어들과 함께하는 따뜻하고 활기찬 분위기를 보장합니다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="rules" class="max-w-4xl mx-auto mb-20">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold mb-6">서버 기본 규칙</h2>
+                    <div class="h-1.5 w-24 bg-amber-500 mx-auto rounded-full"></div>
+                </div>
+                <div class="space-y-6">
+                    <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-amber-500 flex items-center card">
+                        <i class="fa-solid fa-handshake text-amber-500 text-2xl mr-6"></i>
+                        <span class="text-lg">서로 예의를 갖추고 클린한 채팅 환경을 만들어주세요.</span>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-amber-500 flex items-center card">
+                        <i class="fa-solid fa-shield-halved text-amber-500 text-2xl mr-6"></i>
+                        <div class="flex-1">
+                            <p class="text-lg font-medium text-amber-400">비정상적인 플레이 및 핵 사용 금지</p>
+                            <p class="text-gray-400 mt-2">공정한 경쟁과 모두의 즐거운 플레이를 방해하는 행위는 엄격히 금지됩니다.</p>
+                        </div>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-2xl border-l-4 border-amber-500 flex items-center card">
+                        <i class="fa-solid fa-user-slash text-amber-500 text-2xl mr-6"></i>
+                        <span class="text-lg">타인에게 불쾌감을 주는 스킨, 이름 사용은 제재 대상입니다.</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Registration Page -->
+    <div id="registration-page" class="hidden min-h-screen flex items-center justify-center pt-20 pb-20 px-6">
+        <div class="bg-white/5 rounded-3xl p-12 border border-white/10 shadow-2xl max-w-xl w-full relative overflow-hidden backdrop-blur-xl">
+            <div class="absolute top-0 left-0 w-full h-2 bg-amber-500"></div>
+            
+            <button onclick="showHomePage()" class="mb-8 text-gray-500 hover:text-white transition flex items-center">
+                <i class="fa-solid fa-arrow-left mr-2"></i> 홈으로 돌아가기
+            </button>
+
+            <div id="login-step-1" class="fade-in">
+                <h2 class="text-4xl font-bold mb-4 text-white">서버 계정 등록</h2>
+                <p class="text-gray-400 mb-10 font-light">마인크래프트 닉네임과 사용할 비밀번호를 입력해주세요.</p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">MINECRAFT NICKNAME</label>
+                        <input type="text" id="mc-nickname" class="w-full bg-black border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-amber-500 transition-all placeholder:text-gray-700" placeholder="닉네임 입력 (대소문자 구분)">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">PASSWORD</label>
+                        <input type="password" id="mc-password" class="w-full bg-black border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-amber-500 transition-all placeholder:text-gray-700" placeholder="비밀번호 입력">
+                    </div>
+                    <button onclick="handleRegistration()" id="reg-btn" class="w-full btn-primary text-white font-bold py-5 rounded-2xl mt-6 shadow-xl shadow-amber-500/20 flex justify-center items-center">
+                        계정 생성 및 코드 발급
+                    </button>
+                </div>
+            </div>
+
+            <div id="login-step-2" class="hidden fade-in text-center">
+                <div class="mb-8 relative flex justify-center">
+                    <div class="w-32 h-32 bg-amber-500/10 rounded-full flex items-center justify-center skin-view overflow-hidden border border-amber-500/20">
+                        <img id="player-skin" src="" alt="Skin" class="w-full h-full object-contain hidden">
+                        <i id="skin-placeholder" class="fa-solid fa-user text-4xl text-amber-500/30"></i>
+                    </div>
+                    <div class="absolute -bottom-2 bg-amber-500 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter shadow-lg">Verified Skin</div>
+                </div>
+
+                <h3 class="text-3xl font-bold mb-2 text-white"><span id="display-nickname" class="text-amber-500"></span>님, 환영합니다!</h3>
+                <p class="text-gray-400 mb-8 font-light italic text-sm">인증 코드가 발급되었습니다. (5분 내 입력 필요)</p>
+                
+                <div class="bg-black border-2 border-dashed border-amber-500/30 rounded-3xl p-8 mb-8 group cursor-pointer" onclick="copyCode()">
+                    <span id="auth-code" class="text-5xl font-mono font-bold text-amber-500 tracking-[0.2em]">----</span>
+                    <div class="mt-4 text-xs text-amber-500/50 uppercase tracking-widest font-bold">클릭하여 복사</div>
+                </div>
+
+                <div class="text-left bg-white/5 p-6 rounded-2xl border border-white/10 space-y-4">
+                    <div class="flex items-center text-amber-400 font-bold text-sm">
+                        <i class="fa-solid fa-circle-info mr-2"></i> 마지막 인증 단계
+                    </div>
+                    <div class="bg-black p-4 rounded-xl font-mono text-amber-500 border border-white/5 text-sm select-all">
+                        /magbfoxx인증 <span id="code-placeholder">----</span>
+                    </div>
+                    <p class="text-[11px] text-gray-500 leading-relaxed">위 명령어를 마인크래프트 서버(<span class="text-gray-300">magbfox.n-e.kr</span>) 채팅창에 입력하시면 가입이 완료됩니다.</p>
+                </div>
+                
+                <div id="timer" class="mt-6 text-amber-500 font-bold text-sm">남은 시간: 05:00</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-white/5 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <div class="text-3xl font-bold text-amber-500 mb-8 tracking-tighter">magbFoxx</div>
+            <div class="flex justify-center space-x-10 mb-12 text-3xl">
+                <a href="https://discord.gg/G7UDc368KU" target="_blank" class="text-gray-600 hover:text-[#5865F2] transition-colors"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://www.youtube.com/@magbfoxx" target="_blank" class="text-gray-600 hover:text-[#FF0000] transition-colors"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <p class="text-gray-600 text-sm font-medium">
+                &copy; 2026 magbFoxx Team. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQyLIRoKKJ5peWMtmT490kPjzLN4rx6-4",
+            authDomain: "magbfoxx.firebaseapp.com",
+            projectId: "magbfoxx",
+            storageBucket: "magbfoxx.firebasestorage.app",
+            messagingSenderId: "710973758213",
+            appId: "1:710973758213:web:2a55bd1663742a3cb1f56c",
+            measurementId: "G-SKDWYPGDSG"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.handleRegistration = async function() {
+            const nickname = document.getElementById('mc-nickname').value.trim();
+            const password = document.getElementById('mc-password').value.trim();
+            const btn = document.getElementById('reg-btn');
+
+            if (!nickname || !password) {
+                alert('닉네임과 비밀번호를 입력해주세요.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 처리 중...';
+
+            try {
+                // Generate Auth Code
+                const randomCode = Math.floor(1000 + Math.random() * 9000).toString();
+                const expiry = Date.now() + (5 * 60 * 1000); // 5 minutes
+
+                // Save to Firebase Firestore
+                await setDoc(doc(db, "users", nickname), {
+                    nickname: nickname,
+                    password: password,
+                    authCode: randomCode,
+                    authExpiry: expiry,
+                    isVerified: false,
+                    createdAt: serverTimestamp()
+                });
+
+                // Update UI with Skin and Code
+                document.getElementById('display-nickname').innerText = nickname;
+                document.getElementById('auth-code').innerText = 'FOX-' + randomCode;
+                document.getElementById('code-placeholder').innerText = 'FOX-' + randomCode;
+
+                // Set Skin Image (Using Visage.surli.net or Crafatar)
+                const skinImg = document.getElementById('player-skin');
+                const placeholder = document.getElementById('skin-placeholder');
+                skinImg.src = `https://visage.surli.net/bust/128/${nickname}`;
+                skinImg.onload = () => {
+                    skinImg.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                };
+                skinImg.onerror = () => {
+                    skinImg.src = `https://crafatar.com/avatars/${nickname}?size=128&overlay`;
+                    skinImg.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                };
+
+                // Show step 2
+                document.getElementById('login-step-1').classList.add('hidden');
+                document.getElementById('login-step-2').classList.remove('hidden');
+
+                // Start 5 min timer
+                startTimer(5 * 60);
+
+            } catch (error) {
+                console.error("Registration error:", error);
+                alert("등록 중 오류가 발생했습니다. 나중에 다시 시도해주세요.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = '계정 생성 및 코드 발급';
+            }
+        };
+    </script>
+
+    <script>
+        let timerInterval;
+
+        function startTimer(duration) {
+            let timer = duration, minutes, seconds;
+            const display = document.querySelector('#timer');
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = "남은 시간: " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    display.textContent = "코드가 만료되었습니다. 다시 시도해주세요.";
+                    display.classList.add('text-red-500');
+                }
+            }, 1000);
+        }
+
+        function showHomePage() {
+            document.getElementById('registration-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+            document.getElementById('main-nav').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showRegistrationPage() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('main-nav').classList.add('hidden');
+            document.getElementById('registration-page').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function copyIP() {
+            navigator.clipboard.writeText('magbfox.n-e.kr').then(() => showToast('서버 주소가 복사되었습니다!'));
+        }
+
+        function copyCode() {
+            const code = document.getElementById('auth-code').innerText;
+            navigator.clipboard.writeText(code).then(() => showToast('인증 코드가 복사되었습니다!'));
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.querySelector('span').innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
 </body>
 </html>
